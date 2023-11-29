@@ -1,0 +1,16 @@
+@use './variables' as v;
+@import './adaptive';
+
+body{
+    margin: 0;
+    padding: 0;
+    *{
+        box-sizing: border-box;
+        text-decoration: none;
+    }
+}
+
+.container{
+    margin: auto;
+    padding: 0 16px;
+}
