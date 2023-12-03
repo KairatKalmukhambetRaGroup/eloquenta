@@ -1,8 +1,4 @@
-import '@/styles/landing.scss'
+import Landing from '@/components/pages/Landing'
 export default function Home() {
-  return (
-    <div id="landing">
-
-    </div>
-  )
+  return <Landing />
 }
