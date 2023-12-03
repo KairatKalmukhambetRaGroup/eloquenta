@@ -90,7 +90,7 @@ const Landing = () => {
                         <div className="cards-wrapper">
                             <div className="cards">
                                 {lessons.map((card, key)=> (
-                                    <div key={key} className="card">
+                                    <Link href={card.link} key={key} className='card'>
                                         <div className="card-body">
                                             <div className="card-img">
                                                 <Image loading='lazy' src={card.icon} alt={card.slug} />
@@ -104,10 +104,10 @@ const Landing = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <Link className='card-link' href={card.link}>
+                                        <div className='card-link'>
                                             <i></i>
-                                        </Link>
-                                    </div>
+                                        </div>
+                                    </Link>
                                 ))}
                             </div>
                             <div className="btn">

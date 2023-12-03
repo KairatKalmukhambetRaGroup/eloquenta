@@ -7,6 +7,7 @@ import { PlayfairDisplayFont, RalewayFont } from '@/utils/customFonts';
 
 import '@/styles/global.scss';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Eloquenta',
@@ -19,6 +20,7 @@ export default function RootLayout({children}: PropsWithChildren) {
                 <ContextProvider>
                     <Header />
                     {children}
+                    <Footer />
                 </ContextProvider>
             </body>
         </html>

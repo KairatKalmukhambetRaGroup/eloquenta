@@ -1,0 +1,207 @@
+@use './variables' as v;
+@import './adaptive';
+
+#auth{
+    .content{
+        @include _xl{
+            padding: 90px 0;
+            display: flex;
+            align-items: center;
+            gap: 90px;
+
+            form{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 45px;
+                .heading{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 15px;
+                    font-style: normal;
+                    color: #1A1A1A;
+                    .title{
+                        font-family: v.$font_playfair_display;
+                        font-size: 52px;
+                        font-weight: 600;
+                        line-height: 62px; /* 119.231% */
+                    }
+                    .subtitle{
+                        font-family: v.$font_raleway;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 24px; /* 150% */
+                    }
+                }
+                .form{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 30px;
+                    .inputs{
+                    width: 100%;
+                    display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 16px;
+                        .form-group{
+                            width: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 11px;
+                            label{
+                                color: #1A1A1A;
+                                font-family: v.$font_raleway;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 500;
+                                line-height: 24px; /* 150% */
+                            }
+                            input{
+                                width: 100%;
+                                padding: 16px 20px;
+                                height: 60px;
+                                
+                                border-radius: 12px;
+                                border: 1px solid #EAECF0;
+                                background: #F6F8F9;
+
+                                color: #1A1A1A;
+                                font-family: v.$font_raleway;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 500;
+                                line-height: 24px; /* 150% */
+                                &:focus{
+                                    outline: none;
+                                }
+                            }
+                        }
+                    }
+                    .additional{
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        font-family: v.$font_raleway;
+                        label{
+                            display: flex;
+                            align-items: center;
+                            gap: 9px;
+
+                            color: #71717A;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 500;
+                            line-height: 22px; /* 157.143% */
+                            cursor: pointer;
+                            input{
+                                display: none;
+                            }
+                            .checkbox{
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                width: 20px;
+                                height: 20px;
+
+                                border-radius: 5px;
+                                border: 1px solid #EAECF0;
+                                background: #F6F8F9;
+                            }
+                            input:checked ~ .checkbox{
+                                content: url('../assets/svg/chevron-down.svg');
+                            }
+                        }
+                        a{
+                            color: #07604B;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 22px; /* 157.143% */
+                        }
+                    }
+                    .bottom{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 20px;
+                        align-self: stretch;
+                        .btns{
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 10px;
+                            align-self: stretch;
+                            input{
+                                display: flex;
+                                padding: 16px;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                gap: 10px;
+                                align-self: stretch;
+
+                                border-radius: 9px;
+                                border: none;
+                                background: #07604B;
+
+                                color: #FFF;
+                                text-align: center;
+                                font-family: v.$font_raleway;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 600;
+                                line-height: 28px; /* 175% */
+                                cursor: pointer;
+                            }
+                            button{
+                                cursor: pointer;
+
+                                display: flex;
+                                padding: 16px;
+                                justify-content: center;
+                                align-items: center;
+                                gap: 10px;
+                                align-self: stretch;
+
+                                border-radius: 10px;
+                                border: 1px solid #EAECF0;
+                                background: #F6F8F9;
+
+                                color: #1A1A1A;
+                                font-family: v.$font_raleway;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 600;
+                                line-height: 28px; /* 175% */
+
+                                i{
+                                    content: url('../assets/svg/google.svg');
+                                }
+                            }
+                        }
+                        p{
+                            color: #1A1A1A;
+                            font-family: v.$font_raleway;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 22px; /* 157.143% */
+                            a{
+                                color: #07604B;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

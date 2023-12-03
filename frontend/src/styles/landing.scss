@@ -103,6 +103,7 @@
                         gap: 15px;
                         flex-wrap: wrap;
                         .card{
+                            cursor: pointer;
                             width: calc((100% - 30px) / 3);
                             display: flex;
                             padding: 40px 30px;

@@ -22,12 +22,12 @@ const Header = () => {
                             </div>
                         </div>
                         <div className="auth-btns">
-                            <div className="auth-btn sign-up">
+                            <Link className="auth-btn sign-up" href="/signup">
                                 Зарегистрироваться
-                            </div>
-                            <div className="auth-btn sign-in">
+                            </Link>
+                            <Link className="auth-btn sign-in" href="/login">
                                 Войти
-                            </div>
+                            </Link>
                         </div>
                     </nav>
                 </div>
