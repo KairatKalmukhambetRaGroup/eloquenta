@@ -1,0 +1,66 @@
+@use './variables' as v;
+@import './adaptive';
+
+header#header{
+    .content{
+        font-family: v.$font_raleway;
+
+        @include _xl{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            nav{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 30px;
+                .lang{
+                    .current{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 5px;
+                        i{
+                            width: 19px;
+                            height: 19px;
+                            content: url('../assets/svg/chevron-down.svg');
+
+                        }
+                    }
+                }
+                .auth-btns{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 10px;
+                    .auth-btn {
+                        cursor: pointer;
+                        display: flex;
+                        padding: 14px 40px;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 10px;
+
+                        border-radius: 10px;
+
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 24px; 
+                        &.sign-up{
+                            color: #FFF;
+                            font-weight: 500;
+                            background: #07604B;
+                        }
+                        &.sign-in{
+                            color: #1A1A1A;
+                            border: 1px solid #DADADA;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

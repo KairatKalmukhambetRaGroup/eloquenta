@@ -1,9 +1,8 @@
-import Header from "@/components/Header";
-
+import '@/styles/landing.scss'
 export default function Home() {
   return (
-    <div>
-      <Header />
+    <div id="landing">
+
     </div>
   )
 }

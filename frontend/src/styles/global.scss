@@ -11,6 +11,9 @@ body{
 }
 
 .container{
-    margin: auto;
+    margin: 0 auto;
     padding: 0 16px;
+    @include _xl{
+        width: 1200px;        
+    }
 }
