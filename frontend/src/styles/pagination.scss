@@ -1,0 +1,55 @@
+@use './variables' as v;
+@import './adaptive';
+
+.pagination{
+    display: flex;
+    width: 882px;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    .pagination-item{
+        cursor: pointer;
+        display: flex;
+        width: 32px;
+        height: 32px;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+
+        color: #1A1A1A;
+        text-align: center;
+        font-family: v.$font_raleway;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px; /* 142.857% */
+
+        user-select: none;
+
+        &.current{
+            border-radius: 2px;
+            background: #07604B;
+            color: #FFF;
+        }
+        &.ellipsis{
+            cursor:default;
+            height: unset;
+            padding: 6px 0px;
+        }
+
+        &.prev{
+            padding: 8px;
+            i{
+                content: url('../assets/svg/pagination-prev.svg');            
+            }
+        } 
+        &.next{
+            padding: 8px;
+            i{
+                content: url('../assets/svg/pagination-next.svg');
+            }
+        } 
+
+    }
+}

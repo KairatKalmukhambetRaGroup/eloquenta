@@ -76,10 +76,10 @@ const Landing = () => {
                                     Раскройте свой потенциал с лучшими преподавателями иностранного языка.
                                 </div>
                             </div>
-                            <div className="btn">
+                            <Link href='/tutors/english' className='btn'>
                                 Искать учителя
                                 <i></i>
-                            </div>
+                            </Link>
                         </div>
                         <Image src={HeroImage} loading='lazy' alt='Hero' className='hero-img' />
                     </div>
@@ -90,7 +90,7 @@ const Landing = () => {
                         <div className="cards-wrapper">
                             <div className="cards">
                                 {lessons.map((card, key)=> (
-                                    <Link href={card.link} key={key} className='card'>
+                                    <Link href={`/tutors/${card.slug}`} key={key} className='card'>
                                         <div className="card-body">
                                             <div className="card-img">
                                                 <Image loading='lazy' src={card.icon} alt={card.slug} />

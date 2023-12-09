@@ -1,0 +1,145 @@
+@use '../variables' as v;
+@import '../adaptive';
+
+#tutorsFilter{
+    display: flex;
+    // width: 280px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    .heading{
+        color: #1A1A1A;
+        font-family: v.$font_playfair_display;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 36px; /* 128.571% */
+    }
+    .inputs{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        font-family: v.$font_raleway;
+
+        .input{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            label{
+                color: #1A1A1A;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 28px; /* 155.556% */
+            }
+            .input-row{
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .input-options{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            input[type="text"]{
+                display: flex;
+                width: 132px;
+                height: 32px;
+                padding: 4px 12px;
+                justify-content: center;
+                align-items: center;
+                border-radius: 6px;
+                border: 1px solid #EAECF0;
+                background: #FFF;
+
+                color: #1A1A1A;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 24px; /* 150% */
+
+                &::placeholder {
+                    color: #9AA6AC;
+                    opacity: 1; /* Firefox */
+                }
+                  
+                &::-ms-input-placeholder { /* Edge 12 -18 */
+                    color: #9AA6AC;
+                }
+            }
+            label.radio{
+                cursor: pointer;
+                display: flex;
+                align-items: flex-start;
+                gap: 8px;
+
+                color: #1A1A1A;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 24px; /* 150% */
+                input{
+                    display: none;
+                }
+                input ~ i{
+                    width: 16px;
+                    height: 16px;
+                    margin: 4px 0;
+                    border-radius: 16px;
+                    border: 1px solid #EAECF0;
+                    background: #F6F8F9;
+                }
+                input:checked ~ i{
+                    border-color: #07604B;
+                    background: white;
+                    position: relative;
+                    &::after{
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        width: 8px;
+                        height: 8px;
+                        background: #07604B;
+                        border-radius: 50%;
+                        top: 3px;
+                        left: 3px;
+                    }
+                }
+            }
+            label.checkbox{
+                cursor: pointer;
+                display: flex;
+                align-items: flex-start;
+                gap: 8px;
+
+                color: #1A1A1A;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 24px; /* 150% */
+                input{
+                    display: none;
+                }
+                input ~ i{
+                    width: 16px;
+                    height: 16px;
+                    margin: 4px 0;
+                    border-radius: 4px;
+                    border: 1px solid #EAECF0;
+                    background: #F6F8F9;
+                }
+                input:checked ~ i{
+                    all: unset;
+                    margin: 4px 0;
+                    width: 16px;
+                    height: 16px;
+                    content: url('../../assets/svg/checkbox.svg');
+                }
+            }
+        }
+    }
+}
