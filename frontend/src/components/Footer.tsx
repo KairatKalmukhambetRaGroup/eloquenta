@@ -55,6 +55,12 @@ const Footer = () => {
                                 {link.name}
                             </Link>   
                         ))}
+                        <Link href="/faq">
+                            FAQ
+                        </Link>
+                        <Link href="/about">
+                            About
+                        </Link>   
                     </div>
                     <div className="social">
                         {social.map((social, key)=>(

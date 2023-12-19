@@ -118,11 +118,11 @@ const Review = () => {
                 </div>
                 <div className="review-content">
                     <div className="stars">
-                        {[...Array(rating)].map((i) => ( 
-                            <i className='star' key={i}></i>
+                        {[...Array(rating)].map((i, j) => ( 
+                            <i className='star' key={j}></i>
                         ))}
-                        {[...Array(5 - rating)].map((i) => ( 
-                            <i key={i}></i>
+                        {[...Array(5 - rating)].map((i, j) => ( 
+                            <i key={j}></i>
                         ))}
                     </div>
                     <div className="text">
