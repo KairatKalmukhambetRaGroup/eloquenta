@@ -26,7 +26,51 @@ header#header{
             height: 20px;
             content: url('../assets/svg/hamburger.svg');
         }
+        nav.user{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            .notifications{
+                display: flex;
+                padding: 12px;
+                align-items: center;
+                gap: 10px;
+                border-radius: 100px;
+                background: #F6F8F9;
+                i{
+                    display: flex;
+                    width: 16px;
+                    height: 16px;
+                    padding: 1.333px 2.617px 2px 2.667px;
+                    justify-content: center;
+                    align-items: center;
+                    content: url('../assets/svg/notification.svg');
+                }
+            }
+            .user{
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                .avatar{
+                    display: flex;
+                    width: 40px;
+                    height: 40px;
+                    align-items: center;
+                    flex-shrink: 0;
 
+                    border-radius: 100px;
+                    background: #1A1A1A;
+                }
+                .dropdown{
+                    i{
+                        cursor: pointer;
+                        flex-shrink: 0;
+                        content: url('../assets/svg/chevron-down.svg');
+                    }
+                }
+            }
+        }
         @include _xl{
             .logo{
                 height: 36px;

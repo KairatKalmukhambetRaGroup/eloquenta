@@ -1,12 +1,11 @@
-import TutorsSidebarFilter from '@/components/TutorsSidebarFilter'
+import TutorsSidebarFilter from '@/components/tutor/TutorsSidebarFilter'
 import React from 'react'
-import Image from 'next/image';
 
 import '@/styles/tutors/tutors.scss'
-import TutorCard from '@/components/TutorCard'
+import TutorCard from '@/components/tutor/TutorCard'
 import TutorImageInit from '@/assets/images/tutor-image-init.png';
 import Pagination from '@/components/Pagination';
-import TutorsHeroImage from '@/assets/images/tutors-hero.png'
+import TutorHero from '@/components/tutor/TutorHero';
 
 const tutorInit = {
     id: '1',
@@ -28,23 +27,7 @@ const Page = () => {
         <div id="tutors">
             <div className="container">
                 <div className="content">
-                    <div className="hero">
-                        <div className="hero-content">
-                            <div className="text">
-                                <div className="title">
-                                    Lorem ipsum <span>dolor</span> sit amet
-                                </div>
-                                <div className="subtitle">
-                                    Раскройте свой потенциал с лучшими преподавателями иностранного языка.
-                                </div>
-                            </div>
-                            <div className="btn">
-                                Искать учителя
-                                <i></i>
-                            </div>
-                        </div>
-                        <Image src={TutorsHeroImage} alt='Hero img' />
-                    </div>
+                    <TutorHero />
                     <div className="tutors-wrapper">
                         <div className="title">
                             Найди для себя <span>подходящего</span> учителя
