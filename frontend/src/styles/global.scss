@@ -1,0 +1,22 @@
+@use './variables' as v;
+@import './adaptive';
+
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    height: 100vh;
+    *{
+        box-sizing: border-box;
+        text-decoration: none;
+    }
+}
+
+.container{
+    margin: 0 auto;
+    padding: 0 30px;
+    @include _xl{
+        padding: 0;
+        width: 1200px;        
+    }
+}

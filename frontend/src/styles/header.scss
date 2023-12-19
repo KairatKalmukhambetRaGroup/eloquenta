@@ -1,0 +1,133 @@
+@use './variables' as v;
+@import './adaptive';
+
+header#header{
+    .content{
+        font-family: v.$font_raleway;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 0;
+
+        .logo{
+            height: 24px;
+            img{
+                height: 100%;
+                width: 100%;
+            }
+        }
+        nav{
+            display: none;
+        }
+        .hamburger{
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            content: url('../assets/svg/hamburger.svg');
+        }
+        nav.user{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            .notifications{
+                display: flex;
+                padding: 12px;
+                align-items: center;
+                gap: 10px;
+                border-radius: 100px;
+                background: #F6F8F9;
+                i{
+                    display: flex;
+                    width: 16px;
+                    height: 16px;
+                    padding: 1.333px 2.617px 2px 2.667px;
+                    justify-content: center;
+                    align-items: center;
+                    content: url('../assets/svg/notification.svg');
+                }
+            }
+            .user{
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                .avatar{
+                    display: flex;
+                    width: 40px;
+                    height: 40px;
+                    align-items: center;
+                    flex-shrink: 0;
+
+                    border-radius: 100px;
+                    background: #1A1A1A;
+                }
+                .dropdown{
+                    i{
+                        cursor: pointer;
+                        flex-shrink: 0;
+                        content: url('../assets/svg/chevron-down.svg');
+                    }
+                }
+            }
+        }
+        @include _xl{
+            .logo{
+                height: 36px;
+            }
+            .hamburger{
+                display: none;
+            }
+            nav{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 30px;
+                .lang{
+                    .current{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 5px;
+                        i{
+                            width: 19px;
+                            height: 19px;
+                            content: url('../assets/svg/chevron-down.svg');
+
+                        }
+                    }
+                }
+                .auth-btns{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 10px;
+                    .auth-btn {
+                        cursor: pointer;
+                        display: flex;
+                        padding: 14px 40px;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 10px;
+
+                        border-radius: 10px;
+
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 24px; 
+                        &.sign-up{
+                            color: #FFF;
+                            font-weight: 500;
+                            background: #07604B;
+                        }
+                        &.sign-in{
+                            color: #1A1A1A;
+                            border: 1px solid #DADADA;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

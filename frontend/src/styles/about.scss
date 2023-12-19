@@ -1,0 +1,147 @@
+@use './variables' as v;
+@import './adaptive';
+
+#about{
+    padding: 60px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+
+    h1{
+        margin: 0;
+        color: #07604B;
+        font-family: v.$font_playfair_display;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 34px; /* 121.429% */
+    }
+    h2{
+        margin: 0;
+        color: #1A1A1A;
+        font-family: v.$font_playfair_display;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 26px; /* 130% */
+    }
+    p{
+        margin: 0;
+        color: #1A1A1A;
+        font-family: v.$font_raleway;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+    }
+
+    .content{
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+
+        .content-text{
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+            i{
+                content: url('../assets/svg/quotes.svg');
+                width: 31px;
+                height: 25px;
+                margin-bottom: 10px;
+            }
+        }
+        .image{
+            position: relative;
+            border-radius: 20px;
+            background: #D9D9D9;
+            width: 100%;
+            overflow: hidden;
+            aspect-ratio: 330 / 267;
+
+            .text{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                padding: 10px 30px 15px;
+
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+
+                background: linear-gradient(0deg, #1A1A1A 0%, rgba(26, 26, 26, 0.00) 100%);
+
+                color: #FFF;
+                font-family: v.$font_raleway;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 20px; /* 142.857% */
+                span{
+                    font-size: 10px;
+                    font-weight: 400;
+                    line-height: 16px; /* 160% */
+                }
+            }
+        }
+    }
+    @include _xl{
+        padding: 60px 0 90px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 50px;
+    
+        h1{
+            font-size: 44px;
+            line-height: 52px; /* 121.429% */
+        }
+        h2{
+            font-size: 28px;
+            line-height: 36px; /* 130% */
+        }
+        p{
+            font-size: 20px;
+            line-height: 28px; /* 142.857% */
+        }
+    
+        .content{
+            flex-direction: row;
+            align-items: center;
+            gap: 60px;
+    
+            .content-text{
+                display: inline-flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 30px;
+                i{
+                    width: 44px;
+                    height: 34px;
+                    margin-bottom: 20px;
+                }
+            }
+            .image{
+                width: 565px;
+                min-width: 565px;
+                height: 100%;
+                aspect-ratio: 565 / 458;
+    
+                .text{
+                    padding: 30px 40px;
+                    gap: 4px;
+                    font-size: 18px;
+                    line-height: 24px; /* 142.857% */
+                    span{
+                        font-size: 14px;
+                        line-height: 22px; /* 160% */
+                    }
+                }
+            }
+        }
+    }
+}

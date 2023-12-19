@@ -1,0 +1,18 @@
+@use '../variables' as v;
+@import '../adaptive';
+
+#profile{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    .content{
+        flex-grow: 1;
+        padding: 50px 30px 90px;   
+    }
+    @include _xl{
+        .content{
+            border-radius: 10px 0px 0px 0px;
+            background: #F4F5F6;
+        }
+    }
+}
