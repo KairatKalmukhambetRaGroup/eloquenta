@@ -23,9 +23,9 @@ const Header = () => {
                                 <i></i>
                             </div>
                             <div className="user">
-                                <div className="avatar">
+                                <Link href="/profile" className="avatar">
 
-                                </div>
+                                </Link>
                                 <div className="dropdown">
                                     <i></i>
                                 </div>

@@ -34,7 +34,7 @@ const UserSidebar = () => {
             <div className="group">
                 <label>НАСТРОЙКИ</label>
                 <div className="links">
-                    <Link href="/profile/settings" className={`link ${pathname == '/profile/settings' ? 'active' : ''}`}>
+                    <Link href="/profile/settings" className={`link ${pathname.includes('/profile/settings') ? 'active' : ''}`}>
                         <i className='settings'></i>
                         Настройки
                     </Link>

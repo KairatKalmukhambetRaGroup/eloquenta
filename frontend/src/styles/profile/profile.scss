@@ -8,7 +8,11 @@
     .content{
         flex-grow: 1;
         padding: 50px 30px 90px;   
-        border-radius: 10px 0px 0px 0px;
-        background: #F4F5F6;
+    }
+    @include _xl{
+        .content{
+            border-radius: 10px 0px 0px 0px;
+            background: #F4F5F6;
+        }
     }
 }
