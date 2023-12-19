@@ -3,53 +3,53 @@
 
 #tutorsFilter{
     display: flex;
-    // width: 280px;
+    width: 100%;
     flex-direction: column;
     align-items: flex-start;
-    gap: 30px;
+    gap: 15px;
     .heading{
         color: #1A1A1A;
         font-family: v.$font_playfair_display;
-        font-size: 28px;
+        font-size: 24px;
         font-style: normal;
         font-weight: 600;
-        line-height: 36px; /* 128.571% */
+        line-height: 32px; /* 128.571% */
     }
     .inputs{
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 20px;
+        gap: 14px;
         font-family: v.$font_raleway;
 
         .input{
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 12px;
+            gap: 8px;
             label{
-                color: #1A1A1A;
-                font-size: 18px;
-                font-style: normal;
-                font-weight: 600;
-                line-height: 28px; /* 155.556% */
+                font-size: 16px;
+                line-height: 24px; /* 155.556% */
             }
             .input-row{
                 display: flex;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 4px;
             }
             .input-options{
+                width: 100%;
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
                 align-items: flex-start;
-                gap: 4px;
+                align-content: flex-start;
+                flex-wrap: wrap;
+                gap: 8px;
             }
             input[type="text"]{
                 display: flex;
-                width: 132px;
-                height: 32px;
-                padding: 4px 12px;
+                width: 84px;
+                height: 36px;
+                padding: 9px 12px;
                 justify-content: center;
                 align-items: center;
                 border-radius: 6px;
@@ -57,10 +57,10 @@
                 background: #FFF;
 
                 color: #1A1A1A;
-                font-size: 16px;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 400;
-                line-height: 24px; /* 150% */
+                line-height: 28px; /* 150% */
 
                 &::placeholder {
                     color: #9AA6AC;
@@ -75,20 +75,20 @@
                 cursor: pointer;
                 display: flex;
                 align-items: flex-start;
-                gap: 8px;
+                gap: 6px;
 
                 color: #1A1A1A;
-                font-size: 16px;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 400;
-                line-height: 24px; /* 150% */
+                line-height: 20px; /* 150% */
                 input{
                     display: none;
                 }
                 input ~ i{
                     width: 16px;
                     height: 16px;
-                    margin: 4px 0;
+                    margin: 2px 0;
                     border-radius: 16px;
                     border: 1px solid #EAECF0;
                     background: #F6F8F9;
@@ -117,27 +117,91 @@
                 gap: 8px;
 
                 color: #1A1A1A;
-                font-size: 16px;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 400;
-                line-height: 24px; /* 150% */
+                line-height: 20px; /* 150% */
                 input{
                     display: none;
                 }
                 input ~ i{
                     width: 16px;
                     height: 16px;
-                    margin: 4px 0;
+                    margin: 2px 0;
                     border-radius: 4px;
                     border: 1px solid #EAECF0;
                     background: #F6F8F9;
                 }
                 input:checked ~ i{
                     all: unset;
-                    margin: 4px 0;
+                    margin: 2px 0;
                     width: 16px;
                     height: 16px;
                     content: url('../../assets/svg/checkbox.svg');
+                }
+            }
+        }
+    }
+
+    @include _xl{
+        gap: 30px;
+        .heading{
+            font-size: 28px;
+            line-height: 36px; /* 128.571% */
+        }
+        .inputs{
+            gap: 20px;
+            .input{
+                gap: 12px;
+                label{
+                    color: #1A1A1A;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 28px; /* 155.556% */
+                }
+                .input-row{
+                    gap: 12px;
+                }
+                .input-options{
+                    all: unset;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 4px;
+                }
+                input[type="text"]{
+                    width: 132px;
+                    height: 32px;
+                    padding: 4px 12px;
+                    font-size: 16px;
+                    line-height: 24px; /* 150% */
+                }
+                label.radio{
+                    gap: 8px;
+                    font-size: 16px;
+                    line-height: 24px; /* 150% */
+                    input{
+                        display: none;
+                    }
+                    input ~ i{
+                        margin: 4px 0;
+                    }
+                }
+                label.checkbox{
+                    cursor: pointer;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 6px;
+
+                    font-size: 16px;
+                    line-height: 24px; /* 150% */
+                    input ~ i{
+                        margin: 4px 0;
+                    }
+                    input:checked ~ i{
+                        margin: 4px 0;
+                    }
                 }
             }
         }

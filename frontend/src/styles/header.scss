@@ -4,13 +4,36 @@
 header#header{
     .content{
         font-family: v.$font_raleway;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 0;
+
+        .logo{
+            height: 24px;
+            img{
+                height: 100%;
+                width: 100%;
+            }
+        }
+        nav{
+            display: none;
+        }
+        .hamburger{
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            content: url('../assets/svg/hamburger.svg');
+        }
 
         @include _xl{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 0;
+            .logo{
+                height: 36px;
+            }
+            .hamburger{
+                display: none;
+            }
             nav{
                 display: flex;
                 flex-direction: row;

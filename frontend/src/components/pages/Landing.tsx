@@ -81,7 +81,9 @@ const Landing = () => {
                                 <i></i>
                             </Link>
                         </div>
-                        <Image src={HeroImage} loading='lazy' alt='Hero' className='hero-img' />
+                        <div className="hero-img">
+                            <Image src={HeroImage} loading='lazy' alt='Hero'/>
+                        </div>
                     </div>
                     <div className="lessons">
                         <div className="title">

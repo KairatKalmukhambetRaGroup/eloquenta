@@ -3,91 +3,358 @@
 
 #tutors{
     .content{
+        .hero{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 50px;    
+            gap: 35px;
+            .hero-content{
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+                margin: auto 0;
+                .text{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    .title{
+                        color: #1A1A1A;
+                        font-family: v.$font_playfair_display;
+                        font-size: 34px;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: 40px; /* 115.385% */
+                        span{
+                            color: #07604B;
+                            font-style: italic;
+                        }
+                    }
+                    .subtitle{
+                        color: #1A1A1A;
+                        font-family: v.$font_raleway;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 22px; /* 150% */
+                    }
+                }
+                .btn{
+                    cursor: pointer;
+                    display: flex;
+                    width: 100%;
+                    padding: 16px 40px;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+
+                    border-radius: 100px;
+                    background: #07604B;
+
+                    color: #FFF;
+                    font-family: v.$font_raleway;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 22px; /* 150% */
+
+                    i{
+                        width: 20px;
+                        height: 20px;
+                        content: url('../../assets/svg/arrow-narrow-right.svg');
+                    }
+                }
+            }
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .tutors-wrapper{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            .title{
+                color: #1A1A1A;
+                font-family: v.$font_playfair_display;
+                font-size: 28px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 34px; /* 118.182% */
+                span{
+                    color: #07604B;
+                    font-style: italic;
+                }
+            }
+            .tutors{
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                padding-bottom: 50px;
+                .cards-wrapper{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 20px;
+                    .heading{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        width: 100%;
+                        .title{
+                            color: #1A1A1A;
+                            font-family: v.$font_playfair_display;
+                            font-size: 24px;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: 32px; /* 128.571% */
+                        }
+                        .sort{
+                            margin-left: auto;
+                            .current{
+                                cursor: pointer;
+                                display: flex;
+                                padding: 3px 4px 3px 12px;
+                                justify-content: center;
+                                align-items: center;
+                                gap: 4px;
+    
+                                border-radius: 6px;
+                                border: 1px solid #EAECF0;
+                                background: #FFF;
+
+                                color: #9AA6AC;
+                                font-family: v.$font_raleway;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: 20px; /* 150% */
+                                .value{
+                                    color: #1A1A1A;
+                                    font-weight: 500;
+                                }
+                                i{
+                                    content: url('../../assets/svg/chevron-down.svg');
+                                }
+                            }
+                        }
+                    }
+                    .cards{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                        .tutor-card{
+                            width: 100%;
+                            display: flex;
+                            padding: 20px 20px 30px;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 15px;
+
+                            border-radius: 4px;
+                            border: 1px solid #EAECF0;
+                            background: #FFF;
+
+                            font-family: v.$font_raleway;
+                            .card-image{
+                                aspect-ratio: 290 / 197;
+                                width: 100%;
+                                overflow: hidden;
+                                border-radius: 4px;
+                                img{
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    object-position: center;
+                                }
+                            }
+                            .card-heading{
+                                display: flex;
+                                flex-direction: column;
+                                align-items: flex-start;
+                                gap: 6px;
+                                .name{
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 6px;
+
+                                    color: #2A2A2A;
+                                    font-size: 20px;
+                                    font-style: normal;
+                                    font-weight: 600;
+                                    line-height: 28px; /* 145.455% */
+                                    i{
+                                        width: 20px;
+                                        height: 20px;
+                                    }
+                                }
+                                .lang{
+                                    display: flex;
+                                    padding: 2px 10px;
+                                    justify-content: center;
+                                    align-items: center;
+                                    border-radius: 16px;
+                                    background: #FFDBD8;
+
+                                    color: #B00000;
+                                    text-align: center;
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 500;
+                                    line-height: 20px; /* 146.154% */
+                                }
+                            }
+                            .langs{
+                                display: flex;
+                                align-items: center;
+                                gap: 6px;
+                                align-self: stretch;
+                                i{
+                                    width: 18px;
+                                    height: 18px;
+                                    content: url('../../assets/svg/translation.svg');
+                                }
+                                color: #2A2A2A;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: 20px; /* 142.857% */
+                            }
+                            .description{
+                                align-self: stretch;
+
+                                color: #2A2A2A;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: 20px; /* 142.857% */
+                            }
+                            .card-footer{
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                align-self: stretch;
+                                width: 100%;
+                                .rating{
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 4px;
+                                    i{
+                                        width: 20px;
+                                        height: 20px;
+                                        content: url('../../assets/svg/star.svg');
+                                    }
+                                    .value{
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 2px;
+
+                                        color: #2A2A2A;
+                                        font-size: 14px;
+                                        font-style: normal;
+                                        font-weight: 400;
+                                        line-height: 20px; /* 142.857% */
+
+                                        span{
+                                            color: #71717A;
+                                        }
+                                    }
+                                }
+                                .price{
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 2px;
+
+                                    color: #71717A;
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    line-height: 20px; /* 142.857% */
+                                    span{
+                                        color: #2A2A2A;
+                                        font-size: 16px;
+                                        font-weight: 600;
+                                        line-height: 24px; /* 150% */
+                                    }
+                                }
+                            }
+                            .card-btns{
+                                display: flex;
+                                width: 100%;
+                                align-items: flex-start;
+                                gap: 6px;
+                                .video-btn{
+                                    display: none;
+                                }
+                                .btn{
+                                    cursor: pointer;
+                                    
+                                    display: flex;
+                                    padding: 14px 40px;
+                                    justify-content: center;
+                                    align-items: center;
+                                    gap: 10px;
+                                    flex: 1 0 0;
+                                    border-radius: 4px;
+                                    background: #07604B;
+
+                                    color: #FFF;
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 600;
+                                    line-height: 20px; /* 153.846% */
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         @include _xl{
             .hero{
-                width: 100%;
-                display: flex;
                 flex-direction: row;
-
-
-                margin-bottom: 90px;    
-
+                margin-bottom: 90px;   
+                gap: 0; 
                 .hero-content{
                     display: flex;
                     flex-direction: column;
                     gap: 35px;
                     margin: auto 0;
                     .text{
-                        display: flex;
-                        flex-direction: column;
                         gap: 25px;
                         .title{
-                            color: #1A1A1A;
-                            font-family: v.$font_playfair_display;
                             font-size: 52px;
-                            font-style: normal;
-                            font-weight: 700;
                             line-height: 60px; /* 115.385% */
-                            span{
-                                color: #07604B;
-                                font-style: italic;
-                            }
                         }
                         .subtitle{
-                            color: #1A1A1A;
-                            font-family: v.$font_raleway;
                             font-size: 16px;
-                            font-style: normal;
-                            font-weight: 400;
                             line-height: 24px; /* 150% */
                         }
                     }
                     .btn{
-                        cursor: pointer;
-                        display: flex;
                         width: 391px;
                         padding: 20px 40px;
-                        justify-content: center;
-                        align-items: center;
-                        gap: 10px;
 
-                        border-radius: 100px;
-                        background: #07604B;
 
-                        color: #FFF;
-                        font-family: v.$font_raleway;
                         font-size: 16px;
-                        font-style: normal;
-                        font-weight: 600;
                         line-height: 24px; /* 150% */
 
                         i{
                             width: 24px;
                             height: 24px;
-                            content: url('../../assets/svg/arrow-narrow-right.svg');
                         }
                     }
                 }
                 img{
+                    all: unset;
                     margin: auto;
                 }
             }
             .tutors-wrapper{
-                display: flex;
-                flex-direction: column;
                 gap: 50px;
                 .title{
-                    color: #1A1A1A;
-                    font-family: v.$font_playfair_display;
                     font-size: 44px;
-                    font-style: normal;
-                    font-weight: 600;
                     line-height: 52px; /* 118.182% */
-
-                    span{
-                        color: #07604B;
-                        font-style: italic;
-                    }
                 }
                 .tutors{
                     display: grid;
@@ -95,50 +362,23 @@
                     gap: 50px;
                     padding-bottom: 70px;
                     .cards-wrapper{
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-start;
                         gap: 30px;
                         .heading{
                             display: flex;
+                            flex-direction: row;
                             align-items: center;
                             justify-content: space-between;
-                            align-items: center;
                             width: 100%;
                             .title{
-                                color: #1A1A1A;
-                                font-family: v.$font_playfair_display;
                                 font-size: 28px;
-                                font-style: normal;
-                                font-weight: 600;
                                 line-height: 36px; /* 128.571% */
                             }
                             .sort{
                                 .current{
-                                    cursor: pointer;
-                                    display: flex;
                                     padding: 4px 4px 4px 12px;
-                                    justify-content: center;
-                                    align-items: center;
-                                    gap: 4px;
-        
-                                    border-radius: 6px;
-                                    border: 1px solid #EAECF0;
-                                    background: #FFF;
     
-                                    color: #9AA6AC;
-                                    font-family: v.$font_raleway;
                                     font-size: 16px;
-                                    font-style: normal;
-                                    font-weight: 400;
                                     line-height: 24px; /* 150% */
-                                    .value{
-                                        color: #1A1A1A;
-                                        font-weight: 500;
-                                    }
-                                    i{
-                                        content: url('../../assets/svg/chevron-down.svg');
-                                    }
                                 }
                             }
                         }
@@ -151,137 +391,21 @@
                             gap: 20px 15px;
                             .tutor-card{
                                 width: calc((100% - 30px) / 3);
-                                display: flex;
                                 padding: 15px 15px 25px 15px;
-                                flex-direction: column;
-                                align-items: flex-start;
-                                gap: 15px;
-    
-                                border-radius: 4px;
-                                border: 1px solid #EAECF0;
-                                background: #FFF;
-    
-                                font-family: v.$font_raleway;
-    
                                 .card-image{
                                     aspect-ratio: 250 / 170;
-                                    width: 100%;
-                                    overflow: hidden;
-                                    border-radius: 4px;
-                                    img{
-                                        width: 100%;
-                                        height: 100%;
-                                        object-fit: cover;
-                                        object-position: center;
-                                    }
                                 }
                                 .card-heading{
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: flex-start;
-                                    gap: 6px;
                                     .name{
-                                        display: flex;
-                                        align-items: center;
-                                        gap: 6px;
-    
-                                        color: #2A2A2A;
                                         font-size: 22px;
-                                        font-style: normal;
-                                        font-weight: 600;
                                         line-height: 32px; /* 145.455% */
-                                        i{
-                                            width: 20px;
-                                            height: 20px;
-                                        }
                                     }
-                                    .lang{
-                                        display: flex;
-                                        padding: 2px 10px;
-                                        justify-content: center;
-                                        align-items: center;
-                                        border-radius: 16px;
-                                        background: #FFDBD8;
-    
-                                        color: #B00000;
-                                        text-align: center;
-                                        font-size: 13px;
-                                        font-style: normal;
-                                        font-weight: 500;
-                                        line-height: 19px; /* 146.154% */
-                                    }
-                                }
-                                .langs{
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 6px;
-                                    align-self: stretch;
-                                    i{
-                                        width: 18px;
-                                        height: 18px;
-                                        content: url('../../assets/svg/translation.svg');
-                                    }
-                                    color: #2A2A2A;
-                                    font-size: 14px;
-                                    font-style: normal;
-                                    font-weight: 400;
-                                    line-height: 20px; /* 142.857% */
-                                }
-                                .description{
-                                    align-self: stretch;
-    
-                                    color: #2A2A2A;
-                                    font-size: 14px;
-                                    font-style: normal;
-                                    font-weight: 400;
-                                    line-height: 20px; /* 142.857% */
                                 }
                                 .card-footer{
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                    align-self: stretch;
-    
-                                    .rating{
-                                        display: flex;
-                                        align-items: center;
-                                        gap: 4px;
-                                        i{
-                                            width: 20px;
-                                            height: 20px;
-                                            content: url('../../assets/svg/star.svg');
-                                        }
-                                        .value{
-                                            display: flex;
-                                            align-items: center;
-                                            gap: 2px;
-    
-                                            color: #2A2A2A;
-                                            font-size: 14px;
-                                            font-style: normal;
-                                            font-weight: 400;
-                                            line-height: 20px; /* 142.857% */
-    
-                                            span{
-                                                color: #71717A;
-                                            }
-                                        }
-                                    }
                                     .price{
-                                        display: flex;
-                                        align-items: center;
-                                        gap: 2px;
-    
-                                        color: #71717A;
-                                        font-size: 14px;
-                                        font-style: normal;
-                                        font-weight: 400;
-                                        line-height: 20px; /* 142.857% */
                                         span{
-                                            color: #2A2A2A;
-                                            font-size: 16px;
-                                            font-weight: 600;
-                                            line-height: 24px; /* 150% */
+                                            font-size: 18px;
+                                            line-height: 22px; /* 150% */
                                         }
                                     }
                                 }
@@ -311,22 +435,7 @@
                                         }
                                     }
                                     .btn{
-                                        cursor: pointer;
-                                        
-                                        display: flex;
                                         padding: 12px 0;
-                                        justify-content: center;
-                                        align-items: center;
-                                        gap: 10px;
-                                        flex: 1 0 0;
-                                        border-radius: 4px;
-                                        background: #07604B;
-    
-                                        color: #FFF;
-                                        font-size: 13px;
-                                        font-style: normal;
-                                        font-weight: 600;
-                                        line-height: 20px; /* 153.846% */
                                     }
                                 }
                             }

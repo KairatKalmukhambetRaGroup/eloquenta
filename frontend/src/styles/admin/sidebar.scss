@@ -1,0 +1,31 @@
+@use '../variables' as v;
+@import '../adaptive';
+
+#adminSidebar{
+    display: flex;
+    flex-direction: column;
+    background: #07604B;
+
+    width: 280px;
+    font-family: v.$font_raleway;
+    .logo{
+        i{
+            content: url('../../assets/svg/eloquenta-logo-white.svg');
+        }
+    }
+    nav{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        a{
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            padding: 8px 16px;
+
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+    }
+}

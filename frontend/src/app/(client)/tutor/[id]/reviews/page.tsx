@@ -20,15 +20,19 @@ const page = () => {
             <h2>Что говорят ученики</h2>
             <div className="rating">
                 <div className="value">
-                    5
-                    <div className="stars">
-                        <i></i>
-                        <i></i>
-                        <i></i>
-                        <i></i>
-                        <i></i>
+                    <div className="val">
+                        5
                     </div>
-                    <span className='count'>{reviews.all} reviews</span>
+                    <div className="rest">
+                        <div className="stars">
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                        </div>
+                        <span className='count'>{reviews.all} reviews</span>
+                    </div>
                 </div>
                 <div className="counts">
                     <div className="count">
@@ -125,7 +129,7 @@ const Review = () => {
                         You made it so simple. My new site is so much faster and easier to work with than my old site. I just choose the page, make the changes.
                     </div>
                     <div className="author">
-                        <div className="name">Kristin Watson</div>
+                        Kristin Watson
                         <div className="date">March 14, 2021</div>
                     </div>
                 </div>

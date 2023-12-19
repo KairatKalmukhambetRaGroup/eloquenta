@@ -1,0 +1,11 @@
+@use '../variables' as v;
+@import '../adaptive';
+
+#admin{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    main{
+        padding: 16px;
+    }
+}

@@ -2,7 +2,7 @@ import '@/styles/footer.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Logo from '@/assets/svg/eloquenta-logo-white.svg';
+import Logo from '@/assets/eloquenta-logo-white.png';
 // Social links
 import Facebook from '@/assets/svg/socials/Facebook.svg';
 import Twitter from '@/assets/svg/socials/Twitter.svg';

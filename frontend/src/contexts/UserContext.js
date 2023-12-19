@@ -9,13 +9,13 @@ const UserProvider = ({children}) => {
     const getUserFromLocalStorage = () => {
         if(typeof window !== 'undefined'){
             const profile = JSON.parse(localStorage.getItem('profile'));
-            // if(profile && profile.token && profile.user){
-            //     const token = profile.token;
-            //     const decodedToken = jwtDecode(token);
-            //     if(decodedToken.exp * 1000 > new Date().getTime()){
+            if(profile && profile.token && profile.user){
+                const token = profile.token;
+                const decodedToken = jwtDecode(token);
+                if(decodedToken.exp * 1000 > new Date().getTime()){
                     return profile.user;
-            //     }
-            // }
+                }
+            }
         }
         return null;
     }

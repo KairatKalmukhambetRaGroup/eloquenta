@@ -3,7 +3,7 @@ import Link from "next/link"
 
 import '@/styles/header.scss';
 
-import Logo from '@/assets/svg/eloquenta-logo.svg';
+import Logo from '@/assets/eloquenta-logo.png';
 
 
 const Header = () => {
@@ -11,9 +11,10 @@ const Header = () => {
         <header id="header">
             <div className="container">
                 <div className="content">
-                    <Link href="/">
+                    <Link href="/" className="logo">
                         <Image src={Logo} alt="logotype" />
                     </Link>
+                    <i className="hamburger"></i>
                     <nav>
                         <div className="lang">
                             <div className="current">
