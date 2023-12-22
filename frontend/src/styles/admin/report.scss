@@ -1,0 +1,112 @@
+@use '../variables' as v;
+@import '../adaptive';
+
+#reports{
+    padding: 30px;
+    background: #F4F5F6;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    height: 100%;
+
+    h1{
+        margin: 0;
+        color: #1A1A1A;
+        font-family: v.$font_playfair_display;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 42px; /* 131.25% */
+    }
+
+    .table{
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+
+        .filter{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            .search{
+                display: flex;
+                flex-direction: row;
+                gap: 8px;
+                align-items: center;
+                border-radius: 8px;
+                border: 1px solid #EAECF0;
+                background: #F6F8F9;
+
+                padding: 10px 16px;
+
+                svg{
+                    width: 20px;
+                    color: grey;
+                    cursor: pointer;
+                }
+                input{
+                    font-family: v.$font_raleway;
+                    font-size: 16px;
+                    line-height: 20px;
+                    font-weight: 400;
+                    width: 100%;
+                    padding: 0;
+                    border: none;
+                    background: none;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                // i{
+                //     cursor: pointer;
+                //     width: 20px;
+                //     content: url('../../assets/svg/magnifying-glass.svg');
+                // }
+                &:focus-within{
+                    border: 1px solid #07604B;
+                    background: #E2F2EE;
+                    svg{
+                        color: #07604B;
+                    }
+                }
+            }
+        }
+
+        table{
+            font-family: v.$font_raleway;
+            border-spacing: 0;
+            cursor: default;
+            tr{
+                th{
+                    color: #07604B;
+                    text-align: left;
+                    padding: 10px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 20px;
+                }
+                td{
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 20px;
+                    padding: 10px;
+                }
+            }
+            tbody{
+                tr:nth-child(even){
+                    background: #E2F2EE;
+                }
+                tr:hover{
+                    background: #E2F2EE;
+                }
+            }
+        }
+    }
+}

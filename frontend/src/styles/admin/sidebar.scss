@@ -2,10 +2,15 @@
 @import '../adaptive';
 
 #adminSidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    gap: 30px;
     background: #07604B;
-
+    padding: 30px;
     width: 280px;
     font-family: v.$font_raleway;
     .logo{
@@ -18,14 +23,24 @@
         flex-direction: column;
         gap: 10px;
         a{
+            padding: 10px 15px;
             display: flex;
             flex-direction: row;
-            gap: 8px;
-            padding: 8px 16px;
+
+            font-family: v.$font_raleway;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 20px;
 
             color: white;
             font-weight: 600;
             font-size: 16px;
+            border-radius: 4px;
+
+            &.active{
+                background: white;
+                color: #07604B;
+            }
         }
     }
 }
