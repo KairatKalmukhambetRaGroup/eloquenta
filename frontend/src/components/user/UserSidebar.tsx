@@ -16,7 +16,7 @@ const UserSidebar = () => {
                         <i className='menu'></i>
                         Меню
                     </Link>
-                    <Link href="/profile/lessons" className={`link ${pathname == '/profile/lessons' ? 'active' : ''}`}>
+                    <Link href="/profile/lessons" className={`link ${pathname.includes('/profile/lessons') ? 'active' : ''}`}>
                         <i className='lessons'></i>
                         Мои уроки
                     </Link>

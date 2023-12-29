@@ -4,9 +4,9 @@ import React from 'react'
 
 import '@/styles/lessoncard.scss';
 
-const LessonsCard = () => {
+const LessonsCard = ({lesson}: any) => {
     return (
-        <div className="lesson-card disabled">
+        <div className={`lesson-card ${lesson.disabled ? 'disabled' : ''}`}>
             <div className="date-wrapper">
                 <div className="day">
                     20
@@ -29,11 +29,11 @@ const LessonsCard = () => {
                         {/* <Image /> */}
                     </div>
                     <div className="teacher-info">
-                        <div className="name">John Doe</div>
-                        <div className="language">Russian </div>
+                        <div className="name">{lesson.teacher.name}</div>
+                        <div className="language">{lesson.teacher.language}</div>
                     </div>
                 </div>
-                <Link href="/" className='more'>
+                <Link href={`/profile/lessons/${lesson.id}`} className='more'>
                     Узнать больше
                     <i></i>
                 </Link>
