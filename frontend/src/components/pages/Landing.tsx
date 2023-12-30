@@ -12,52 +12,58 @@ import AEFlag from '@/assets/flags/ae.png';
 import HowWorksImg1 from '@/assets/images/how-works1.png';
 import HowWorksImg2 from '@/assets/images/how-works2.png';
 import HowWorksImg3 from '@/assets/images/how-works3.png';
+import { useTranslations } from 'next-intl';
 
 const lessons = [
     {
-        slug: 'english',
+        slug: 'en',
         icon: USAFlag,
         name: 'Учителя по английскому',
         teachers: 2321,
         link: ''
     },
     {
-        slug: 'kazakh',
+        slug: 'kz',
         icon: KZFlag,
         name: 'Учителя по казахскому',
         teachers: 2321,
         link: ''
     },
     {
-        slug: 'turkish',
+        slug: 'tr',
         icon: USAFlag,
         name: 'Учителя по турецкому',
         teachers: 2321,
         link: ''
     },
     {
-        slug: 'russian',
+        slug: 'ru',
         icon: RUFlag,
         name: 'Учителя по русскому',
         teachers: 2321,
         link: ''
     },
     {
-        slug: 'french',
+        slug: 'fr',
         icon: FRFlag,
         name: 'Учителя по французкому',
         teachers: 2321,
         link: ''
     },
     {
-        slug: 'arab',
+        slug: 'ar',
         icon: AEFlag,
         name: 'Учителя по арабскому',
         teachers: 2321,
         link: ''
     },
 ]
-const Landing = () => {
+
+const cardImages = [
+    HowWorksImg1, HowWorksImg2, HowWorksImg3
+]
+const Landing = ({locale}: any) => {
+    const t = useTranslations('landing');
     return (
         <div id='landing'>
             <div className="container">
@@ -66,18 +72,21 @@ const Landing = () => {
                         <div className="text-wrapper">
                             <div className="text">
                                 <div className="title">
-                                    Найди для себя
+                                    {t('hero.title.start')}
                                     <br />
-                                    <span>подходящего</span> 
+                                    <span>
+                                        {t('hero.title.mid')}
+                                    </span> 
                                     <br />
-                                    учителя
+                                    {t('hero.title.end')}
                                 </div>
                                 <div className="subtitle">
-                                    Раскройте свой потенциал с лучшими преподавателями иностранного языка.
+                                    {t('hero.subtitle')}
                                 </div>
                             </div>
-                            <Link href='/tutors/english' className='btn'>
-                                Искать учителя
+                            <Link href={`/${locale}/tutors/english`} className='btn'>
+                                {t('hero.btn')}
+                                
                                 <i></i>
                             </Link>
                         </div>
@@ -87,22 +96,26 @@ const Landing = () => {
                     </div>
                     <div className="lessons">
                         <div className="title">
-                            Lorem ipsum <span>dolor</span> sit amet
+                            {t('lessons.title.start')}
+                            <span>
+                                {t('lessons.title.mid')}
+                            </span> 
+                            {t('lessons.title.end')}
                         </div>
                         <div className="cards-wrapper">
                             <div className="cards">
                                 {lessons.map((card, key)=> (
-                                    <Link href={`/tutors/${card.slug}`} key={key} className='card'>
+                                    <Link href={`/${locale}/tutors/${card.slug}`} key={key} className='card'>
                                         <div className="card-body">
                                             <div className="card-img">
                                                 <Image loading='lazy' src={card.icon} alt={card.slug} />
                                             </div>
                                             <div className="card-text">
                                                 <div className="name">
-                                                    {card.name}
+                                                    {t(`lessons.languages.${card.slug}`)}
                                                 </div>
                                                 <div className="count">
-                                                    {card.teachers} учителей
+                                                    {card.teachers} {t('lessons.teacher-count')}
                                                 </div>
                                             </div>
                                         </div>
@@ -113,63 +126,38 @@ const Landing = () => {
                                 ))}
                             </div>
                             <div className="btn">
-                                Показать еще
+                                {t('lessons.btn')}
                             </div>
                         </div>
                     </div>
                     <div className="how-works">
                         <div className="title">
-                            Как работает <span>eloquenta</span>
+                            {t('how-works.title.start')}
+                            <span>
+                                {t('how-works.title.mid')}
+                            </span> 
+                            {t('how-works.title.end')}
                         </div>
                         <div className="cards">
-                            <div className="card">
-                                <div className="card-number">
-                                    <i className='num1'></i>
-                                </div>
-                                <div className="card-body">
-                                    <div className="text">
-                                        <div className="title">
-                                            Найди своего учителя
-                                        </div>
-                                        <div className="description">
-                                            Мы свяжем вас с учителем, который будет мотивировать, бросать вызов и вдохновлять вас.
-                                        </div>
+                            {
+                                [1,2,3].map((key)=>(
+                                <div className="card" key={key}>
+                                    <div className="card-number">
+                                        <i className={`num${key+1}`}></i>
                                     </div>
-                                    <Image src={HowWorksImg1} className='card-img' loading='lazy' alt='img' />
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-number">
-                                    <i className='num2'></i>
-                                </div>
-                                <div className="card-body">
-                                    <div className="text">
-                                        <div className="title">
-                                            Начинай учиться
+                                    <div className="card-body">
+                                        <div className="text">
+                                            <div className="title">
+                                                {t(`how-works.cards.${key}.title`)}
+                                            </div>
+                                            <div className="description">
+                                                {t(`how-works.cards.${key}.description`)}
+                                            </div>
                                         </div>
-                                        <div className="description">
-                                            Ваш учитель проведет вас по вашему первому уроку и поможет спланировать ваши следующие шаги.
-                                        </div>
+                                        <Image src={cardImages[key-1]} className='card-img' loading='lazy' alt='img' />
                                     </div>
-                                    <Image src={HowWorksImg2} className='card-img' loading='lazy' alt='img' />
                                 </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-number">
-                                    <i className='num3'></i>
-                                </div>
-                                <div className="card-body">
-                                    <div className="text">
-                                        <div className="title">
-                                            Говори. Прочитай. Пиши. Повторяй.
-                                        </div>
-                                        <div className="description">
-                                            Выберите, сколько уроков вы хотите посещать каждую неделю, и приготовьтесь к достижению своих целей!
-                                        </div>
-                                    </div>
-                                    <Image src={HowWorksImg3} className='card-img' loading='lazy' alt='img' />
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>

@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   title: 'Eloquenta',
 }
 
-export default function RootLayout({children}: PropsWithChildren) {
+export default function RootLayout({children, params: {locale}}: {children: any, params: any}) {
     return (
-        <html lang="en">
+        <html lang={locale}>
             <body className={`${PlayfairDisplayFont.className} ${RalewayFont.className}`}>
                 <ContextProvider>
                     {children}

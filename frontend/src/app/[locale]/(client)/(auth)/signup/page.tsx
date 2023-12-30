@@ -1,39 +1,41 @@
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import React from 'react'
 
 const page = () => {
+    const t = useTranslations('auth')
     return (
         <form className='signup'>
             <div className="heading">
                 <div className="title">
-                    Присоединяйтесь к Eloquenta
+                    {t('signup.title')}
                 </div>
                 <div className="subtitle">
-                    Раскройте свой потенциал с лучшими преподавателями иностранного языка.
+                    {t('signup.subtitle')}
                 </div>
             </div>
             <div className="form">
                 <div className="inputs">
                     <div className="form-group">
-                        <label>Имя & Фамилия</label>
+                        <label>{t('inputs.name')}</label>
                         <input type="text" name='name'/>
                     </div>
                     <div className="form-group">
-                        <label>Электронная почта</label>
+                        <label>{t('inputs.email')}</label>
                         <input type="email" name='email'/>
                     </div>
                     <div className="form-group">
-                        <label>Пароль</label>
+                        <label>{t('inputs.password')}</label>
                         <input type="password" name='password'/>
                     </div>
                 </div>
                 <div className="bottom">
                     <div className="btns">
-                        <input type="submit" value="Создать аккаунт" />
-                        <button><i></i> Создать аккаунт через Google</button>
+                        <input type="submit" value={t('signup.btn')} />
+                        <button><i></i> {t('signup.google')}</button>
                     </div>
                     <p>
-                        У вас уже есть аккаунт? <Link href="/login">Войти</Link>
+                        {t('signup.account.start')} <Link href="/login">{t('signup.account.end')}</Link>
                     </p>
                 </div>
             </div>

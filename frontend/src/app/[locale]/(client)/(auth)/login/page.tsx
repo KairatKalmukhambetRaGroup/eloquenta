@@ -1,25 +1,27 @@
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import React from 'react'
 
 const page = () => {
+    const t = useTranslations('auth')
     return (
         <form className='signup'>
             <div className="heading">
                 <div className="title">
-                    C возвращением!
+                    {t('login.title')}
                 </div>
                 <div className="subtitle">
-                    Раскройте свой потенциал с лучшими преподавателями иностранного языка.
+                    {t('login.subtitle')}
                 </div>
             </div>
             <div className="form">
                 <div className="inputs">
                     <div className="form-group">
-                        <label>Электронная почта</label>
+                        <label>{t('inputs.email')}</label>
                         <input type="email" name='email'/>
                     </div>
                     <div className="form-group">
-                        <label>Пароль</label>
+                        <label>{t('inputs.password')}</label>
                         <input type="password" name='password'/>
                     </div>
                 </div>
@@ -27,19 +29,19 @@ const page = () => {
                     <label>
                         <input type="checkbox" name="remember"/>
                         <div className="checkbox"></div>
-                        Запомнить меня
+                        {t('login.remember')}
                     </label>
                     <Link href="/restore">
-                        Забыли пароль?
+                        {t('login.restore')}
                     </Link>
                 </div>
                 <div className="bottom">
                     <div className="btns">
-                        <input type="submit" value="Войти" />
-                        <button><i></i> Войти через Google</button>
+                        <input type="submit" value={t('login.btn')} />
+                        <button><i></i> {t('login.google')}</button>
                     </div>
                     <p>
-                        Нет аккаунта? <Link href="/signup">Создать новый аккаунт</Link>
+                        {t('login.noaccount.start')} <Link href="/signup">{t('login.noaccount.end')}</Link>
                     </p>
                 </div>
             </div>

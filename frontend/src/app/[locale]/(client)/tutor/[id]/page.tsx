@@ -1,9 +1,11 @@
 import '@/styles/tutors/tutor.scss';
+import { useTranslations } from 'next-intl';
 
 const page = () => {
+    const t = useTranslations('tutor.about')
     return (
         <div className="about-teacher">
-            <h2>Про учителя</h2>
+            <h2>{t('title')}</h2>
             <p>
                 Как полиглот, я люблю преподавать и учиться.
                 <br />
@@ -16,7 +18,7 @@ const page = () => {
                 <br />
                 Если вам нравятся сложные задачи в обучении или вам необходимо изучать язык для удовольствия, по академическим или профессиональным причинам.
             </p>
-            <h2>Образование</h2>
+            <h2>{t('education')}</h2>
             <ul>
                 <li>
                     <div className="year">2020 — 2022</div>

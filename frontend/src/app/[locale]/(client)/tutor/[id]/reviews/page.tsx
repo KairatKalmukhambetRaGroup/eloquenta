@@ -2,6 +2,7 @@ import '@/styles/tutors/tutor.scss';
 
 import Img from '@/assets/images/tutor-image-init.png';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 const reviews = {
     all: 39,
@@ -15,9 +16,12 @@ const reviews = {
 const rating = 4;
 
 const page = () => {
+    const t = useTranslations('tutor.reviews');
     return (
         <div className="review-teacher">
-            <h2>Что говорят ученики</h2>
+            <h2>
+                {t('title')}
+            </h2>
             <div className="rating">
                 <div className="value">
                     <div className="val">
@@ -31,7 +35,7 @@ const page = () => {
                             <i></i>
                             <i></i>
                         </div>
-                        <span className='count'>{reviews.all} reviews</span>
+                        <span className='count'>{t('count', {count: reviews.all})}</span>
                     </div>
                 </div>
                 <div className="counts">
@@ -96,10 +100,10 @@ const page = () => {
                 ))}
                 <div className="more">
                     <i></i>
-                    Load more reviews
+                    {t('more')}
                 </div>
                 <div className="btn">
-                    Показать еще
+                    {t('btn')}
                 </div>
             </div>
         </div>

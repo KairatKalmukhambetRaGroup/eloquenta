@@ -1,0 +1,182 @@
+{
+    "auth": {
+        "login": {
+            "title": "Welcome back!",
+            "subtitle": "Unleash your potential with the best foreign language teachers.",
+            "remember": "Remember me",
+            "restore": "Forgot your password?",
+            "btn": "Login",
+            "google": "Login with Google",
+            "noaccount": {
+                "start": "Don't have an account?",
+                "end": "Create a new account"
+            }
+        },
+        "signup": {
+            "title": "Join Eloquenta",
+            "subtitle": "Unleash your potential with the best foreign language teachers.",
+            "btn": "Create an account",
+            "google": "Create an account via Google",
+            "account": {
+                "start": "Already have an account?",
+                "end": "Login"
+            }
+        },
+        "inputs": {
+            "email": "Email",
+            "password": "Password",
+            "name": "First and Last Name"
+        }
+    },
+    "landing": {
+        "hero": {
+            "title": {
+                "start": "Find",
+                "mid": "the right",
+                "end": "teacher for you"
+            },
+            "subtitle": "Unleash your potential with the best foreign language teachers.",
+            "btn": "Find a teacher"
+        },
+        "lessons": {
+            "title": {
+                "start": "Lorem ipsum",
+                "mid": " dolor ",
+                "end": "sit amet"
+            },
+            "languages": {
+                "en": "English teachers",
+                "tr": "Turkish teachers",
+                "kz": "Kazakh teachers",
+                "ar": "Arabic teachers",
+                "de": "German teachers",
+                "ja": "Japanese teachers",
+                "ru": "Russian teachers",
+                "ko": "Korean teachers",
+                "fr": "French teachers",
+                "zh": "Chinese teachers",
+                "es": "Spanish teachers",
+                "it": "Italian teachers"
+            },
+            "teacher-count": "teachers",
+            "btn": "Show more"
+        },
+        "how-works": {
+            "title": {
+                "start": "How",
+                "mid": " eloquenta ",
+                "end": "works"
+            },
+            "cards": {
+                "1": {
+                    "title": "Find your teacher",
+                    "description": "We will connect you with a teacher who will motivate, challenge and inspire you."
+                },
+                "2": {
+                    "title": "Start studying",
+                    "description": "Your teacher will guide you through your first lesson and help you plan your next steps."
+                },
+                "3": {
+                    "title": "Speak. Read. Write. Repeat.",
+                    "description": "Choose how many classes you want to take each week and get ready to achieve your goals!"
+                }
+            }
+        }
+    },
+    "tutors": {
+        "title": {
+            "start": "Find",
+            "mid": "the right",
+            "end": "teacher for you"
+        },
+        "cards": {
+            "title": "All teachers",
+            "sort": {
+                "by": "Sort by",
+                "best": "our best"
+            },
+            "card":{
+                "languages": {
+                    "start": "Speaks",
+                    "end": "languages"
+                },
+                "hour": "hour",
+                "book": "Book a lesson"
+            }
+        },
+        "filter": {
+            "title": "Filters",
+            "language": "Language selection",
+            "lesson-price": "Lesson price",
+            "lesson-time": "Lesson times"
+        }
+    },
+    "tutor": {
+        "book": "Book a lesson",
+        "tabs": {
+            "about": "About",
+            "schedule": "Schedule",
+            "reviews": "Reviews"
+        },
+        "hour": "hour", 
+        "about": {
+            "title": "About teacher",
+            "education": "Education"
+        },
+        "schedule": {
+            "title": "Schedule",
+            "info": "Choose a time for your first lesson. The time is displayed in your local time zone.",
+            "btn": "Choose"
+        },
+        "reviews": {
+            "title": "What students say",
+            "count": "{count, plural, =0 {no reviews yet} =1 {1 review} other {# reviews}}",
+            "more": "Load more reviews",
+            "btn": "Show more"
+        }
+    },
+    "languages": {
+        "en": "English",
+        "tr": "Turkish",
+        "kz": "Kazakh",
+        "ar": "Arabic",
+        "de": "German",
+        "ja": "Japanese",
+        "ru": "Russian",
+        "ko": "Korean",
+        "fr": "French",
+        "zh": "Chinese",
+        "es": "Spanish",
+        "it": "Italian"
+    },
+    "weekdays": {
+        "mon": {
+            "long": "Monday",
+            "short": "Mon"
+        },
+        "tue": {
+            "long": "Tuesday",
+            "short": "Tue"
+        },
+        "wed": {
+            "long": "Wednesday",
+            "short": "Wed"
+        },
+        "thu": {
+            "long": "Thursday",
+            "short": "Thu"
+        },
+        "fri": {
+            "long": "Friday",
+            "short": "Fri"
+        },
+        "sat": {
+            "long": "Saturday",
+            "short": "Sat"
+        },
+        "sun": {
+            "long": "Sunday",
+            "short": "Sun"
+        }
+    }
+}

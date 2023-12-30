@@ -1,82 +1,52 @@
 import React from 'react'
 import '@/styles/tutors/filter.scss';
+import { useTranslations } from 'next-intl';
 
 const TutorsSidebarFilter = () => {
+    const t = useTranslations('tutors.filter');
+    const langT = useTranslations('languages');
+    const dayT = useTranslations('weekdays');
+    const langs = ['en', 'tr', 'kz', 'ar', 'ja', 'ru', 'ko', 'fr', 'zh', 'es', 'it'];
+    const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     return (
         <div id="tutorsFilter">
             <div className="heading">
-                Фильтры
+                {t('title')}
             </div>
             <div className="inputs">
                 <div className="input input-range">
-                    <label>Цена за урок</label>
+                    <label>{t('lesson-price')}</label>
                     <div className="input-row">
                         <input type="text" name='mincost' placeholder='Min'/>
                         <input type="text" name='mincost' placeholder='Max'/>
                     </div>
                 </div>
                 <div className="input input-radio">
-                    <label>Выбор языка</label>
+                    <label>{t('language')}</label>
                     <div className="input-options">
-                        <label className='radio'>
-                            <input type="radio" name="lang" value="en"/>
-                            <i></i>
-                            Английский
-                        </label>
-                        <label className='radio'>
-                            <input type="radio" name="lang" value="ru"/>
-                            <i></i>
-                            Русский
-                        </label>
-                        <label className='radio'>
-                            <input type="radio" name="lang" value="kz"/>
-                            <i></i>
-                            Казахский
-                        </label>
+                        {langs.map((lang, key)=>(
+                            <label className='radio' key={key}>
+                                <input type="radio" name="lang" value={lang}/>
+                                <i></i>
+                                {langT(lang)}
+                            </label>
+                        ))}
                     </div>
                 </div>
                 <div className="input input-checkbox">
-                    <label>Время занятий</label>
+                    <label>{t('lesson-time')}</label>
                     <div className="input-options">
-                        <label className='checkbox'>
-                            <input type="checkbox" name="day"/>
-                            <i></i>
-                            Понедельник
-                        </label>
-                        <label className='checkbox'>
-                            <input type="checkbox" name="day"/>
-                            <i></i>
-                            Вторник
-                        </label>
-                        <label className='checkbox'>
-                            <input type="checkbox" name="day"/>
-                            <i></i>
-                            Среда
-                        </label>
-                        <label className='checkbox'>
-                            <input type="checkbox" name="day"/>
-                            <i></i>
-                            Четверг
-                        </label>
-                        <label className='checkbox'>
-                            <input type="checkbox" name="day"/>
-                            <i></i>
-                            Пятница
-                        </label>
-                        <label className='checkbox'>
-                            <input type="checkbox" name="day"/>
-                            <i></i>
-                            Суббота
-                        </label>
-                        <label className='checkbox'>
-                            <input type="checkbox" name="day"/>
-                            <i></i>
-                            Воскресенье
-                        </label>
+                        {weekdays.map((day, key)=> (
+                            <label className='checkbox' key={key}>
+                                <input type="checkbox" name="day" value={day}/>
+                                <i></i>
+                                {dayT(`${day}.long`)}
+                            </label>
+                        ))}
                     </div>
                 </div>
                 <div className="input input-checkbox">
-                    <label>Время занятий</label>
+                    <label>{t('lesson-time')}</label>
                     <div className="input-options">
                         <label className='checkbox'>
                             <input type="checkbox" name="time"/>

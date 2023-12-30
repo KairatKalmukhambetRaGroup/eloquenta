@@ -1,12 +1,14 @@
-import Image from "next/image";
-import React, { PropsWithChildren } from "react"
-
-import '@/styles/tutors/tutor.scss';
+"use client"
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
 import TutorImageInit from '@/assets/images/tutor-image-init.png';
-import Link from "next/link";
+import { usePathname } from 'next/navigation';
 
 
-const Layout = ({children, params}: {children: React.ReactNode, params: {id: string}}) => {
+const TutorPage = ({children, t, locale, id}: any) => {
+    const pathname = usePathname();
+
     return (
         <div className="tutor">
             <div className="container">
@@ -23,7 +25,7 @@ const Layout = ({children, params}: {children: React.ReactNode, params: {id: str
                                             Имя Фамилия
                                             <i></i>
                                         </div>
-                                        <div className="lang">
+                                        <div className="badge">
                                             Турецкий
                                         </div>
                                     </div>
@@ -33,21 +35,21 @@ const Layout = ({children, params}: {children: React.ReactNode, params: {id: str
                                     </div>
                                     <div className="price">
                                         <div className="value">$46</div>
-                                        /час
+                                        /{t.hour}
                                     </div>
                                 </div>
                             </div>
                             <div className="btn">
-                            Забронировать занятие
+                                {t.book}
                             </div>
                         </div>
                     </div>
                     <div className="tab">
                         <div className="tab-items">
-                            <Link href={`/tutor/${params.id}`} className="tab-item active">Про учителя</Link>
-                            <Link href={`/tutor/${params.id}/schedule`} className="tab-item">Расписание</Link>
-                            <Link href={`/tutor/${params.id}/reviews`} className="tab-item">
-                                Отзывы
+                            <Link href={`/${locale}/tutor/${id}`} className={`tab-item ${pathname == `/${locale}/tutor/${id}` ? 'active' : ''}`}>{t.tabs.about}</Link>
+                            <Link href={`/${locale}/tutor/${id}/schedule`} className={`tab-item ${pathname.includes('schedule') ? 'active' : ''}`}>{t.tabs.schedule}</Link>
+                            <Link href={`/${locale}/tutor/${id}/reviews`} className={`tab-item ${pathname.includes('reviews') ? 'active' : ''}`}>
+                                {t.tabs.reviews}                            
                                 <span className="reviews">157</span>
                             </Link>
                         </div>
@@ -61,4 +63,4 @@ const Layout = ({children, params}: {children: React.ReactNode, params: {id: str
     )
 }
 
-export default Layout;
+export default TutorPage

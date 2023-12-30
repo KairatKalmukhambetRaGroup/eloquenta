@@ -83,20 +83,7 @@ header#header{
                 flex-direction: row;
                 align-items: center;
                 gap: 30px;
-                .lang{
-                    .current{
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 5px;
-                        i{
-                            width: 19px;
-                            height: 19px;
-                            content: url('../assets/svg/chevron-down.svg');
-
-                        }
-                    }
-                }
+                
                 .auth-btns{
                     display: flex;
                     flex-direction: row;
@@ -125,6 +112,53 @@ header#header{
                             color: #1A1A1A;
                             border: 1px solid #DADADA;
                         }
+                    }
+                }
+            }
+
+            .lang{
+                position: relative;
+
+                color: #1A1A1A;
+                font-family: v.$font_raleway;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px; /* 150% */
+
+                .current{
+                    text-transform: uppercase;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 5px;
+                    cursor: pointer;
+                    i{
+                        width: 19px;
+                        height: 19px;
+                        content: url('../assets/svg/chevron-down.svg');
+                    }
+                }
+                .dropdown{
+                    display: none;
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+
+                    border-radius: 4px;
+                    border: #DADADA 1px solid;
+
+                    flex-direction: column;
+                    &.active{
+                        .option{
+                            cursor: pointer;
+                            padding: 4px 12px;
+                            &:hover{
+                                background: #07604B;
+                                color: white;
+                            }
+                        }
+                        display: flex;
                     }
                 }
             }
