@@ -7,17 +7,36 @@ import Image from 'next/image';
 
 import NoLessons from '@/assets/images/lessons-illustration.png'
 import Link from 'next/link';
+import CancelLessonModal from '@/components/user/CancelLessonModal';
 
 const lessons = [
-	// {
-	// 	id: 1,
-	// 	teacher: {
-	// 		name: 'John Doe',
-	// 		avatar: '',
-	// 		language: 'Russian'
-	// 	},
-	// 	date: ''
-	// },
+	{
+		id: 1,
+		teacher: {
+			name: 'John Doe',
+			avatar: '',
+			language: 'Russian'
+		},
+		date: ''
+	},
+	{
+		id: 2,
+		teacher: {
+			name: 'John Doe',
+			avatar: '',
+			language: 'Russian'
+		},
+		date: ''
+	},
+	{
+		id: 3,
+		teacher: {
+			name: 'John Doe',
+			avatar: '',
+			language: 'Russian'
+		},
+		date: ''
+	},
 ]
 
 const noLessonText = {
@@ -27,6 +46,7 @@ const noLessonText = {
 
 const MyLessons = () => {
 	const [activeTab, setActiveTab] = useState('current');
+	const [cancelId, setCancelId] = useState(null);
 	return (
 		<div className="lessons">
 			<div className="tab-items">
@@ -35,9 +55,10 @@ const MyLessons = () => {
 				<div className={`tab-item ${activeTab == 'past' ? 'active' : ''}`} onClick={(e)=>{e.preventDefault(); setActiveTab('past')}}>Прошедшие</div>
 			</div>
 			<div className="content">
+				<CancelLessonModal setCancelId={setCancelId} cancelId={cancelId} />
 				{lessons && lessons.length > 0 ? 
 					lessons.map((lesson, key) => (
-						<LessonsCard lesson={lesson} key={key} />
+						<LessonsCard lesson={lesson} key={key} setCancelId={setCancelId} />
 					))
 					: 
 					<div className="no-lesson">

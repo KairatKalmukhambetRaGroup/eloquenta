@@ -112,14 +112,39 @@
                 }
             }
         }
-        .more{
-            color: inherit;
-            align-self: stretch;
-            text-align: right;
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 20px; /* 142.857% */
-            text-decoration-line: underline;
+        .btns{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            .cancel{
+                cursor: pointer;
+                color: #1A1A1A;
+                text-align: right;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 20px; /* 142.857% */
+                text-decoration-line: underline;
+            }
+            .more{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+
+                color: inherit;
+                align-self: stretch;
+                text-align: right;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 20px; /* 142.857% */
+
+                i{
+                    content: url('../assets/svg/chevron-right-black.svg');
+                }
+            }
         }
     }
 
@@ -177,21 +202,22 @@
                     }
                 }
             }
-            .more{
-                all: unset;
-                cursor: pointer;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 5px;
-
-                font-size: 16px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 24px; /* 150% */
-                color: inherit;
-                i{
-                    content: url('../assets/svg/chevron-right-black.svg');
+            .btns{
+                width: auto;
+                .cancel{
+                    font-size: 16px;
+                    line-height: 24px; /* 150% */
+                }
+                .more{
+                    cursor: pointer;
+                    
+    
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 24px; /* 150% */
+                    color: inherit;
+                    
                 }
             }
         }

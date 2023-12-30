@@ -4,7 +4,7 @@ import React from 'react'
 
 import '@/styles/lessoncard.scss';
 
-const LessonsCard = ({lesson}: any) => {
+const LessonsCard = ({lesson, setCancelId}: any) => {
     return (
         <div className={`lesson-card ${lesson.disabled ? 'disabled' : ''}`}>
             <div className="date-wrapper">
@@ -33,10 +33,15 @@ const LessonsCard = ({lesson}: any) => {
                         <div className="language">{lesson.teacher.language}</div>
                     </div>
                 </div>
-                <Link href={`/profile/lessons/${lesson.id}`} className='more'>
-                    Узнать больше
-                    <i></i>
-                </Link>
+                <div className='btns'>
+                    <div className="cancel" onClick={(e)=>{e.preventDefault(); setCancelId(lesson.id)}}>
+                        Отменить урок
+                    </div>
+                    <Link href={`/profile/lessons/${lesson.id}`} className='more'>
+                        Узнать больше
+                        <i></i>
+                    </Link>
+                </div>
             </div>
         </div>
     )
