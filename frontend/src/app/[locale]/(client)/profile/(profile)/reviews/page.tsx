@@ -1,8 +1,9 @@
-import '@/styles/tutors/tutor.scss';
+import React from 'react'
 
 import Img from '@/assets/images/tutor-image-init.png';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { Review } from '../../../tutor/[id]/reviews/page';
 
 const reviews = {
     all: 39,
@@ -15,10 +16,10 @@ const reviews = {
 
 const rating = 4;
 
-const page = () => {
+const Reviews = () => {
     const t = useTranslations('tutor.reviews');
     return (
-        <div className="review-teacher">
+        <div className="profile-content reviews">
             <h2>
                 {t('title')}
             </h2>
@@ -110,35 +111,4 @@ const page = () => {
     )
 }
 
-export default page
-
-
-export const Review = () => {
-    return (
-        <>
-            <div className="review">
-                <div className="reviewer-img">
-                    <Image src={Img} alt="img" />
-                </div>
-                <div className="review-content">
-                    <div className="stars">
-                        {[...Array(rating)].map((i, j) => ( 
-                            <i className='star' key={j}></i>
-                        ))}
-                        {[...Array(5 - rating)].map((i, j) => ( 
-                            <i key={j}></i>
-                        ))}
-                    </div>
-                    <div className="text">
-                        You made it so simple. My new site is so much faster and easier to work with than my old site. I just choose the page, make the changes.
-                    </div>
-                    <div className="author">
-                        Kristin Watson
-                        <div className="date">March 14, 2021</div>
-                    </div>
-                </div>
-            </div>
-            <hr />
-        </>
-    );
-}
+export default Reviews

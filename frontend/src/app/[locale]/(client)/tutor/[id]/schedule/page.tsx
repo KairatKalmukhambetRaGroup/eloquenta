@@ -3,8 +3,6 @@ import '@/styles/tutors/tutor.scss';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
 
-
-
 const weekdaysArray = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
 const page = () => {
@@ -35,7 +33,7 @@ const page = () => {
 
 export default page;
 
-const ScheduleTime = ({time, btnText}: any) => {
+export const ScheduleTime = ({time, btnText}: any) => {
     return (
         <div className="schedule-time">
             <div className="time">
@@ -47,4 +45,4 @@ const ScheduleTime = ({time, btnText}: any) => {
             </div>
         </div>
     )
-}
+};
