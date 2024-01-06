@@ -1,0 +1,226 @@
+@use './variables' as v;
+@import './adaptive';
+
+.lesson-card{
+    font-family: v.$font_raleway;
+    font-style: normal;
+
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    color: #1A1A1A;
+
+    border-radius: 8px;
+    border: 1px solid #EAECF0;
+    background: #FFF;
+    
+    .info{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        .date-wrapper{
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            align-self: stretch;
+            .day{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+                align-self: stretch;
+    
+                font-size: 24px;
+                font-weight: 600;
+                line-height: 30px; /* 125% */
+                span{
+                    font-size: 14px;
+                    line-height: 20px; /* 142.857% */
+                }
+            }
+            .vr{
+                width: 1px;
+                height: 55px;
+                background: #EAECF0;
+            }
+            .time-wrapper{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 5px;
+                .time{
+                    display: flex;
+                    align-items: flex-end;
+                    gap: 5px;
+                    font-size: 24px;
+                    font-weight: 600;
+                    line-height: 30px; /* 125% */
+                    span{
+                        font-size: 14px;
+                        line-height: 20px; /* 142.857% */
+                    }
+                }
+                .week-day{
+                    color: #07604B;
+                    font-size: 14px;
+                    font-weight: 600;
+                    line-height: 20px; /* 142.857% */
+                }
+            }
+        }
+        .teacher{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .avatar{
+                width: 48px;
+                height: 48px;
+                border-radius: 4px;
+                overflow: hidden;
+                background: #D9D9D9;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+            .teacher-info{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 5px;
+                .name{
+                    font-size: 14px;
+                    line-height: 20px; /* 142.857% */
+                }
+                .language{
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 18px; /* 150% */
+                }
+            }
+        }
+    }
+    .btns{
+
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+        
+        .cancel{
+            cursor: pointer;
+            color: #1A1A1A;
+            text-align: right;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px; /* 142.857% */
+            text-decoration-line: underline;
+        }
+        .btn{
+            padding: 14px 24px;
+
+            border-radius: 10px;
+            background: #07604B;
+
+            color: #FFF;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px; /* 142.857% */
+        }
+    }
+
+    @include _xl{
+        padding: 30px 40px;
+        gap: 30px;
+        flex-direction: row;
+
+
+        .info{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-self: stretch;
+            .date-wrapper{
+                gap: 20px;
+                .day{
+                    font-size: 36px;
+                    line-height: 42px; /* 116.667% */
+                    span{
+                        font-size: 16px;
+                        line-height: 24px; /* 150% */
+                    }
+                }
+                .vr{
+                    height: 71px;
+                }
+                .time-wrapper{
+                    .time{
+                        font-size: 36px;
+                        line-height: 42px; /* 116.667% */
+                    }
+                    .week-day{
+                        font-size: 16px;
+                        line-height: 24px; /* 150% */
+                    }
+                }
+            }
+            .teacher{
+                gap: 15px;
+                .avatar{
+                    width: 60px;
+                    height: 60px;
+                    
+                }
+                .teacher-info{
+                    .name{
+                        font-size: 20px;
+                        font-weight: 600;
+                        line-height: 26px; /* 130% */
+                    }
+                    .language{
+                        font-size: 16px;
+                        line-height: 24px; /* 150% */
+                    }
+                }
+            }
+        }
+        .btns{
+            width: auto;
+            flex-direction: column;
+            align-items: flex-end;
+            .cancel{
+                font-size: 16px;
+                line-height: 24px; /* 150% */
+            }
+            .more{
+                cursor: pointer;
+                
+
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px; /* 150% */
+                color: inherit;
+                
+            }
+        }
+    }
+    &.disabled{
+        color: #71717A;
+    }
+}

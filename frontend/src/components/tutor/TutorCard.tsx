@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -17,20 +18,22 @@ interface TutorInfo {
     price: string
 }
 
-const TutorCard = ({tutor} : {tutor: TutorInfo}) => {
+const TutorCard = ({tutor, locale} : {tutor: TutorInfo, locale: any}) => {
+    const langT = useTranslations('languages');
+    const t = useTranslations('tutors.cards.card');
     return (
         <div className='tutor-card'>
             <div className="card-image">
                 <Image src={tutor.image} alt='Tutor image' />
             </div>
-            <Link href={`/tutor/${tutor.id}`} className="card-heading">
+            <Link href={`/${locale}/tutor/${tutor.id}`} className="card-heading">
                 <div className="name">{tutor.name} <i className={`nation ${tutor.nation}`}></i></div>
-                <div className="lang">{tutor.lang}</div>
+                <div className={`badge ${tutor.lang}`}>{langT(tutor.lang)}</div>
             </Link>
             <div className="langs">
                 <i></i>
                 {/* <div className="langs-content"> */}
-                    Владеет {tutor.langs.map((lang)=>`${lang} `)}языками
+                    {t('languages.start')}{tutor.langs.map((lang, key)=> `${key == 0 ? '' : ','} ${langT(lang)}`)} {t('languages.end')}
                 {/* </div> */}
             </div>
             <div className="description">
@@ -48,15 +51,15 @@ const TutorCard = ({tutor} : {tutor: TutorInfo}) => {
                 </div>
                 <div className="price">
                     <span>{tutor.price}</span>
-                    /час
+                    /{t('hour')}
                 </div>
             </div>
             <div className="card-btns">
                 <div className="video-btn">
                     <i></i>
                 </div>
-                <Link href={`/tutor/${tutor.id}`} className="btn">
-                    Забронировать занятие
+                <Link href={`/${locale}/tutor/${tutor.id}`} className="btn">
+                    {t('book')}
                 </Link>
             </div>
         </div>

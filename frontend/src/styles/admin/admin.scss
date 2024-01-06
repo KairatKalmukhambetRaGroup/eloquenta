@@ -2,10 +2,12 @@
 @import '../adaptive';
 
 #admin{
+    position: relative;
     display: flex;
     flex-direction: row;
     height: 100%;
     main{
-        padding: 16px;
+        flex: 1 0 0;
+        padding-left: 280px;
     }
 }

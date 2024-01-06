@@ -20,3 +20,68 @@ body{
         width: 1200px;        
     }
 }
+
+.badge{
+    display: flex;
+    padding: 2px 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: v.$font_raleway;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    border-radius: 16px;
+    // default
+    background: #FFF;
+    color: #07604B;
+    &.tr{
+        color: #B00000;
+        background: #FFDBD8;
+    }
+    &.en{
+        color: #6941C6;
+        background: #F9F5FF;
+    }
+    &.kz{
+        color: #026AA2;
+        background: #F0F9FF;
+    }
+    &.ar{
+        background: #ECFDF3;
+        color: #027A48;
+    }
+    &.de{
+        color: #363F72;
+        background: #F8F9FC;
+    }
+    &.ja{
+        background: #FFF6ED;
+        color: #C4320A;
+    }
+    &.ru{
+        color: #385565;
+        background: #DAE3E9;
+    }
+    &.ko{
+        color: #C11574;
+        background: #FDF2FA;
+    }
+    &.fr{
+        color: #897D19;
+        background: #FBF6CB;
+    }
+    &.zh{
+        color: #185D00;
+        background: #CEF1AA;
+    }
+    &.es{
+        color: #005B6D;
+        background: #BFE9EE;
+    }
+    &.it{
+        color: #A40077;
+        background: #FDD9EE;
+    }
+}

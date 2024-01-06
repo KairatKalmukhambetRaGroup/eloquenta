@@ -1,0 +1,107 @@
+@use '../variables' as v;
+@import '../adaptive';
+
+#teacherProfileSidebar{
+    background: #07604B;
+    padding: 50px;
+    font-family: v.$font_raleway;
+    font-style: normal;
+
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+
+    .sidebar-body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+
+        .img{
+            width: 160px;
+            height: 160px;
+            border-radius: 20px;
+            overflow: hidden;
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+        .text{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            .heading{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 6px;
+                .name{
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    color: #FFF;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 32px; /* 160% */
+                }
+                i{
+                    width: 20px;
+                    content: url('../../assets/flags/tr.svg');
+                }
+            }
+            .langs{
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                color: #FFF;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 20px; /* 142.857% */
+                i{
+                    width: 32px;
+                    height: 32px;
+                    content: url('../../assets/svg/translation-white.svg');
+                }
+            }
+            .price{
+                display: flex;
+                align-items: center;
+                color: #FFF;
+                font-size: 28px;
+                font-weight: 600;
+                line-height: 36px; /* 128.571% */
+                span{
+                    font-size: 20px;
+                    font-weight: 400;
+                    line-height: 30px; /* 150% */
+                }
+            }
+        }
+    }
+    .btn{
+        display: flex;
+        padding: 16px 40px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 8px;
+        background: #FFF;
+
+        color: #07604B;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 22px; /* 157.143% */
+        text-align: center;
+    }
+}

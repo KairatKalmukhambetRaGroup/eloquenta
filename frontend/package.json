@@ -9,15 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "apexcharts": "^3.45.0",
+    "axios": "^1.6.3",
+    "flatpickr": "^4.6.13",
     "next": "14.0.3",
-    "react": "^18",
+    "next-intl": "^3.4.0",
+    "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18",
+    "react-flatpickr": "^3.10.13",
     "sass": "^1.69.5"
   },
   "devDependencies": {
+    "@types/negotiator": "^0.6.3",
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-date-range": "^1.4.9",
     "@types/react-dom": "^18",
+    "@types/react-flatpickr": "^3.8.11",
     "typescript": "^5"
   }
 }

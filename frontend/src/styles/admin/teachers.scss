@@ -1,0 +1,267 @@
+@use '../variables' as v;
+@import '../adaptive';
+
+#teachers{
+    background: #F4F5F6;
+
+    padding: 30px;
+    .heading{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        color: #1A1A1A;
+        font-family: v.$font_playfair_display;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 42px; /* 131.25% */
+
+        .add-teacher{
+            display: inline-flex;
+            padding: 14px 25px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+
+            border-radius: 4px;
+            background: #07604B;
+
+            color: #FFF;
+            font-family: v.$font_raleway;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px; /* 142.857% */
+        }
+    }
+    .list-wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        .filter{
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+        }
+        .teachers-list{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+    }
+}
+
+.teacher-card{
+    display: flex;
+    width: 100Ғ;
+    padding: 30px 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    border-radius: 8px;
+    border: 1px solid #EAECF0;
+    background: #FFF;
+
+    font-family: v.$font_raleway;
+    color: #1A1A1A;
+    font-style: normal;
+
+    .teacher-body{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        .teacher-image{
+            width: 64px;
+            height: 64px;
+            border-radius: 4px;
+            background: grey;
+            overflow: hidden;
+            img{
+                width: 100%;
+                height: 100%;
+                object-position: center;
+                object-fit: cover;
+            }
+        }
+        .teacher-info{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .name{
+                font-size: 24px;
+                font-weight: 500;
+                line-height: 28px; /* 116.667% */
+            }
+            .language{
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 24px; /* 150% */
+            }
+        }
+    }
+    .btns{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-self: flex-end;
+        .btn{
+            display: inline-flex;
+            padding: 10px 16px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+
+            border-radius: 4px;
+            background: #07604B;
+
+            color: #FFF;
+            font-family: v.$font_raleway;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px; /* 142.857% */
+            cursor: pointer;
+            &.delete{
+                // background: #B00000;
+                // background: #FFDBD8;
+                background: #E31111;
+            }
+        }
+    }
+}
+
+
+#newTeacher{
+    padding: 30px;
+    background: #F4F5F6;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    height: 100%;
+
+    h1{
+        margin: 0;
+        color: #1A1A1A;
+        font-family: v.$font_playfair_display;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 42px; /* 131.25% */
+    }
+    form{
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        align-items: flex-start;
+
+        font-family: v.$font_raleway;
+        color: #1A1A1A;
+        font-style: normal;
+
+        .inputs{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            .row{
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+                .form-group{
+                    width: calc(50% - 10px);
+                }
+            }
+            .form-group{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                flex-shrink: 0;
+                label{
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 24px; /* 150% */
+                }
+                input{
+                    width: 100%;
+                    padding: 14px 16px;
+                    border-radius: 8px;
+                    border: 1px solid #EAECF0;
+                    background: #F6F8F9;
+
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 24px; /* 150% */
+                    &:focus{
+                        border: 1px solid #07604B;
+                        outline: 1px solid #07604B;
+                        background: #E2F2EE;
+                    }
+                }
+            }
+            .image-input{
+                display: flex;
+                flex-direction: row;
+                gap: 30px;
+                align-items: flex-end;
+                .img{
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 16px;
+                    background: #F4F5F6;
+                    overflow: hidden;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+                    i{
+                        width: 100%;
+                        height: 100%;
+                        content: url('../../assets/svg/profile/user-profile-white.svg');
+                    }
+                }
+                label{
+                    input{
+                        display: none;
+                    }
+                }
+            }
+        }
+        .btn{
+            cursor: pointer;
+            display: inline-flex;
+            padding: 16px 30px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            border-radius: 4px;
+            background: #07604B;
+            border: none;
+            color: #FFF;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px; /* 142.857% */
+        }
+        .btns{
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            .btn.cancel{
+                background: #F4F5F6;
+                color: #1A1A1A;
+                box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+            }
+        }
+    }
+}
