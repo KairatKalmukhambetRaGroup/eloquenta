@@ -1,0 +1,20 @@
+package education.platform.backend.Service;
+
+import education.platform.backend.DTO.UsersDTO;
+import education.platform.backend.Entity.Users;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Optional;
+
+public interface UsersService extends UserDetailsService {
+
+    List<Users> getAllUsers();
+    Optional<Users> getOneUser(Long id);
+    Users createUsers(UsersDTO usersDTO);
+    Users login(UsersDTO usersDTO);
+    Users updatePassword(String oldPassword, String newPassword, HttpServletRequest request);
+
+
+}
