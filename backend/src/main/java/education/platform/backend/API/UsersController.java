@@ -7,6 +7,7 @@ import education.platform.backend.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class UsersController {
     private JwtUtils jwtUtils;
 
     @GetMapping(value = "/getAllUsers")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<Users> getAllUsers() {
         return usersService.getAllUsers();
     }
@@ -65,13 +67,40 @@ public class UsersController {
         }
     }
 
+    @PostMapping(value = "/reset")
+    public ResponseEntity<String> resetUser(@RequestBody UsersDTO usersDTO){
+        try {
+            return usersService.reset(usersDTO);
+            // return new ResponseEntity<Object>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping(value = "/reset-pass")
+    public ResponseEntity<Object> resetPassByLink(@RequestBody UsersDTO usersDTO,
+                                                  @RequestParam(required = true) String email,
+                                                  @RequestParam(required = true) String token,
+                                                  @RequestParam(required = true) String expires){
+        try {
+            Users users = usersService.resetPass(usersDTO, email, token, expires);
+            if (users != null) {
+                token = jwtUtils.generateToken(users.getUsername());
+                return new ResponseEntity<Object>(new UserResponse(token, users), HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping(value = "/update-password")
     public ResponseEntity<Object> updatePassword(@RequestBody UsersDTO usersDTO, HttpServletRequest request){
         try {
-            Users user = usersService.updatePassword(usersDTO.getOldPassword(), usersDTO.getNewPassword(), request);
-            if (user != null) {
-                String token = jwtUtils.generateToken(user.getUsername());
-                return new ResponseEntity<Object>(new UserResponse(token, user), HttpStatus.OK);
+            Users users = usersService.updatePassword(usersDTO.getOldPassword(), usersDTO.getNewPassword(), request);
+            if (users != null) {
+                String token = jwtUtils.generateToken(users.getUsername());
+                return new ResponseEntity<Object>(new UserResponse(token, users), HttpStatus.OK);
             }
             return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
