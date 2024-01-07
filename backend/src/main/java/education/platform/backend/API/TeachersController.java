@@ -36,19 +36,19 @@ public class TeachersController {
     }
 
     @PostMapping(value = "/createTeacher")
-    @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public Teachers createTeacher(Teachers teachers) {
         return teachersService.createTeacher(teachers);
     }
 
     @PutMapping(value = "/updateTeacher")
-    @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     public Teachers updateTeacher(Teachers teachers) {
         return teachersService.updateTeacher(teachers);
     }
 
     @DeleteMapping(value = "/deleteTeacher/{id}")
-    @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void deleteTeacher(@RequestParam(name = "id") Long id) {
         teachersService.delete(id);
     }
@@ -64,19 +64,19 @@ public class TeachersController {
     }
 
     @PostMapping(value = "/createTeacherLanguage")
-    @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     public TeacherLanguage createTeacherLanguage(@RequestBody TeacherLanguage teacherLanguage) {
         return teacherLanguageService.createTeacherLanguage(teacherLanguage);
     }
 
     @PutMapping(value = "/updateTeacherLanguage/{id}")
-    @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     public TeacherLanguage updateTeacherLanguage(@RequestBody TeacherLanguage teacherLanguage) {
         return teacherLanguageService.updateTeacherLanguage(teacherLanguage);
     }
 
     @DeleteMapping(value = "/deleteTeacherLanguage/{id}")
-    @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     public void deleteTeacherLanguage(@RequestParam(name = "id") Long id) {
         teacherLanguageService.delete(id);
     }
@@ -92,13 +92,13 @@ public class TeachersController {
     }
 
     @PostMapping(value = "/createTeacherEducation")
-    @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     public TeacherEducation createTeacherEducation(@RequestBody TeacherEducation teacherEducation) {
         return teacherEducationService.createTeacherEducation(teacherEducation);
     }
 
     @PutMapping(value = "/updateTeacherEducation")
-    @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     public TeacherEducation updateTeacherEducation(@RequestBody TeacherEducation teacherEducation) {
         return teacherEducationService.updateTeacherEducation(teacherEducation);
     }

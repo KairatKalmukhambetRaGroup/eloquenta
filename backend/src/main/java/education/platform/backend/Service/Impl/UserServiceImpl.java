@@ -1,22 +1,25 @@
 package education.platform.backend.Service.Impl;
 
 import education.platform.backend.Config.JwtUtils;
+import education.platform.backend.Config.PasswordResetLinkGenerator;
 import education.platform.backend.DTO.UsersDTO;
-import education.platform.backend.Entity.Roles;
-import education.platform.backend.Entity.UserRole;
-import education.platform.backend.Entity.UserRoleId;
-import education.platform.backend.Entity.Users;
+import education.platform.backend.Entity.*;
+import education.platform.backend.Repository.PasswordResetRequestRepository;
 import education.platform.backend.Repository.RolesRepository;
 import education.platform.backend.Repository.UserRoleRepository;
 import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +41,15 @@ public class UserServiceImpl implements UsersService {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
+    @Autowired
+    private PasswordResetLinkGenerator passwordResetLinkGenerator;
+
+    @Autowired
+    private PasswordResetRequestRepository passwordResetRequestRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
     @Override
     public List<Users> getAllUsers() {
         return usersRepository.findAll();
@@ -49,24 +61,6 @@ public class UserServiceImpl implements UsersService {
     }
 
     @Override
-    /*public Users createUsers(UsersDTO usersDTO) {
-        Users newUser = new Users();
-        newUser.setName(usersDTO.getName());
-        newUser.setSurname(usersDTO.getSurname());
-        newUser.setEmail(usersDTO.getEmail());
-        newUser.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
-
-        newUser = usersRepository.save(newUser);
-
-        Roles studentRole = rolesRepository.findByName("ROLE_STUDENT");
-
-        UserRoleId userRoleId = new UserRoleId(newUser.getId(), studentRole.getId());
-        UserRole userRole = new UserRole(userRoleId, newUser, studentRole);
-        userRoleRepository.save(userRole);
-
-        return newUser;
-    }*/
-
     public Users createUsers(UsersDTO usersDTO) {
         if (usersRepository.findByEmail(usersDTO.getEmail()) == null) {
             Users newUser = new Users();
@@ -111,6 +105,67 @@ public class UserServiceImpl implements UsersService {
             return usersRepository.save(users);
         }
         return null;
+    }
+
+    @Override
+    public ResponseEntity<String> reset(UsersDTO usersDTO) {
+        Users users = usersRepository.findByEmail(usersDTO.getEmail());
+        if(users != null){
+            String resetLink = passwordResetLinkGenerator.generatePasswordResetLink(users.getEmail());
+
+            while (true) {
+                PasswordResetRequest old = passwordResetRequestRepository.findByEmail(users.getEmail());
+                if (old != null) {
+                    passwordResetRequestRepository.delete(old);
+                } else {
+                    break;
+                }
+            }
+
+            PasswordResetRequest passwordResetRequest = new PasswordResetRequest(users.getEmail(), resetLink);
+            passwordResetRequestRepository.save(passwordResetRequest);
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("${spring.mail.username}");
+            message.setTo(users.getEmail());
+            message.setSubject("Password Reset Request");
+            message.setText("Dear " + users.getName() + ",\n\n" +
+                    "You recently requested a password reset for your account on Eloquenta. " +
+                    "If you did not make this request, please ignore this message. " +
+                    "Otherwise, click the following link to reset your password:\n\n" +
+                    resetLink + "\n\n" +
+                    "This link will expire in 24 hours.\n\n" +
+                    "Sincerely,\n" +
+                    "Eloquenta Support Team");
+
+            mailSender.send(message);
+
+            return ResponseEntity.ok("Password reset email send");
+        }
+        return null;
+    }
+
+    @Override
+    public Users resetPass(UsersDTO usersDTO, String email, String token, String expires) {
+        Users users = usersRepository.findByEmail(passwordResetLinkGenerator.decodeEmail(email));
+        if(users == null){
+            return null;
+        }
+        System.out.println(users.getEmail());
+        PasswordResetRequest passwordResetRequest = passwordResetRequestRepository.findByEmail(users.getEmail());
+
+        if(passwordResetRequest == null){
+            return null;
+        }
+
+        if (Instant.now().getEpochSecond() > Long.parseLong(expires)) {
+            passwordResetRequestRepository.delete(passwordResetRequest);
+            return null;
+        }
+
+        users.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
+        passwordResetRequestRepository.delete(passwordResetRequest);
+        return usersRepository.save(users);
     }
 
     @Override
