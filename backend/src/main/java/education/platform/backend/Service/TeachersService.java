@@ -5,11 +5,11 @@ import education.platform.backend.Entity.Teachers;
 import java.util.List;
 
 public interface TeachersService {
-
     List<Teachers> getAllTeachers();
     Teachers getOneTeacher(Long id);
     void delete(Long id);
     Teachers createTeacher(Teachers teachers);
     Teachers updateTeacher(Teachers teachers);
 
+    List<Teachers> searchTeachers(String lang);
 }

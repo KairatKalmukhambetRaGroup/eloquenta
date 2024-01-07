@@ -23,8 +23,9 @@ public class TeacherLanguage {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "level")
-    private String level;
+    @OneToOne
+    @JoinColumn(name = "level", referencedColumnName = "id")
+    private LanguageLevel level;
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

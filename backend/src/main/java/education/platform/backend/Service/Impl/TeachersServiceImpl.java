@@ -15,6 +15,11 @@ public class TeachersServiceImpl implements TeachersService {
     private TeachersRepository teachersRepository;
 
     @Override
+    public List<Teachers> searchTeachers(String lang) {
+        return teachersRepository.findTeachersByLanguage(lang);
+    }
+
+    @Override
     public List<Teachers> getAllTeachers() {
         return teachersRepository.findAll();
     }

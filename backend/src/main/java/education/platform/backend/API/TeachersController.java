@@ -30,6 +30,11 @@ public class TeachersController {
         return teachersService.getAllTeachers();
     }
 
+    @GetMapping(value = "/search")
+    public List<Teachers> searchTeachers(@RequestParam(name = "lang") String lang){
+        return  teachersService.searchTeachers(lang);
+    }
+
     @PostMapping(value = "/createTeacher")
     @PreAuthorize("hasAnyRole(ROLE_TEACHER)")
     public Teachers createTeacher(Teachers teachers) {

@@ -6,18 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "language_level")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Roles {
+public class LanguageLevel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", unique = true)
-    private String name;
-
+    @Column(name = "code", unique = true)
+    private String code;
 }

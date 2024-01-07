@@ -9,9 +9,15 @@ import { useUserContext } from "@/contexts/UserContext";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
+import {testGPT} from '@/utils/openai-test';
 
 const Header = ({locale}: any) => {
     const {user} =  useUserContext();
+    const handleGpt = async (e: any) =>{
+        e.preventDefault();
+        let res = await testGPT();
+        console.log(res);
+    }
     return (
         <header id="header">
             <div className="container">
@@ -19,6 +25,7 @@ const Header = ({locale}: any) => {
                     <Link href="/" className="logo">
                         <Image src={Logo} alt="logotype" />
                     </Link>
+                    <button onClick={handleGpt}>GPT</button>
                     {user ? (
                         <nav className="user">
                             <ChangeLanguage locale={locale} />

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!--  INSERT LANGUAGES  -->
+    <changeSet id="insert_language_levels" author="dev">
+        <sql>
+            INSERT INTO language_level (code) VALUES
+                ('A1'), ('A2'), ('B1'), ('B2'), ('C1'), ('C2'), ('NATIVE');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

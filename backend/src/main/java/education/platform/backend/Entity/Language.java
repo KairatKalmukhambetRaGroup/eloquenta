@@ -17,7 +17,7 @@ public class Language {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "slug")
+    @Column(name = "slug", unique = true)
     private String slug;
 
 }
