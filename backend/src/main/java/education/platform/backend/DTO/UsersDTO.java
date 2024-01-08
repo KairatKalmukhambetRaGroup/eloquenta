@@ -10,6 +10,7 @@ public class UsersDTO {
     private String surname;
     private String email;
     private String password;
+    private String image;
     @JsonIgnore
     private String oldPassword;
     @JsonIgnore
@@ -69,5 +70,13 @@ public class UsersDTO {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

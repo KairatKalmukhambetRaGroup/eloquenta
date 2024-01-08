@@ -38,6 +38,9 @@ public class Users implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "image")
+    private String image;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<UserRole> roles = new HashSet<>();

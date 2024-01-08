@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -36,10 +37,9 @@ public class UsersController {
     }
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<Object> addUser(@RequestBody UsersDTO usersDTO) {
+    public ResponseEntity<Object> addUser(@RequestBody UsersDTO usersDTO, @RequestParam("image") MultipartFile file) {
         try {
-            Users newUser = usersService.createUsers(usersDTO);
-
+            Users newUser = usersService.createUsers(usersDTO, file);
             if (newUser != null) {
                 String token = jwtUtils.generateToken(newUser.getUsername());
                 return new ResponseEntity<Object>(new UserResponse(token, newUser), HttpStatus.OK);
@@ -107,5 +107,19 @@ public class UsersController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    /*@PostMapping(value = "/image")
+    public ResponseEntity<Object> uploadImage(@RequestParam("image") MultipartFile file, HttpServletRequest request){
+        try {
+            Users user = usersService.uploadImage(file, request);
+            if (user != null) {
+                String token = jwtUtils.generateToken(user.getUsername());
+                return new ResponseEntity<Object>(new UserResponse(token, user), HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }*/
 
 }
