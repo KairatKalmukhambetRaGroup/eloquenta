@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,39 +47,11 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    /*@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(authz -> authz
-//                        .antMatchers("/css/**", "/js/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                *//*.formLogin(form -> form
-                        .loginProcessingUrl("/auth")
-                        .defaultSuccessUrl("/profile", true)
-                        .failureUrl("/enter?error")
-                        .loginPage("/enter")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/enter")
-                        .logoutUrl("/exit")
-                        .permitAll()
-                )*//*
-                .exceptionHandling(exceptions -> exceptions
-                        .accessDeniedPage("/403")
-                )
-                .csrf(csrf -> csrf.disable())
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }*/
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable()) // Отключаем CSRF защиту
+//                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
 //                        .requestMatchers("/users/signup").permitAll() // Разрешаем доступ к /users/signup
                         .requestMatchers("/api-docs/**", "/swagger-ui-custom.html", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
@@ -91,15 +62,15 @@ public class SecurityConfig {
                         .requestMatchers("/lessons/getAllLessons").permitAll()
                         .requestMatchers("/lessons/getOneLesson/{id}").permitAll()
                         .requestMatchers("/reviews/getAllReviews").permitAll()
-                        .requestMatchers("/teachers/**").permitAll()
-                        .requestMatchers("/role/**").permitAll()
+                        .requestMatchers("/teachers/getAllTeachers").permitAll()
                         .requestMatchers("/language/**").permitAll()
-                        .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
+                        .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) // В случае ошибки аутентификации возвращаем статус 401
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class); // Добавляем ваш фильтр аутентификации
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }

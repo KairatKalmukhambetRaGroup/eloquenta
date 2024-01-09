@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UsersDTO {
 
+    @JsonIgnore
     private Long id;
     private String name;
     private String surname;

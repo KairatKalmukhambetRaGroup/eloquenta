@@ -1,27 +1,33 @@
 package education.platform.backend.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import education.platform.backend.Entity.Teachers;
+import education.platform.backend.Entity.Users;
+
 import java.time.LocalDateTime;
 
 public class ReviewsDTO {
-    private Long reviewerId;
-    private Long teacherId;
+    @JsonIgnore
+    private Users reviewerId;
+    @JsonIgnore
+    private Teachers teacherId;
     private Integer rate;
     private String text;
     private LocalDateTime createdAt;
 
-    public Long getReviewerId() {
+    public Users getReviewerId() {
         return reviewerId;
     }
 
-    public void setReviewerId(Long reviewerId) {
+    public void setReviewerId(Users reviewerId) {
         this.reviewerId = reviewerId;
     }
 
     public Long getTeacherId() {
-        return teacherId;
+        return teacherId.getId();
     }
 
-    public void setTeacherId(Long teacherId) {
+    public void setTeacherId(Teachers teacherId) {
         this.teacherId = teacherId;
     }
 

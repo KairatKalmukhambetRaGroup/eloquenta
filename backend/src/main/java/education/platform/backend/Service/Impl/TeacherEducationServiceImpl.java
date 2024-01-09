@@ -1,6 +1,9 @@
 package education.platform.backend.Service.Impl;
 
+import education.platform.backend.DTO.TeacherEducationDTO;
 import education.platform.backend.Entity.TeacherEducation;
+import education.platform.backend.Entity.Teachers;
+import education.platform.backend.Entity.Users;
 import education.platform.backend.Repository.TeacherEducationRepository;
 import education.platform.backend.Service.TeacherEducationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +33,17 @@ public class TeacherEducationServiceImpl implements TeacherEducationService {
     }
 
     @Override
-    public TeacherEducation createTeacherEducation(TeacherEducation teacherEducation) {
-        return teacherEducationRepository.save(teacherEducation);
+    public TeacherEducation createTeacherEducation(TeacherEducationDTO teacherEducationDTO, Teachers teacherUsers) {
+
+        TeacherEducation newTeacherEducation = new TeacherEducation();
+        newTeacherEducation.setEnrollDate(teacherEducationDTO.getEnrollDate());
+        newTeacherEducation.setStudying(teacherEducationDTO.isStudying());
+        newTeacherEducation.setUniversity(teacherEducationDTO.getUniversity());
+        newTeacherEducation.setGraduationDate(teacherEducationDTO.getGraduateDate());
+        newTeacherEducation.setDegree(teacherEducationDTO.getDegree());
+        newTeacherEducation.setTeachers(teacherUsers);
+
+        return teacherEducationRepository.save(newTeacherEducation);
     }
 
     @Override

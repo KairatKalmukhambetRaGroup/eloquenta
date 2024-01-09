@@ -1,5 +1,6 @@
 package education.platform.backend.Service;
 
+import education.platform.backend.DTO.LoginDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.Users;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public interface UsersService extends UserDetailsService {
     List<Users> getAllUsers();
     Optional<Users> getOneUser(Long id);
     Users createUsers(UsersDTO usersDTO);
-    Users login(UsersDTO usersDTO);
+    Users login(LoginDTO loginDTO);
     Users updatePassword(String oldPassword, String newPassword, HttpServletRequest request);
     ResponseEntity<String> reset(UsersDTO usersDTO);
     Users resetPass(UsersDTO usersDTO, String email, String token, String expires);

@@ -3,6 +3,7 @@ package education.platform.backend.Service.Impl;
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.TeacherLanguageDTO;
 import education.platform.backend.DTO.TeachersDTO;
+import education.platform.backend.DTO.TeachersInFormationDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.*;
 import education.platform.backend.Repository.*;
@@ -11,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TeachersServiceImpl implements TeachersService {
+
+//    @Autowired
+//    private GoogleMeetService googleMeetService;
 
     @Autowired
     private TeachersRepository teachersRepository;
@@ -38,13 +42,46 @@ public class TeachersServiceImpl implements TeachersService {
     @Autowired
     private TeacherLanguageRepository teacherLanguageRepository;
 
-    @Override
-    public List<Teachers> getAllTeachers() {
-        return teachersRepository.findAll();
-    }
+    @Autowired
+    private TeacherEducationRepository teacherEducationRepository;
 
     @Override
-    public Teachers getOneTeacher(Long id) {
+    public List<TeachersInFormationDTO> getAllTeachers() {
+        List<Teachers> teachersList = teachersRepository.findAll();
+
+        List<TeachersInFormationDTO> dtoList = new ArrayList<>();
+        for (Teachers teacher : teachersList) {
+            TeachersInFormationDTO dto = new TeachersInFormationDTO();
+            dto.setUsers(teacher.getUsers());
+            dto.setRating(teacher.getRating());
+            dto.setDescription(teacher.getDescription());
+            dto.setMeetingLink(teacher.getMeetingLink());
+
+            TeacherEducation teacherEducation = teacherEducationRepository.findByTeachers(teacher);
+            if (teacherEducation != null) {
+                dto.setUniversity(teacherEducation.getUniversity());
+                dto.setDegree(teacherEducation.getDegree());
+                dto.setEnrollDate(teacherEducation.getEnrollDate());
+                dto.setGraduateDate(teacherEducation.getGraduationDate());
+            }
+
+            List<TeacherLanguage> teacherLanguages = teacherLanguageRepository.findByUserId(teacher.getUsers());
+            if (!teacherLanguages.isEmpty()) {
+                TeacherLanguage teacherLanguage = teacherLanguages.get(0);
+                dto.setPrice(teacherLanguage.getPrice());
+                dto.setLevel(teacherLanguage.getLevel());
+                dto.setLanguage(teacherLanguage.getLang_id());
+            }
+
+            dtoList.add(dto);
+        }
+
+        return dtoList;
+    }
+
+
+    @Override
+    public Teachers getTeacherById(Long id) {
         return teachersRepository.findById(id).orElseThrow();
     }
 
@@ -59,7 +96,6 @@ public class TeachersServiceImpl implements TeachersService {
             return null;
         }
 
-        // Создание и сохранение нового пользователя
         Users newUser = new Users();
         newUser.setName(usersDTO.getName());
         newUser.setSurname(usersDTO.getSurname());
@@ -68,26 +104,26 @@ public class TeachersServiceImpl implements TeachersService {
         newUser.setImage(usersDTO.getImage());
         newUser = usersRepository.save(newUser);
 
-        // Установка роли учителя
         Roles teacherRole = rolesRepository.findByName("ROLE_TEACHER");
         UserRoleId userRoleId = new UserRoleId(newUser.getId(), teacherRole.getId());
         UserRole userRole = new UserRole(userRoleId, newUser, teacherRole);
         userRoleRepository.save(userRole);
 
-        // Создание и сохранение TeacherLanguage
         TeacherLanguage newTeacherLanguage = new TeacherLanguage();
         newTeacherLanguage.setUser_id(newUser);
         newTeacherLanguage.set_teaching(true);
-        newTeacherLanguage.setLang_id(teacherLanguageDTO.getLanguage());
-        newTeacherLanguage.setLevel(teacherLanguageDTO.getLevel());
         newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
+        newTeacherLanguage.setLevel(teacherLanguageDTO.getLevel());
+        newTeacherLanguage.setLang_id(teacherLanguageDTO.getLanguage());
         teacherLanguageRepository.save(newTeacherLanguage);
 
-        // Создание и сохранение объекта Teachers
         Teachers newTeacher = new Teachers();
+
+        /*String meetingLink = googleMeetService.createPermanentRoom();
+        newTeacher.setMeetingLink(meetingLink);*/
         newTeacher.setMeetingLink(teachersDTO.getMeetingLink());
-        newTeacher.setUsers(newUser); // Установка связи с пользователем
-        newTeacher.setRating(teachersDTO.getRating());
+        newTeacher.setUsers(newUser);
+        newTeacher.setRating(0.0f);
         newTeacher.setDescription(teachersDTO.getDescription());
         teachersRepository.save(newTeacher);
 

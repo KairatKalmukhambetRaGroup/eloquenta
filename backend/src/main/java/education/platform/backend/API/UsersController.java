@@ -1,6 +1,7 @@
 package education.platform.backend.API;
 
 import education.platform.backend.Config.JwtUtils;
+import education.platform.backend.DTO.LoginDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.Users;
 import education.platform.backend.Repository.UsersRepository;
@@ -10,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -34,18 +37,38 @@ public class UsersController {
     @Autowired
     private UsersFileUploadService usersFileUploadService;
 
-    @GetMapping(value = "/getAllUsers")
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public List<Users> getAllUsers() {
-        return usersService.getAllUsers();
+    @GetMapping(value = "/getAllUsers")
+    public ResponseEntity<?> getAllUsers(Principal principal) {
+        String username = principal.getName();
+        Users adminUser = usersRepository.findByEmail(username);
+        if (adminUser == null || adminUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
+        }
+
+        List<Users> users = usersService.getAllUsers();
+        return ResponseEntity.ok().body(Map.of("users", users));
     }
+
 
     @GetMapping(value = "/getOneUser/{id}")
-    public Optional<Users> getOneUser(@PathVariable(name = "id") Long id) {
-        return usersService.getOneUser(id);
+    public ResponseEntity<?> getOneUser(@PathVariable(name = "id") Long id, Principal principal) {
+        String username = principal.getName();
+        Users adminUser = usersRepository.findByEmail(username);
+
+        if (adminUser == null || adminUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
+        }
+
+        Optional<Users> user = usersService.getOneUser(id);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PostMapping(value = "/signup")
+    /*@PostMapping(value = "/signup")
     public ResponseEntity<Object> addUser(@RequestBody UsersDTO usersDTO) {
         try {
             Users newUser = usersService.createUsers(usersDTO);
@@ -58,14 +81,29 @@ public class UsersController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }*/
+
+    @PostMapping(value = "/signup")
+    public ResponseEntity<Object> addUser(@RequestBody UsersDTO usersDTO) {
+        try {
+            Users newUser = usersService.createUsers(usersDTO);
+            if (newUser != null) {
+                String token = jwtUtils.generateToken(newUser);
+                return new ResponseEntity<>(new UserResponse(token, newUser), HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>("User already exist", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping(value = "/signin")
-    public ResponseEntity<Object> authenticateUser(@RequestBody UsersDTO usersDTO) {
+    public ResponseEntity<Object> authenticateUser(@RequestBody LoginDTO loginDTO) {
         try {
-            Users users = usersService.login(usersDTO);
+            Users users = usersService.login(loginDTO);
             if (users != null) {
-                String token = jwtUtils.generateToken(users.getUsername());
+                String token = jwtUtils.generateToken(users);
                 System.out.println("Token " + token);
                 return new ResponseEntity<Object>(new UserResponse(token, users), HttpStatus.OK);
             }
@@ -94,7 +132,7 @@ public class UsersController {
         try {
             Users users = usersService.resetPass(usersDTO, email, token, expires);
             if (users != null) {
-                token = jwtUtils.generateToken(users.getUsername());
+                token = jwtUtils.generateToken(users);
                 return new ResponseEntity<Object>(new UserResponse(token, users), HttpStatus.OK);
             }
             return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
@@ -108,7 +146,7 @@ public class UsersController {
         try {
             Users users = usersService.updatePassword(usersDTO.getOldPassword(), usersDTO.getNewPassword(), request);
             if (users != null) {
-                String token = jwtUtils.generateToken(users.getUsername());
+                String token = jwtUtils.generateToken(users);
                 return new ResponseEntity<Object>(new UserResponse(token, users), HttpStatus.OK);
             }
             return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
@@ -129,7 +167,7 @@ public class UsersController {
 
                 if(user != null){
                     usersRepository.save(user);
-                    String token = jwtUtils.generateToken(user.getUsername());
+                    String token = jwtUtils.generateToken(user);
                     return new ResponseEntity<>(new UserResponse(token, user), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<>("Unable to upload image", HttpStatus.BAD_REQUEST);

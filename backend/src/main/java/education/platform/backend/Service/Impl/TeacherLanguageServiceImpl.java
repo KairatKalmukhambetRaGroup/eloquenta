@@ -1,5 +1,6 @@
 package education.platform.backend.Service.Impl;
 
+import education.platform.backend.DTO.TeacherLanguageDTO;
 import education.platform.backend.Entity.TeacherLanguage;
 import education.platform.backend.Repository.TeacherLanguageRepository;
 import education.platform.backend.Service.TeacherLanguageService;
@@ -25,8 +26,16 @@ public class TeacherLanguageServiceImpl implements TeacherLanguageService {
     }
 
     @Override
-    public TeacherLanguage createTeacherLanguage(TeacherLanguage teacherLanguage) {
-        return teacherLanguageRepository.save(teacherLanguage);
+    public TeacherLanguage createTeacherLanguage(TeacherLanguageDTO teacherLanguageDTO) {
+        TeacherLanguage newTeacherLanguage = new TeacherLanguage();
+
+        newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
+        newTeacherLanguage.setLevel(teacherLanguageDTO.getLevel());
+        newTeacherLanguage.set_teaching(true);
+        newTeacherLanguage.setLang_id(teacherLanguageDTO.getLanguage());
+        newTeacherLanguage.setUser_id(teacherLanguageDTO.getUsers());
+        
+        return teacherLanguageRepository.save(newTeacherLanguage);
     }
 
     @Override

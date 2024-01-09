@@ -2,6 +2,7 @@ package education.platform.backend.Service.Impl;
 
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.Config.PasswordResetLinkGenerator;
+import education.platform.backend.DTO.LoginDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.*;
 import education.platform.backend.Repository.PasswordResetRequestRepository;
@@ -112,10 +113,10 @@ public class UserServiceImpl implements UsersService {
 
 
     @Override
-    public Users login(UsersDTO usersDTO) {
-        Users users = usersRepository.findByEmail(usersDTO.getEmail());
+    public Users login(LoginDTO loginDTO) {
+        Users users = usersRepository.findByEmail(loginDTO.getEmail());
         if (users != null) {
-            if (passwordEncoder.matches(usersDTO.getPassword(), users.getPassword())) {
+            if (passwordEncoder.matches(loginDTO.getPassword(), users.getPassword())) {
                 return users;
             }
         }

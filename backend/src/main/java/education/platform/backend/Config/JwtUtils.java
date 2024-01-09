@@ -4,12 +4,18 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtils {
@@ -19,13 +25,19 @@ public class JwtUtils {
     @Value("${jwt.expiration.ms}")
     private long expirationMs;
 
-    public String generateToken(String subject) {
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
+        claims.put("roles", roles.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + expirationMs);
+        Date expiryDate = new Date(now.getTime() + expirationMs);
+
         return Jwts.builder()
-                .setSubject(subject)
+                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(now)
-                .setExpiration(expiration)
+                .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
