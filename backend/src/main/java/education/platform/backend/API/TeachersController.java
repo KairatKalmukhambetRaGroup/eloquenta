@@ -1,5 +1,8 @@
 package education.platform.backend.API;
 
+import education.platform.backend.DTO.CombinedUsersTeacherDTO;
+import education.platform.backend.DTO.TeachersDTO;
+import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.TeacherEducation;
 import education.platform.backend.Entity.TeacherLanguage;
 import education.platform.backend.Entity.Teachers;
@@ -7,9 +10,12 @@ import education.platform.backend.Service.TeacherEducationService;
 import education.platform.backend.Service.TeacherLanguageService;
 import education.platform.backend.Service.TeachersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -31,9 +37,17 @@ public class TeachersController {
     }
 
     @PostMapping(value = "/createTeacher")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public Teachers createTeacher(Teachers teachers) {
-        return teachersService.createTeacher(teachers);
+    public ResponseEntity<Object> createTeacher(@RequestBody CombinedUsersTeacherDTO combinedUsersTeacherDTO) {
+        try {
+            Teachers newTeachers = teachersService.createTeacher(combinedUsersTeacherDTO.getUsersDTO(), combinedUsersTeacherDTO.getTeachersDTO(), combinedUsersTeacherDTO.getTeacherLanguageDTO());
+            if (newTeachers != null) {
+                return new ResponseEntity<>(newTeachers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Teacher already exists", HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping(value = "/updateTeacher")
@@ -58,11 +72,11 @@ public class TeachersController {
         return teacherLanguageService.getOneTeacherLanguage(id);
     }
 
-    @PostMapping(value = "/createTeacherLanguage")
+    /*@PostMapping(value = "/createTeacherLanguage")
     @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     public TeacherLanguage createTeacherLanguage(@RequestBody TeacherLanguage teacherLanguage) {
         return teacherLanguageService.createTeacherLanguage(teacherLanguage);
-    }
+    }*/
 
     @PutMapping(value = "/updateTeacherLanguage/{id}")
     @PreAuthorize("hasAnyRole('ROLE_TEACHER')")

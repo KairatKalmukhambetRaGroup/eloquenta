@@ -1,6 +1,5 @@
 package education.platform.backend.Service.Impl;
 
-import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.Users;
 import education.platform.backend.Service.UsersFileUploadService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -22,7 +21,7 @@ public class UsersFileUploadServiceImpl implements UsersFileUploadService {
     public Users uploadImage(MultipartFile file, Users user) {
         try {
             if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
-                String fileName = DigestUtils.sha1Hex(user.getId() + " avatars") + ".png";
+                String fileName = DigestUtils.sha1Hex(user.getId() + " images") + ".png";
                 byte bytes[] = file.getBytes();
                 Path path = Paths.get(imageURL + fileName);
                 Files.write(path, bytes);

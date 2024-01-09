@@ -25,7 +25,7 @@ public class ReviewsController {
 
 
     @PostMapping(value = "/create-review")
-    @PreAuthorize("hasAnyRole(ROLE_STUDENT)")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT')")
     public ResponseEntity<Object> createReview(@RequestBody ReviewsDTO reviewsDTO) {
         try {
             Reviews newReview = reviewsService.createReviews(reviewsDTO);

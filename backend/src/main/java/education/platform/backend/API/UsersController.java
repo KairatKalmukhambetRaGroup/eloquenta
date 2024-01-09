@@ -3,6 +3,8 @@ package education.platform.backend.API;
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.Users;
+import education.platform.backend.Repository.UsersRepository;
+import education.platform.backend.Service.UsersFileUploadService;
 import education.platform.backend.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +26,16 @@ public class UsersController {
     private UsersService usersService;
 
     @Autowired
+    private UsersRepository usersRepository;
+
+    @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    private UsersFileUploadService usersFileUploadService;
+
     @GetMapping(value = "/getAllUsers")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<Users> getAllUsers() {
         return usersService.getAllUsers();
     }
@@ -37,9 +46,9 @@ public class UsersController {
     }
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<Object> addUser(@RequestBody UsersDTO usersDTO, @RequestParam("image") MultipartFile file) {
+    public ResponseEntity<Object> addUser(@RequestBody UsersDTO usersDTO) {
         try {
-            Users newUser = usersService.createUsers(usersDTO, file);
+            Users newUser = usersService.createUsers(usersDTO);
             if (newUser != null) {
                 String token = jwtUtils.generateToken(newUser.getUsername());
                 return new ResponseEntity<Object>(new UserResponse(token, newUser), HttpStatus.OK);
@@ -108,18 +117,30 @@ public class UsersController {
         }
     }
 
-    /*@PostMapping(value = "/image")
-    public ResponseEntity<Object> uploadImage(@RequestParam("image") MultipartFile file, HttpServletRequest request){
+    @PostMapping(value = "/image")
+    public ResponseEntity<Object> uploadImage(@RequestParam("image") MultipartFile file, Principal principal) {
         try {
-            Users user = usersService.uploadImage(file, request);
+            String username = principal.getName();
+
+            Users user = usersRepository.findByEmail(username);
+
             if (user != null) {
-                String token = jwtUtils.generateToken(user.getUsername());
-                return new ResponseEntity<Object>(new UserResponse(token, user), HttpStatus.OK);
+                user = usersFileUploadService.uploadImage(file, user);
+
+                if(user != null){
+                    usersRepository.save(user);
+                    String token = jwtUtils.generateToken(user.getUsername());
+                    return new ResponseEntity<>(new UserResponse(token, user), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>("Unable to upload image", HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            e.printStackTrace();
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
+    }
 
 }

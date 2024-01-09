@@ -1,7 +1,11 @@
 package education.platform.backend.Service;
 
+import education.platform.backend.DTO.TeacherLanguageDTO;
+import education.platform.backend.DTO.TeachersDTO;
+import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.Teachers;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface TeachersService {
@@ -9,7 +13,7 @@ public interface TeachersService {
     List<Teachers> getAllTeachers();
     Teachers getOneTeacher(Long id);
     void delete(Long id);
-    Teachers createTeacher(Teachers teachers);
+    Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, TeacherLanguageDTO teacherLanguageDTO);
     Teachers updateTeacher(Teachers teachers);
 
 }

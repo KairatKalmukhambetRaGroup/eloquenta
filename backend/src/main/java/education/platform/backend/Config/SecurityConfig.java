@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -78,6 +79,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable()) // Отключаем CSRF защиту
                 .authorizeHttpRequests((authz) -> authz
 //                        .requestMatchers("/users/signup").permitAll() // Разрешаем доступ к /users/signup
@@ -89,11 +91,9 @@ public class SecurityConfig {
                         .requestMatchers("/lessons/getAllLessons").permitAll()
                         .requestMatchers("/lessons/getOneLesson/{id}").permitAll()
                         .requestMatchers("/reviews/getAllReviews").permitAll()
-                        .requestMatchers("/teacherEducation/getAllTeacherEducation").permitAll()
-                        .requestMatchers("/teacherEducation/getOneTeacherEducation/{id}").permitAll()
-                        .requestMatchers("/teacherslanguage/getAllTeacherLanguage").permitAll()
-                        .requestMatchers("/teacherslanguage/getOneTeacherLanguage/{id}").permitAll()
+                        .requestMatchers("/teachers/**").permitAll()
                         .requestMatchers("/role/**").permitAll()
+                        .requestMatchers("/language/**").permitAll()
                         .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
                 )
                 .exceptionHandling((exceptions) -> exceptions

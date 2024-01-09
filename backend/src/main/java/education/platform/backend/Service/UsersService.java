@@ -14,11 +14,11 @@ public interface UsersService extends UserDetailsService {
 
     List<Users> getAllUsers();
     Optional<Users> getOneUser(Long id);
-    Users createUsers(UsersDTO usersDTO, MultipartFile multipartFile);
+    Users createUsers(UsersDTO usersDTO);
     Users login(UsersDTO usersDTO);
     Users updatePassword(String oldPassword, String newPassword, HttpServletRequest request);
     ResponseEntity<String> reset(UsersDTO usersDTO);
     Users resetPass(UsersDTO usersDTO, String email, String token, String expires);
-//    Users uploadImage(MultipartFile multipartFile, HttpServletRequest request);
+    Users uploadImage(MultipartFile multipartFile, HttpServletRequest request);
 
 }

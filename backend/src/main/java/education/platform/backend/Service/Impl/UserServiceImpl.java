@@ -89,35 +89,25 @@ public class UserServiceImpl implements UsersService {
     }*/
 
     @Override
-    public Users createUsers(UsersDTO usersDTO, MultipartFile multipartFile) {
-        // Проверка, существует ли уже пользователь с таким email
+    public Users createUsers(UsersDTO usersDTO) {
         if (usersRepository.findByEmail(usersDTO.getEmail()) != null) {
-            return null; // Пользователь уже существует
+            return null;
         }
 
-        // Создание нового пользователя
         Users newUser = new Users();
         newUser.setName(usersDTO.getName());
         newUser.setSurname(usersDTO.getSurname());
         newUser.setEmail(usersDTO.getEmail());
         newUser.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
 
-        // Загрузка и установка изображения пользователя
-        newUser = usersFileUploadService.uploadImage(multipartFile, newUser);
-        if (newUser == null) {
-            return null; // Возвращаем null, если изображение не было загружено
-        }
-
-        // Сохранение пользователя в базе данных
         newUser = usersRepository.save(newUser);
 
-        // Назначение роли пользователя
         Roles studentRole = rolesRepository.findByName("ROLE_STUDENT");
         UserRoleId userRoleId = new UserRoleId(newUser.getId(), studentRole.getId());
         UserRole userRole = new UserRole(userRoleId, newUser, studentRole);
         userRoleRepository.save(userRole);
 
-        return newUser; // Возвращение созданного пользователя
+        return newUser;
     }
 
 
@@ -207,7 +197,7 @@ public class UserServiceImpl implements UsersService {
     }
 
 
-    /*@Override
+    @Override
     public Users uploadImage(MultipartFile file, HttpServletRequest request){
         String token = jwtUtils.getTokenFromRequest(request);
         String username = jwtUtils.getUsernameFromToken(token);
@@ -217,7 +207,7 @@ public class UserServiceImpl implements UsersService {
             return usersRepository.save(user);
         }
         return null;
-    }*/
+    }
 
 
 

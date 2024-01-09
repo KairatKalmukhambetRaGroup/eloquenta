@@ -8,8 +8,6 @@ public class UserResponse {
     private String token;
     private Users users;
 
-
-
     public Users getUser() {
         return users;
     }
