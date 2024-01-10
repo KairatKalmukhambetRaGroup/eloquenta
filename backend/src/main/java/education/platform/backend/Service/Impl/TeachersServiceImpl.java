@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +93,7 @@ public class TeachersServiceImpl implements TeachersService {
     }
 
     @Override
-    public Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, TeacherLanguageDTO teacherLanguageDTO) {
+    public Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, TeacherLanguageDTO teacherLanguageDTO) throws GeneralSecurityException, IOException {
         if (usersRepository.findByEmail(usersDTO.getEmail()) != null) {
             return null;
         }
@@ -121,7 +123,9 @@ public class TeachersServiceImpl implements TeachersService {
 
         /*String meetingLink = googleMeetService.createPermanentRoom();
         newTeacher.setMeetingLink(meetingLink);*/
-        newTeacher.setMeetingLink(teachersDTO.getMeetingLink());
+        GoogleCalendarService googleCalendarService = new GoogleCalendarService();
+        String meetingLink = googleCalendarService.createGoogleMeetLink();
+        newTeacher.setMeetingLink(meetingLink);
         newTeacher.setUsers(newUser);
         newTeacher.setRating(0.0f);
         newTeacher.setDescription(teachersDTO.getDescription());

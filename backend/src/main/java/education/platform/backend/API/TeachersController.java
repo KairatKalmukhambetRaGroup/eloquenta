@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.Principal;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class TeachersController {
     }
 
     @PostMapping(value = "/createTeacher")
-    public ResponseEntity<?> createTeacher(@RequestBody CombinedUsersTeacherDTO combinedUsersTeacherDTO, Principal principal) {
+    public ResponseEntity<?> createTeacher(@RequestBody CombinedUsersTeacherDTO combinedUsersTeacherDTO, Principal principal) throws GeneralSecurityException, IOException {
         String username = principal.getName();
         Users adminUser = usersRepository.findByEmail(username);
 
@@ -186,6 +188,29 @@ public class TeachersController {
             return new ResponseEntity<>("Error updating teacher education", HttpStatus.BAD_REQUEST);
         }
     }
+
+    /*{
+        "usersDTO": {
+        "name": "Bake",
+                "surname": "Bake",
+                "email": "batikkenzhaliev@gmail.com",
+                "password": "batik"
+    },
+        "teachersDTO": {
+        "rating": 0,
+                "description": "Hello everyone",
+                "meetingLink": "string"
+    },
+        "teacherLanguageDTO": {
+        "price": 20,
+                "level": "string",
+                "language": {
+            "id": 3,
+                    "slug": "string"
+        },
+        "is_teaching": true
+    }
+    }*/
 
 
 }

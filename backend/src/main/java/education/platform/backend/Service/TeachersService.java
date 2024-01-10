@@ -7,6 +7,8 @@ import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.Teachers;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 public interface TeachersService {
@@ -14,7 +16,7 @@ public interface TeachersService {
     List<TeachersInFormationDTO> getAllTeachers();
     Teachers getTeacherById(Long id);
     void delete(Long id);
-    Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, TeacherLanguageDTO teacherLanguageDTO);
+    Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, TeacherLanguageDTO teacherLanguageDTO) throws GeneralSecurityException, IOException;
     Teachers updateTeacher(Teachers teachers);
 
 }
