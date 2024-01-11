@@ -38,7 +38,6 @@ public class Users implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @JsonIgnore
     @Column(name = "image")
     private String image;
 

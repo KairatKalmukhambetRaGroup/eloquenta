@@ -1,4 +1,5 @@
 'use client'
+import { useUserContext } from '@/contexts/UserContext';
 import axios from 'axios';
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -7,6 +8,7 @@ import React, { useState } from 'react'
 const initFormData = {name: '', surname: '', email: '', password: ''};
 const page = () => {
     const t = useTranslations('auth')
+    const {login} = useUserContext();
     const [formData, setFormData] = useState(initFormData);
     const handleChange = (e: any) => {
         const {name, value} = e.currentTarget;
@@ -18,6 +20,7 @@ const page = () => {
         try {
             const {data, status} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, formData, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
             console.log(data, status);
+            login(data);
         } catch (error) {
             console.log(error)
         }

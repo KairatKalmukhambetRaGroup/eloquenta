@@ -3,8 +3,10 @@ package education.platform.backend.API;
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.LoginDTO;
 import education.platform.backend.DTO.UsersDTO;
+import education.platform.backend.Entity.UserRole;
 import education.platform.backend.Entity.Users;
 import education.platform.backend.Repository.UsersRepository;
+import education.platform.backend.Service.UserRoleService;
 import education.platform.backend.Service.UsersFileUploadService;
 import education.platform.backend.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/users")
 public class UsersController {
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Autowired
     private UsersRepository usersRepository;
@@ -55,7 +61,6 @@ public class UsersController {
     public ResponseEntity<?> getOneUser(@PathVariable(name = "id") Long id, Principal principal) {
         String username = principal.getName();
         Users adminUser = usersRepository.findByEmail(username);
-
         if (adminUser == null || adminUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
         }
@@ -88,8 +93,9 @@ public class UsersController {
         try {
             Users newUser = usersService.createUsers(usersDTO);
             if (newUser != null) {
+                UserRole userRole = userRoleService.getUserRoleByUserId(newUser.getId());
                 String token = jwtUtils.generateToken(newUser);
-                return new ResponseEntity<>(new UserResponse(token, newUser), HttpStatus.OK);
+                return new ResponseEntity<>(new UserResponse(token, newUser, userRole), HttpStatus.OK);
             }
 
             return new ResponseEntity<>("User already exist", HttpStatus.BAD_REQUEST);
@@ -103,9 +109,10 @@ public class UsersController {
         try {
             Users users = usersService.login(loginDTO);
             if (users != null) {
+                UserRole userRole = userRoleService.getUserRoleByUserId(users.getId());
                 String token = jwtUtils.generateToken(users);
                 System.out.println("Token " + token);
-                return new ResponseEntity<Object>(new UserResponse(token, users), HttpStatus.OK);
+                return new ResponseEntity<Object>(new UserResponse(token, users, userRole), HttpStatus.OK);
             }
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
         } catch (Exception e) {
@@ -132,8 +139,9 @@ public class UsersController {
         try {
             Users users = usersService.resetPass(usersDTO, email, token, expires);
             if (users != null) {
+                UserRole userRole = userRoleService.getUserRoleByUserId(users.getId());
                 token = jwtUtils.generateToken(users);
-                return new ResponseEntity<Object>(new UserResponse(token, users), HttpStatus.OK);
+                return new ResponseEntity<Object>(new UserResponse(token, users, userRole), HttpStatus.OK);
             }
             return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -146,8 +154,9 @@ public class UsersController {
         try {
             Users users = usersService.updatePassword(usersDTO.getOldPassword(), usersDTO.getNewPassword(), request);
             if (users != null) {
+                UserRole userRole = userRoleService.getUserRoleByUserId(users.getId());
                 String token = jwtUtils.generateToken(users);
-                return new ResponseEntity<Object>(new UserResponse(token, users), HttpStatus.OK);
+                return new ResponseEntity<Object>(new UserResponse(token, users, userRole), HttpStatus.OK);
             }
             return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -167,8 +176,9 @@ public class UsersController {
 
                 if(user != null){
                     usersRepository.save(user);
+                    UserRole userRole = userRoleService.getUserRoleByUserId(user.getId());
                     String token = jwtUtils.generateToken(user);
-                    return new ResponseEntity<>(new UserResponse(token, user), HttpStatus.OK);
+                    return new ResponseEntity<>(new UserResponse(token, user, userRole), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<>("Unable to upload image", HttpStatus.BAD_REQUEST);
                 }

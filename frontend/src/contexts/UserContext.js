@@ -33,6 +33,8 @@ const UserProvider = ({children}) => {
     }, [user])
 
     const login = (profile) => {
+        const tmpUser = profile.user;
+        tmpUser.role = profile.userRole;
         setUser(profile.user);
         localStorage.setItem("profile", JSON.stringify({...profile}));
         router.replace('/');

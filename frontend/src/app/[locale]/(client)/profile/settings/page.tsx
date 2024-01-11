@@ -1,6 +1,11 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 
+const initFormData = {
+
+}
 const Settings = () => {
+    const [formData, setFormData] = useState(initFormData);
     return (
         <div className="profile-settings">
             <h2>Настройки профиля</h2>
@@ -30,10 +35,10 @@ const Settings = () => {
                             <label>Фамилия</label>
                         </div>
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <textarea name="about" rows={5}></textarea>
                         <label>Обо мне</label>
-                    </div>
+                    </div> */}
                 </div>
                 <input type="submit" value="Сохранить изменения" />
             </form>
