@@ -31,7 +31,7 @@ public class TeacherLanguage {
     private LanguageLevel level;
 
     @JsonIgnore
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Users user_id;
 

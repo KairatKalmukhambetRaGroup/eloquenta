@@ -14,6 +14,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Lessons {
 
+    public enum LessonStatus {
+        INACTIVE,
+        ACTIVE,
+        FINISHED,
+        UNFINISHED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,8 +29,8 @@ public class Lessons {
     @Column(name = "time")
     private LocalDateTime time;
 
-    @Column(name = "meeting_link")
-    private String meeting_link;
+    @Column(name = "status")
+    private LessonStatus status = LessonStatus.INACTIVE;
 
     @ManyToOne
     @JoinColumn(name = "teacher_lang_id", referencedColumnName = "id")
@@ -31,7 +38,7 @@ public class Lessons {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private Users teacher_id;
+    private Teachers teacher_id;
 
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")

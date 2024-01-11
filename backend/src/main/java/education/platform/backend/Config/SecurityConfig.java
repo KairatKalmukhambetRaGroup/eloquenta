@@ -20,7 +20,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 import java.util.Arrays;
 
 @Configuration
@@ -41,37 +40,40 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-//                .cors(Customizer.withDefaults())
+                // .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
-//                        .requestMatchers("/users/signup").permitAll() // Разрешаем доступ к /users/signup
-                        .requestMatchers("/api-docs/**", "/swagger-ui-custom.html", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+                        // .requestMatchers("/users/signup").permitAll() // Разрешаем доступ к
+                        // /users/signup
+                        .requestMatchers("/api-docs/**", "/swagger-ui-custom.html", "/swagger-ui/**",
+                                "/swagger-resources/**", "/v3/api-docs/**")
+                        .permitAll()
                         .requestMatchers("/users/signin").permitAll()
                         .requestMatchers("/users/signup").permitAll()
                         .requestMatchers("/teachers/search").permitAll()
+                        .requestMatchers("/users/reset").permitAll()
+                        .requestMatchers("/users/reset-pass").permitAll()
                         .requestMatchers("/teachers/getAllTeachers").permitAll()
                         .requestMatchers("/teachers/getOneTeacher/{id}").permitAll()
                         .requestMatchers("/lessons/getAllLessons").permitAll()
                         .requestMatchers("/lessons/getOneLesson/{id}").permitAll()
+                        .requestMatchers("/lessons/create").permitAll()
                         .requestMatchers("/reviews/getAllReviews").permitAll()
                         .requestMatchers("/teachers/getAllTeachers").permitAll()
                         .requestMatchers("/language/**").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                )
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
-
 
         return http.build();
     }
@@ -80,7 +82,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:8080"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "PATCH"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

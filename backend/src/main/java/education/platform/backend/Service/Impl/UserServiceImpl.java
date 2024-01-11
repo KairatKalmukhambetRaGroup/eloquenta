@@ -166,8 +166,12 @@ public class UserServiceImpl implements UsersService {
                     "This link will expire in 24 hours.\n\n" +
                     "Sincerely,\n" +
                     "Eloquenta Support Team");
-
-            mailSender.send(message);
+            try {
+                mailSender.send(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().build();
+            }
 
             return ResponseEntity.ok("Password reset email send");
         }
