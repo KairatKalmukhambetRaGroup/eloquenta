@@ -5,11 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UsersDTO {
 
+    @JsonIgnore
     private Long id;
     private String name;
     private String surname;
     private String email;
     private String password;
+    @JsonIgnore
+    private String image;
     @JsonIgnore
     private String oldPassword;
     @JsonIgnore
@@ -69,5 +72,13 @@ public class UsersDTO {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

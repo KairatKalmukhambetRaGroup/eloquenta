@@ -47,38 +47,11 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    /*@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(authz -> authz
-//                        .antMatchers("/css/**", "/js/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                *//*.formLogin(form -> form
-                        .loginProcessingUrl("/auth")
-                        .defaultSuccessUrl("/profile", true)
-                        .failureUrl("/enter?error")
-                        .loginPage("/enter")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/enter")
-                        .logoutUrl("/exit")
-                        .permitAll()
-                )*//*
-                .exceptionHandling(exceptions -> exceptions
-                        .accessDeniedPage("/403")
-                )
-                .csrf(csrf -> csrf.disable())
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }*/
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Отключаем CSRF защиту
+//                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
 //                        .requestMatchers("/users/signup").permitAll() // Разрешаем доступ к /users/signup
                         .requestMatchers("/api-docs/**", "/swagger-ui-custom.html", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
@@ -90,17 +63,15 @@ public class SecurityConfig {
                         .requestMatchers("/lessons/getAllLessons").permitAll()
                         .requestMatchers("/lessons/getOneLesson/{id}").permitAll()
                         .requestMatchers("/reviews/getAllReviews").permitAll()
-                        .requestMatchers("/teacher/getAllTeacherEducation").permitAll()
-                        .requestMatchers("/teacher/getOneTeacherEducation/{id}").permitAll()
-                        .requestMatchers("/teachers/getAllTeacherLanguage").permitAll()
-                        .requestMatchers("/teachers/getOneTeacherLanguage/{id}").permitAll()
-                        .requestMatchers("/role/**").permitAll()
-                        .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
+                        .requestMatchers("/teachers/getAllTeachers").permitAll()
+                        .requestMatchers("/language/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) // В случае ошибки аутентификации возвращаем статус 401
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class); // Добавляем ваш фильтр аутентификации
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }

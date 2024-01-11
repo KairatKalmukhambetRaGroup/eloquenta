@@ -2,12 +2,14 @@ package education.platform.backend.Service.Impl;
 
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.Config.PasswordResetLinkGenerator;
+import education.platform.backend.DTO.LoginDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.*;
 import education.platform.backend.Repository.PasswordResetRequestRepository;
 import education.platform.backend.Repository.RolesRepository;
 import education.platform.backend.Repository.UserRoleRepository;
 import education.platform.backend.Repository.UsersRepository;
+import education.platform.backend.Service.UsersFileUploadService;
 import education.platform.backend.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
@@ -50,6 +53,9 @@ public class UserServiceImpl implements UsersService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    private UsersFileUploadService usersFileUploadService;
+
     @Override
     public List<Users> getAllUsers() {
         return usersRepository.findAll();
@@ -60,15 +66,16 @@ public class UserServiceImpl implements UsersService {
         return usersRepository.findById(id);
     }
 
-    @Override
-    public Users createUsers(UsersDTO usersDTO) {
+    /*@Override
+    public Users createUsers(UsersDTO usersDTO, MultipartFile multipartFile) {
         if (usersRepository.findByEmail(usersDTO.getEmail()) == null) {
             Users newUser = new Users();
             newUser.setName(usersDTO.getName());
             newUser.setSurname(usersDTO.getSurname());
             newUser.setEmail(usersDTO.getEmail());
             newUser.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
-
+            newUser = usersFileUploadService.uploadImage(multipartFile, newUser);
+            newUser.setImage(newUser.getImage());
             newUser = usersRepository.save(newUser);
 
             Roles studentRole = rolesRepository.findByName("ROLE_STUDENT");
@@ -80,14 +87,36 @@ public class UserServiceImpl implements UsersService {
             return newUser;
         }
         return null;
+    }*/
+
+    @Override
+    public Users createUsers(UsersDTO usersDTO) {
+        if (usersRepository.findByEmail(usersDTO.getEmail()) != null) {
+            return null;
+        }
+
+        Users newUser = new Users();
+        newUser.setName(usersDTO.getName());
+        newUser.setSurname(usersDTO.getSurname());
+        newUser.setEmail(usersDTO.getEmail());
+        newUser.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
+
+        newUser = usersRepository.save(newUser);
+
+        Roles studentRole = rolesRepository.findByName("ROLE_STUDENT");
+        UserRoleId userRoleId = new UserRoleId(newUser.getId(), studentRole.getId());
+        UserRole userRole = new UserRole(userRoleId, newUser, studentRole);
+        userRoleRepository.save(userRole);
+
+        return newUser;
     }
 
 
     @Override
-    public Users login(UsersDTO usersDTO) {
-        Users users = usersRepository.findByEmail(usersDTO.getEmail());
+    public Users login(LoginDTO loginDTO) {
+        Users users = usersRepository.findByEmail(loginDTO.getEmail());
         if (users != null) {
-            if (passwordEncoder.matches(usersDTO.getPassword(), users.getPassword())) {
+            if (passwordEncoder.matches(loginDTO.getPassword(), users.getPassword())) {
                 return users;
             }
         }
@@ -110,7 +139,7 @@ public class UserServiceImpl implements UsersService {
     @Override
     public ResponseEntity<String> reset(UsersDTO usersDTO) {
         Users users = usersRepository.findByEmail(usersDTO.getEmail());
-        if(users != null){
+        if (users != null) {
             String resetLink = passwordResetLinkGenerator.generatePasswordResetLink(users.getEmail());
 
             while (true) {
@@ -148,13 +177,13 @@ public class UserServiceImpl implements UsersService {
     @Override
     public Users resetPass(UsersDTO usersDTO, String email, String token, String expires) {
         Users users = usersRepository.findByEmail(passwordResetLinkGenerator.decodeEmail(email));
-        if(users == null){
+        if (users == null) {
             return null;
         }
         System.out.println(users.getEmail());
         PasswordResetRequest passwordResetRequest = passwordResetRequestRepository.findByEmail(users.getEmail());
 
-        if(passwordResetRequest == null){
+        if (passwordResetRequest == null) {
             return null;
         }
 
@@ -167,6 +196,21 @@ public class UserServiceImpl implements UsersService {
         passwordResetRequestRepository.delete(passwordResetRequest);
         return usersRepository.save(users);
     }
+
+
+    @Override
+    public Users uploadImage(MultipartFile file, HttpServletRequest request){
+        String token = jwtUtils.getTokenFromRequest(request);
+        String username = jwtUtils.getUsernameFromToken(token);
+        Users user = usersRepository.findByEmail(username);
+        user = usersFileUploadService.uploadImage(file, user);
+        if(user != null){
+            return usersRepository.save(user);
+        }
+        return null;
+    }
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
