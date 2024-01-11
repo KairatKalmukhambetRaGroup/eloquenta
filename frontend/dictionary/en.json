@@ -25,7 +25,8 @@
         "inputs": {
             "email": "Email",
             "password": "Password",
-            "name": "First and Last Name"
+            "name": "First Name",
+            "surname": "Last Name"
         }
     },
     "landing": {
