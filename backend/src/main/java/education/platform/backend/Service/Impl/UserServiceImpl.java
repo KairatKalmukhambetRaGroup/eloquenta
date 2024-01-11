@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -125,13 +126,10 @@ public class UserServiceImpl implements UsersService {
     }
 
     @Override
-    public Users updatePassword(String oldPassword, String newPassword, HttpServletRequest request) {
-        String token = jwtUtils.getTokenFromRequest(request);
-        String username = jwtUtils.getUsernameFromToken(token);
-        Users users = usersRepository.findByEmail(username);
-        if (passwordEncoder.matches(oldPassword, users.getPassword())) {
-            users.setPassword(passwordEncoder.encode(newPassword));
-            return usersRepository.save(users);
+    public Users updatePassword(String oldPassword, String newPassword, Users user) {
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            return usersRepository.save(user);
         }
         return null;
     }
@@ -214,6 +212,19 @@ public class UserServiceImpl implements UsersService {
         return null;
     }
 
+    @Override
+    public Users updateUser(UsersDTO userDTO, Users user) {
+        Users checkUser = usersRepository.findByEmail(user.getEmail());
+
+        if (checkUser == null) {
+            return null;
+        }
+
+        checkUser.setName(userDTO.getName());
+        checkUser.setSurname(userDTO.getSurname());
+
+        return usersRepository.save(checkUser);
+    }
 
 
     @Override

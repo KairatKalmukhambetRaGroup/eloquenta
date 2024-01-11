@@ -150,9 +150,15 @@ public class UsersController {
     }
 
     @PostMapping(value = "/update-password")
-    public ResponseEntity<Object> updatePassword(@RequestBody UsersDTO usersDTO, HttpServletRequest request){
+    public ResponseEntity<Object> updatePassword(@RequestBody UsersDTO usersDTO, Principal principal){
         try {
-            Users users = usersService.updatePassword(usersDTO.getOldPassword(), usersDTO.getNewPassword(), request);
+            String username = principal.getName();
+            Users user = usersRepository.findByEmail(username);
+            if (user == null) {
+                return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
+            }
+
+            Users users = usersService.updatePassword(usersDTO.getOldPassword(), usersDTO.getNewPassword(), user);
             if (users != null) {
                 UserRole userRole = userRoleService.getUserRoleByUserId(users.getId());
                 String token = jwtUtils.generateToken(users);
@@ -164,8 +170,8 @@ public class UsersController {
         }
     }
 
-    @PostMapping(value = "/image")
-    public ResponseEntity<Object> uploadImage(@RequestParam("image") MultipartFile file, Principal principal) {
+    @PostMapping(value = "/update-user")
+    public ResponseEntity<Object> uploadImage(@RequestParam("image") MultipartFile file, @RequestBody UsersDTO usersDTO, Principal principal) {
         try {
             String username = principal.getName();
 
@@ -176,6 +182,7 @@ public class UsersController {
 
                 if(user != null){
                     usersRepository.save(user);
+                    usersService.updateUser(usersDTO, user);
                     UserRole userRole = userRoleService.getUserRoleByUserId(user.getId());
                     String token = jwtUtils.generateToken(user);
                     return new ResponseEntity<>(new UserResponse(token, user, userRole), HttpStatus.OK);

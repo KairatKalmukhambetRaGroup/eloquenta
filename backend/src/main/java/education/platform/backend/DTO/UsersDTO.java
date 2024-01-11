@@ -11,11 +11,8 @@ public class UsersDTO {
     private String surname;
     private String email;
     private String password;
-    @JsonIgnore
     private String image;
-    @JsonIgnore
     private String oldPassword;
-    @JsonIgnore
     private String newPassword;
 
     public Long getId() {

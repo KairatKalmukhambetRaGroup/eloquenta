@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +18,10 @@ public interface UsersService extends UserDetailsService {
     Optional<Users> getOneUser(Long id);
     Users createUsers(UsersDTO usersDTO);
     Users login(LoginDTO loginDTO);
-    Users updatePassword(String oldPassword, String newPassword, HttpServletRequest request);
+    Users updatePassword(String oldPassword, String newPassword, Users user);
     ResponseEntity<String> reset(UsersDTO usersDTO);
     Users resetPass(UsersDTO usersDTO, String email, String token, String expires);
     Users uploadImage(MultipartFile multipartFile, HttpServletRequest request);
+    Users updateUser(UsersDTO usersDTO, Users user);
 
 }
