@@ -61,7 +61,7 @@ public class TeachersController {
             return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
         }
 
-        Teachers newTeachers = teachersService.createTeacher(combinedUsersTeacherDTO.getUsersDTO(), combinedUsersTeacherDTO.getTeachersDTO(), combinedUsersTeacherDTO.getTeacherLanguageDTO());
+        Teachers newTeachers = teachersService.createTeacher(combinedUsersTeacherDTO.getUsersDTO(), combinedUsersTeacherDTO.getTeachersDTO(), combinedUsersTeacherDTO.getTeacherLanguageDTOs());
         if (newTeachers != null) {
             return ResponseEntity.ok(newTeachers);
         } else {

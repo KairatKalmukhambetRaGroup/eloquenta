@@ -47,6 +47,12 @@ public class TeachersServiceImpl implements TeachersService {
     @Autowired
     private TeacherEducationRepository teacherEducationRepository;
 
+    @Autowired
+    private LanguageLevelRepository languageLevelRepository;
+
+    @Autowired
+    private LanguageRepository languageRepository;
+
     @Override
     public List<Teachers> searchTeachers(String lang) {
         return teachersRepository.findTeachersByLanguage(lang);
@@ -98,7 +104,7 @@ public class TeachersServiceImpl implements TeachersService {
     }
 
     @Override
-    public Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, TeacherLanguageDTO teacherLanguageDTO) throws GeneralSecurityException, IOException {
+    public Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, List<TeacherLanguageDTO> teacherLanguageDTOs) throws GeneralSecurityException, IOException {
         if (usersRepository.findByEmail(usersDTO.getEmail()) != null) {
             return null;
         }
@@ -116,13 +122,18 @@ public class TeachersServiceImpl implements TeachersService {
         UserRole userRole = new UserRole(userRoleId, newUser, teacherRole);
         userRoleRepository.save(userRole);
 
-        TeacherLanguage newTeacherLanguage = new TeacherLanguage();
-        newTeacherLanguage.setUser_id(newUser);
-        newTeacherLanguage.set_teaching(true);
-        newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
-        newTeacherLanguage.setLevel(teacherLanguageDTO.getLevel());
-        newTeacherLanguage.setLang_id(teacherLanguageDTO.getLanguage());
-        teacherLanguageRepository.save(newTeacherLanguage);
+        for (TeacherLanguageDTO teacherLanguageDTO : teacherLanguageDTOs) {
+            LanguageLevel languageLevel = languageLevelRepository.getById(teacherLanguageDTO.getLevel().getId());
+            Language language = languageRepository.getById(teacherLanguageDTO.getLanguage().getId());
+
+            TeacherLanguage newTeacherLanguage = new TeacherLanguage();
+            newTeacherLanguage.setUser_id(newUser);
+            newTeacherLanguage.set_teaching(true);
+            newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
+            newTeacherLanguage.setLevel(languageLevel);
+            newTeacherLanguage.setLang_id(language);
+            teacherLanguageRepository.save(newTeacherLanguage);
+        }
 
         Teachers newTeacher = new Teachers();
 
@@ -133,7 +144,6 @@ public class TeachersServiceImpl implements TeachersService {
         newTeacher.setMeetingLink(meetingLink);
         newTeacher.setUsers(newUser);
         newTeacher.setRating(0.0f);
-        newTeacher.setDescription(teachersDTO.getDescription());
         teachersRepository.save(newTeacher);
 
         return newTeacher;

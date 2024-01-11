@@ -27,7 +27,7 @@
             <column name="name" value="Admin"/>
             <column name="surname" value="Admin"/>
             <column name="email" value="admin@eloquenta.acamedy"/>
-            <column name="password" value="$2a$10$Lf6kGdrU9aVXcqLW7LGDj.dAiUHh4/qls6Aw84KYPiJ8amMuhIchG"/>
+            <column name="password" value="$2a$10$gA0reGUA8PryNKb/Sm1/Pu/ZGI61fLagHlWKdqMthH45zfwi01tKO"/>
         </insert>
     </changeSet>
     <!--  Assign admin role  -->

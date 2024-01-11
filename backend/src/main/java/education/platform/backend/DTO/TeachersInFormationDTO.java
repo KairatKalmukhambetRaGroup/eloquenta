@@ -1,6 +1,7 @@
 package education.platform.backend.DTO;
 
 import education.platform.backend.Entity.Language;
+import education.platform.backend.Entity.LanguageLevel;
 import education.platform.backend.Entity.Users;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class TeachersInFormationDTO {
     private String meetingLink;
     private boolean is_teaching;
     private int price;
-    private String level;
+    private LanguageLevel level;
     private Language language;
     private String university;
     private String degree;

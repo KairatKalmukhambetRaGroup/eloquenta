@@ -26,7 +26,7 @@ public class TeacherLanguage {
     @Column(name = "price")
     private int price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "level", referencedColumnName = "id")
     private LanguageLevel level;
 
