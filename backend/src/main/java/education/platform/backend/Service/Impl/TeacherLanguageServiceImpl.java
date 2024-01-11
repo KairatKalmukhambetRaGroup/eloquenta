@@ -33,7 +33,7 @@ public class TeacherLanguageServiceImpl implements TeacherLanguageService {
         newTeacherLanguage.setLevel(teacherLanguageDTO.getLevel());
         newTeacherLanguage.set_teaching(true);
         newTeacherLanguage.setLang_id(teacherLanguageDTO.getLanguage());
-        newTeacherLanguage.setUser_id(teacherLanguageDTO.getUsers());
+        newTeacherLanguage.setUserId(teacherLanguageDTO.getUsers());
         
         return teacherLanguageRepository.save(newTeacherLanguage);
     }

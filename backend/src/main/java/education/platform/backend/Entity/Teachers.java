@@ -24,7 +24,13 @@ public class Teachers {
     private Users users;
 
     @Column(name = "rating")
-    private Float rating;
+    private Float rating = 0f;
+
+    @Column(name = "rating_sum")
+    private Long ratingSum = 0L;
+
+    @Column(name = "rating_count")
+    private Long ratingCount = 0L;
 
     @Column(name = "description")
     private String description;

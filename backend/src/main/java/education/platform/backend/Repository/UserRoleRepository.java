@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
+
+    void deleteUserRoleByUserId(Long id);
+
 }

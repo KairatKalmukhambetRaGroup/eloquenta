@@ -38,9 +38,9 @@ public class Lessons {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private Teachers teacher_id;
+    private Teachers teacherId;
 
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Users student_id;
+    private Users studentId;
 }

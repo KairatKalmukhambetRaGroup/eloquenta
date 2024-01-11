@@ -12,4 +12,6 @@ public interface TeacherEducationRepository extends JpaRepository<TeacherEducati
 
     TeacherEducation findByTeachers(Teachers teachers);
 
+
+    void deleteAllByTeachersId(Long id);
 }

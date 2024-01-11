@@ -49,7 +49,7 @@ public class LessonsServiceImpl implements LessonsService {
         Lessons newLesson = new Lessons();
 
         newLesson.setTime(lessonDTO.getTime());
-        newLesson.setTeacher_id(teacher);
+        newLesson.setTeacherId(teacher);
 
         return lessonsRepository.save(newLesson);
     }
@@ -68,7 +68,7 @@ public class LessonsServiceImpl implements LessonsService {
         Lessons lessons = lessonOpt.get();
 
         lessons.setTeacher_lang_id(lessons.getTeacher_lang_id());
-        lessons.setStudent_id(student);
+        lessons.setStudentId(student);
 
         return lessonsRepository.save(lessons);
     }

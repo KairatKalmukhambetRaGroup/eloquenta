@@ -53,6 +53,15 @@ public class TeachersServiceImpl implements TeachersService {
     @Autowired
     private LanguageRepository languageRepository;
 
+    @Autowired
+    private ReviewsRepository reviewRepository;
+
+    @Autowired
+    private LessonsRepository lessonRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+
     @Override
     public List<Teachers> searchTeachers(String lang) {
         return teachersRepository.findTeachersByLanguage(lang);
@@ -100,7 +109,22 @@ public class TeachersServiceImpl implements TeachersService {
 
     @Override
     public void delete(Long id) {
-        teachersRepository.deleteById(id);
+        Users user = usersRepository.getById(id);
+        Teachers teacher = teachersRepository.getByUsersId(id);
+        Long teacherId = teacher.getId();
+
+//        TeacherEducation teacherEducation = teacherEducationRepository.findByTeachers(teacher);
+//        teacherEducationRepository.delete(teacherEducation);
+        teacherEducationRepository.deleteAllByTeachersId(teacherId);
+        reviewRepository.deleteAllByTeacherIdId(teacherId);
+        lessonRepository.deleteAllByTeacherIdId(teacherId);
+        teachersRepository.deleteTeachersByUsersId(id);
+
+        teacherLanguageRepository.deleteAllByUserIdId(id);
+
+        notificationRepository.deleteAllByUserId(id);
+        userRoleRepository.deleteUserRoleByUserId(id);
+        usersRepository.deleteById(id);
     }
 
     @Override
@@ -127,7 +151,7 @@ public class TeachersServiceImpl implements TeachersService {
             Language language = languageRepository.getById(teacherLanguageDTO.getLanguage().getId());
 
             TeacherLanguage newTeacherLanguage = new TeacherLanguage();
-            newTeacherLanguage.setUser_id(newUser);
+            newTeacherLanguage.setUserId(newUser);
             newTeacherLanguage.set_teaching(true);
             newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
             newTeacherLanguage.setLevel(languageLevel);

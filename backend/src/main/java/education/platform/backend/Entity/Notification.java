@@ -29,4 +29,7 @@ public class Notification {
     @Column(name = "lesson_update")
     private boolean lessonUpdate;
 
+    @Column(name = "user_id")
+    private Long userId;
+
 }

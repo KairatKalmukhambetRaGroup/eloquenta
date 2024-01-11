@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface UsersRepository extends JpaRepository<Users, Long> {
 
     Users findByEmail(String email);
+    Users getById(Long id);
 
 }

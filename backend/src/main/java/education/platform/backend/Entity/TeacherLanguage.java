@@ -33,7 +33,7 @@ public class TeacherLanguage {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Users user_id;
+    private Users userId;
 
     @ManyToOne
     @JoinColumn(name = "lang_id", referencedColumnName = "id")

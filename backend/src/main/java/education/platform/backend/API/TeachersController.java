@@ -99,6 +99,7 @@ public class TeachersController {
             teachersService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error deleting teacher", HttpStatus.BAD_REQUEST);
         }
     }

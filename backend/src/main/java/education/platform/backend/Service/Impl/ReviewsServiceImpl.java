@@ -45,9 +45,13 @@ public class ReviewsServiceImpl implements ReviewsService {
         if (teacher == null || reviewer == null) {
             return null;
         }
-
-        newReviews.setTeacher_id(teacher);
-        newReviews.setReviewer_id(reviewer);
+        long ratingSum = teacher.getRatingSum() == null ? 0L : teacher.getRatingSum();
+        teacher.setRatingSum(ratingSum + newReviews.getRate());
+        long ratingCount = teacher.getRatingCount() == null ? 0L : teacher.getRatingCount();
+        teacher.setRatingCount(ratingCount + 1);
+        teacher.setRating((float)teacher.getRatingSum()/teacher.getRatingCount());
+        newReviews.setTeacherId(teacher);
+        newReviews.setReviewerId(reviewer);
 
         return reviewsRepository.save(newReviews);
     }

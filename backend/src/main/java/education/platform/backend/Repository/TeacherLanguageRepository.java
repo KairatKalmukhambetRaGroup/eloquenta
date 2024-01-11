@@ -14,7 +14,9 @@ import java.util.List;
 @Transactional
 public interface TeacherLanguageRepository extends JpaRepository<TeacherLanguage, Long> {
 
-    @Query("SELECT tl FROM TeacherLanguage tl WHERE tl.user_id = :user")
+    @Query("SELECT tl FROM TeacherLanguage tl WHERE tl.userId = :user")
     List<TeacherLanguage> findByUserId(@Param("user") Users user);
+
+    void deleteAllByUserIdId(Long id);
 
 }
