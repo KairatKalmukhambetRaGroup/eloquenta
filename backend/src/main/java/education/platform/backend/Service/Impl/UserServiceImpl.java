@@ -3,6 +3,7 @@ package education.platform.backend.Service.Impl;
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.Config.PasswordResetLinkGenerator;
 import education.platform.backend.DTO.LoginDTO;
+import education.platform.backend.DTO.ModelUserDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.*;
 import education.platform.backend.Repository.PasswordResetRequestRepository;
@@ -21,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
@@ -213,7 +214,7 @@ public class UserServiceImpl implements UsersService {
     }
 
     @Override
-    public Users updateUser(UsersDTO userDTO, Users user) {
+    public Users updateUser(ModelUserDTO userDTO, Users user) {
         Users checkUser = usersRepository.findByEmail(user.getEmail());
 
         if (checkUser == null) {

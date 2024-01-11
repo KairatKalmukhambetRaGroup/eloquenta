@@ -6,7 +6,7 @@ import education.platform.backend.DTO.TeachersInFormationDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.Teachers;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;

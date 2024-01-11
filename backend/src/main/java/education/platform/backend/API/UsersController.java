@@ -2,6 +2,7 @@ package education.platform.backend.API;
 
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.LoginDTO;
+import education.platform.backend.DTO.ModelUserDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.UserRole;
 import education.platform.backend.Entity.Users;
@@ -11,13 +12,16 @@ import education.platform.backend.Service.UsersFileUploadService;
 import education.platform.backend.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -171,14 +175,14 @@ public class UsersController {
     }
 
     @PostMapping(value = "/update-user")
-    public ResponseEntity<Object> uploadImage(@RequestParam("image") MultipartFile file, @RequestBody UsersDTO usersDTO, Principal principal) {
+    public ResponseEntity<Object> uploadImage(@ModelAttribute ModelUserDTO usersDTO, HttpServletRequest request) {
         try {
-            String username = principal.getName();
-
+            String username = jwtUtils.getUsernameFromRequest(request);
             Users user = usersRepository.findByEmail(username);
 
             if (user != null) {
-                user = usersFileUploadService.uploadImage(file, user);
+                if(usersDTO.getImage() != null)
+                    user = usersFileUploadService.uploadImage(usersDTO.getImage(), user);
 
                 if(user != null){
                     usersRepository.save(user);
@@ -198,4 +202,8 @@ public class UsersController {
         }
     }
 
+    @GetMapping(value = "/avatar/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public @ResponseBody byte[] viewPic(@PathVariable(name = "id") Long id) throws IOException {
+        return usersFileUploadService.getImage(id);
+    }
 }

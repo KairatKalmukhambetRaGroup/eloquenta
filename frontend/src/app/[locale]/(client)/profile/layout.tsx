@@ -1,5 +1,5 @@
 import UserSidebar from '@/components/user/UserSidebar'
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 
 import '@/styles/profile/profile.scss';
 

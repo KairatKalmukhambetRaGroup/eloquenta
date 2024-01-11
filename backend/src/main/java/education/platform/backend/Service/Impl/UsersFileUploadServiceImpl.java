@@ -4,11 +4,15 @@ import education.platform.backend.Entity.Users;
 import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.UsersFileUploadService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +25,9 @@ public class UsersFileUploadServiceImpl implements UsersFileUploadService {
 
     @Value("${uploadImageURL}")
     private String imageURL;
+
+    @Value("${loadURL}")
+    private String myLoadURL;
 
     @Override
     public Users uploadImage(MultipartFile file, Users user) {
@@ -41,5 +48,29 @@ public class UsersFileUploadServiceImpl implements UsersFileUploadService {
             return null;
         }
 
+    }
+
+    @Override
+    public byte[] getImage(Long id) throws IOException {
+        Users user = usersRepository.getById(id);
+        String imageName = user.getImage();
+
+        String picURL = myLoadURL + "noimage.png";
+        if (imageName != null) {
+            picURL = myLoadURL + imageName;
+        }
+
+        InputStream in;
+
+        try {
+            ClassPathResource resource = new ClassPathResource(picURL);
+            in = resource.getInputStream();
+        } catch (Exception e) {
+            picURL = myLoadURL + "noimage.png";
+            ClassPathResource resource = new ClassPathResource(picURL);
+            in = resource.getInputStream();
+        }
+
+        return IOUtils.toByteArray(in);
     }
 }

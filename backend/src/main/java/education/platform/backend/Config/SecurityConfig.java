@@ -64,6 +64,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/users/signin").permitAll()
                         .requestMatchers("/users/signup").permitAll()
+                        .requestMatchers("/users/avatar/**").permitAll()
                         .requestMatchers("/teachers/search").permitAll()
                         .requestMatchers("/users/reset").permitAll()
                         .requestMatchers("/users/reset-pass").permitAll()

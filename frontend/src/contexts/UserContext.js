@@ -33,10 +33,7 @@ const UserProvider = ({children}) => {
     }, [user])
 
     const login = (profile) => {
-        const tmpUser = profile.user;
-        tmpUser.role = profile.userRole;
-        setUser(profile.user);
-        localStorage.setItem("profile", JSON.stringify({...profile}));
+        rewriteProfile(profile)
         router.replace('/');
     }
     const logout = () =>{
@@ -44,9 +41,15 @@ const UserProvider = ({children}) => {
         localStorage.removeItem("profile");
         router.replace('/');
     }
+    const rewriteProfile = (profile) => {
+        const tmpUser = profile.user;
+        tmpUser.role = profile.userRole;
+        setUser(profile.user);
+        localStorage.setItem("profile", JSON.stringify({...profile}));
+    }
 
     return (
-        <UserContext.Provider value={{user, login, logout}}>
+        <UserContext.Provider value={{user, login, logout, rewriteProfile}}>
             {children}
         </UserContext.Provider>
     );

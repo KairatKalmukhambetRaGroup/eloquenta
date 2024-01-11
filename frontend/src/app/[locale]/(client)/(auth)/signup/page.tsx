@@ -16,10 +16,8 @@ const page = () => {
     }
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        // console.log(formData);
         try {
             const {data, status} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, formData, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
-            console.log(data, status);
             login(data);
         } catch (error) {
             console.log(error)
