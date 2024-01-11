@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="playfairdisplay">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/frontend/src/assets/fonts/playfairdisplay.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
