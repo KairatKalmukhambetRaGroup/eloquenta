@@ -1,6 +1,5 @@
 package education.platform.backend.DTO;
 
-import education.platform.backend.Entity.Lessons;
 import education.platform.backend.Entity.TeacherLanguage;
 import education.platform.backend.Entity.Teachers;
 import education.platform.backend.Entity.Users;

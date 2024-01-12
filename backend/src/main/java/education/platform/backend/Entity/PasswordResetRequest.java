@@ -1,6 +1,5 @@
 package education.platform.backend.Entity;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.*;
 import lombok.*;
 

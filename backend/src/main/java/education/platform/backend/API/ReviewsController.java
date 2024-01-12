@@ -1,5 +1,6 @@
 package education.platform.backend.API;
 
+import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.ReviewsDTO;
 import education.platform.backend.Entity.Reviews;
 import education.platform.backend.Entity.Teachers;
@@ -7,16 +8,14 @@ import education.platform.backend.Entity.Users;
 import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.ReviewsService;
 import education.platform.backend.Service.TeachersService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
-//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/reviews")
 public class ReviewsController {
@@ -30,6 +29,9 @@ public class ReviewsController {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @GetMapping(value = "/getAllReviews")
     public List<Reviews> getAllReviews() {
         return reviewsService.getAllReviews();
@@ -39,9 +41,9 @@ public class ReviewsController {
     @PostMapping(value = "/create-review/{teacher_id}")
     public ResponseEntity<Object> createReview(@RequestBody ReviewsDTO reviewsDTO,
                                                @PathVariable(name = "teacher_id") Long teacherId,
-                                               Principal principal) {
+                                               HttpServletRequest request) {
         try {
-            String currentUsername = principal.getName();
+            String currentUsername = jwtUtils.getUsernameFromRequest(request);
             Users currentUser = usersRepository.findByEmail(currentUsername);
 
             if (currentUser == null || currentUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {

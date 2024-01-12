@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,12 +1,10 @@
 package education.platform.backend.Service;
 
-import education.platform.backend.DTO.TeacherLanguageDTO;
-import education.platform.backend.DTO.TeachersDTO;
-import education.platform.backend.DTO.TeachersInFormationDTO;
-import education.platform.backend.DTO.UsersDTO;
+import education.platform.backend.DTO.*;
 import education.platform.backend.Entity.Teachers;
-
+import education.platform.backend.Entity.Users;
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -17,7 +15,6 @@ public interface TeachersService {
     Teachers getTeacherById(Long id);
     void delete(Long id);
     Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, List<TeacherLanguageDTO> teacherLanguageDTOs) throws GeneralSecurityException, IOException;
-    Teachers updateTeacher(Teachers teachers);
-
+    Teachers updateTeacher(ModelUserDTO modelUserDTO, Teachers teacher);
     List<Teachers> searchTeachers(String lang);
 }

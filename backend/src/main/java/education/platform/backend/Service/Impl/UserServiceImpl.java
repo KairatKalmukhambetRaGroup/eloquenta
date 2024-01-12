@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -215,16 +214,10 @@ public class UserServiceImpl implements UsersService {
 
     @Override
     public Users updateUser(ModelUserDTO userDTO, Users user) {
-        Users checkUser = usersRepository.findByEmail(user.getEmail());
+        user.setName(userDTO.getName());
+        user.setSurname(userDTO.getSurname());
 
-        if (checkUser == null) {
-            return null;
-        }
-
-        checkUser.setName(userDTO.getName());
-        checkUser.setSurname(userDTO.getSurname());
-
-        return usersRepository.save(checkUser);
+        return user;
     }
 
 

@@ -1,8 +1,10 @@
 package education.platform.backend.API;
 
+import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.LessonDTO;
 import education.platform.backend.Entity.Lessons;
 import education.platform.backend.Service.LessonsService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,9 @@ public class LessonsController {
     @Autowired
     private LessonsService lessonsService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @GetMapping(value = "/getAllLessons")
     public List<Lessons> getAllLessons() {
         return lessonsService.getAllLessons();
@@ -27,13 +32,13 @@ public class LessonsController {
     }
 
     @PostMapping(value = "/create")
-    public Lessons createLesson(@RequestBody LessonDTO lessonDTO, Principal principal) {
-        return lessonsService.createLesson(lessonDTO, principal);
+    public Lessons createLesson(@RequestBody LessonDTO lessonDTO, HttpServletRequest request) {
+        return lessonsService.createLesson(lessonDTO, request);
     }
 
     @PostMapping(value = "/register/{id}")
-    public Lessons registerToLesson(@PathVariable(name = "id") Long id, Principal principal){
-        return lessonsService.register(id, principal);
+    public Lessons registerToLesson(@PathVariable(name = "id") Long id, HttpServletRequest request){
+        return lessonsService.register(id, request);
     }
 
 }

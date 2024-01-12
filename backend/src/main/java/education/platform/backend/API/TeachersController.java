@@ -1,7 +1,9 @@
 package education.platform.backend.API;
 
+import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.CombinedUsersTeacherDTO;
 import education.platform.backend.DTO.TeacherEducationDTO;
+import education.platform.backend.DTO.TeachersDTO;
 import education.platform.backend.DTO.TeachersInFormationDTO;
 import education.platform.backend.Entity.TeacherEducation;
 import education.platform.backend.Entity.TeacherLanguage;
@@ -12,6 +14,7 @@ import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.TeacherEducationService;
 import education.platform.backend.Service.TeacherLanguageService;
 import education.platform.backend.Service.TeachersService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -41,6 +43,9 @@ public class TeachersController {
     @Autowired
     private TeachersRepository teachersRepository;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @GetMapping(value = "/getAllTeachers")
     public ResponseEntity<List<TeachersInFormationDTO>> getAllTeachers() {
         List<TeachersInFormationDTO> teachers = teachersService.getAllTeachers();
@@ -53,8 +58,8 @@ public class TeachersController {
     }
 
     @PostMapping(value = "/createTeacher")
-    public ResponseEntity<?> createTeacher(@RequestBody CombinedUsersTeacherDTO combinedUsersTeacherDTO, Principal principal) throws GeneralSecurityException, IOException {
-        String username = principal.getName();
+    public ResponseEntity<?> createTeacher(@RequestBody CombinedUsersTeacherDTO combinedUsersTeacherDTO, HttpServletRequest request) throws GeneralSecurityException, IOException {
+        String username = jwtUtils.getUsernameFromRequest(request);
         Users adminUser = usersRepository.findByEmail(username);
 
         if (adminUser == null || adminUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
@@ -69,26 +74,9 @@ public class TeachersController {
         }
     }
 
-    @PutMapping(value = "/updateTeacher")
-    public ResponseEntity<?> updateTeacher(@RequestBody Teachers teachers, Principal principal) {
-        String username = principal.getName();
-        Users teacherUser = usersRepository.findByEmail(username);
-
-        if (teacherUser == null || teacherUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
-            return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
-        }
-
-        Teachers updatedTeacher = teachersService.updateTeacher(teachers);
-        if (updatedTeacher != null) {
-            return ResponseEntity.ok(updatedTeacher);
-        } else {
-            return new ResponseEntity<>("Error updating teacher", HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @DeleteMapping(value = "/deleteTeacher/{id}")
-    public ResponseEntity<?> deleteTeacher(@PathVariable(name = "id") Long id, Principal principal) {
-        String username = principal.getName();
+    public ResponseEntity<?> deleteTeacher(@PathVariable(name = "id") Long id, HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
         Users adminUser = usersRepository.findByEmail(username);
 
         if (adminUser == null || adminUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
@@ -116,8 +104,8 @@ public class TeachersController {
     }
 
     @PutMapping(value = "/updateTeacherLanguage/{id}")
-    public ResponseEntity<?> updateTeacherLanguage(@RequestBody TeacherLanguage teacherLanguage, Principal principal) {
-        String username = principal.getName();
+    public ResponseEntity<?> updateTeacherLanguage(@RequestBody TeacherLanguage teacherLanguage, HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
         Users teacherUser = usersRepository.findByEmail(username);
 
         if (teacherUser == null || teacherUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
@@ -134,8 +122,8 @@ public class TeachersController {
 
 
     @DeleteMapping(value = "/deleteTeacherLanguage/{id}")
-    public ResponseEntity<?> deleteTeacherLanguage(@PathVariable(name = "id") Long id, Principal principal) {
-        String username = principal.getName();
+    public ResponseEntity<?> deleteTeacherLanguage(@PathVariable(name = "id") Long id, HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
         Users teacherUser = usersRepository.findByEmail(username);
 
         if (teacherUser == null || teacherUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
@@ -162,8 +150,8 @@ public class TeachersController {
     }
 
     @PostMapping(value = "/createTeacherEducation")
-    public ResponseEntity<?> createTeacherEducation(@RequestBody TeacherEducationDTO teacherEducationDTO, Principal principal) {
-        String username = principal.getName();
+    public ResponseEntity<?> createTeacherEducation(@RequestBody TeacherEducationDTO teacherEducationDTO, HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
         Teachers teacherUser = teachersRepository.findByUsersEmail(username);
 
         if (teacherUser == null || teacherUser.getUsers().getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
@@ -179,8 +167,8 @@ public class TeachersController {
     }
 
     @PutMapping(value = "/updateTeacherEducation")
-    public ResponseEntity<?> updateTeacherEducation(@RequestBody TeacherEducation teacherEducation, Principal principal) {
-        String username = principal.getName();
+    public ResponseEntity<?> updateTeacherEducation(@RequestBody TeacherEducation teacherEducation, HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
         Users teacherUser = usersRepository.findByEmail(username);
 
         if (teacherUser == null || teacherUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {

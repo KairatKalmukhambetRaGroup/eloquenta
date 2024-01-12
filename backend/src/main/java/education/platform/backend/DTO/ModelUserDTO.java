@@ -1,14 +1,18 @@
 package education.platform.backend.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import education.platform.backend.Entity.Teachers;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+@Data
 public class ModelUserDTO {
     @JsonIgnore
     private Long id;
     private String name;
     private String surname;
     private MultipartFile image;
+    private Teachers teachers;
 
     public Long getId() {
         return id;

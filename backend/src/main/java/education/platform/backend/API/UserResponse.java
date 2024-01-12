@@ -3,7 +3,6 @@ package education.platform.backend.API;
 import education.platform.backend.Entity.UserRole;
 import education.platform.backend.Entity.Users;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class UserResponse {

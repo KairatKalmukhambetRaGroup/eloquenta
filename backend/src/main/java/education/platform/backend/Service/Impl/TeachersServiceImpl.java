@@ -1,13 +1,11 @@
 package education.platform.backend.Service.Impl;
 
 import education.platform.backend.Config.JwtUtils;
-import education.platform.backend.DTO.TeacherLanguageDTO;
-import education.platform.backend.DTO.TeachersDTO;
-import education.platform.backend.DTO.TeachersInFormationDTO;
-import education.platform.backend.DTO.UsersDTO;
+import education.platform.backend.DTO.*;
 import education.platform.backend.Entity.*;
 import education.platform.backend.Repository.*;
 import education.platform.backend.Service.TeachersService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -175,16 +173,13 @@ public class TeachersServiceImpl implements TeachersService {
 
 
     @Override
-    public Teachers updateTeacher(Teachers teachers) {
-        Teachers lesson = teachersRepository.findById(teachers.getId()).orElseThrow();
+    public Teachers updateTeacher(ModelUserDTO modelUserDTO, Teachers teacher) {
+        Users user = usersRepository.getById(modelUserDTO.getId());
+        teacher = teachersRepository.findByUsersEmail(user.getEmail());
 
-        if (lesson != null) {
-            lesson.setDescription(teachers.getDescription());
-            lesson.setRating(teachers.getRating());
-            lesson.setMeetingLink(teachers.getMeetingLink());
+        teacher.setDescription(modelUserDTO.getTeachers().getDescription());
+        teachersRepository.save(teacher);
 
-            return teachersRepository.save(lesson);
-        }
-        return null;
+        return teacher;
     }
 }
