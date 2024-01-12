@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "lessons")
@@ -27,7 +27,7 @@ public class Lessons {
     private Long id;
 
     @Column(name = "time")
-    private LocalDateTime time;
+    private Instant time;
 
     @Column(name = "status")
     private LessonStatus status = LessonStatus.INACTIVE;

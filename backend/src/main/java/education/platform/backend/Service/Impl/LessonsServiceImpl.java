@@ -58,7 +58,7 @@ public class LessonsServiceImpl implements LessonsService {
 
         Lessons newLesson = new Lessons();
 
-        newLesson.setTime(lessonDTO.getTime().atOffset(ZoneOffset.UTC).toLocalDateTime());
+        newLesson.setTime(lessonDTO.getTime());
         newLesson.setTeacherId(teacher);
 
         return lessonsRepository.save(newLesson);

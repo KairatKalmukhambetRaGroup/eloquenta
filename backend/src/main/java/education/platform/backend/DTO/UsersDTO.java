@@ -10,6 +10,7 @@ public class UsersDTO {
     private String name;
     private String surname;
     private String email;
+    @JsonIgnore
     private String password;
     private String image;
     private String oldPassword;

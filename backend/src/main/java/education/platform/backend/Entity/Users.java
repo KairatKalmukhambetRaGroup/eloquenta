@@ -35,6 +35,7 @@ public class Users implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 

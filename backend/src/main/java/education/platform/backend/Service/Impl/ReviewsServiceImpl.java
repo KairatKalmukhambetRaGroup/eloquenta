@@ -11,6 +11,10 @@ import education.platform.backend.Service.ReviewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,8 +30,13 @@ public class ReviewsServiceImpl implements ReviewsService {
     private UsersRepository usersRepository;
 
     @Override
-    public List<Reviews> getAllReviews() {
-        return reviewsRepository.findAll();
+    public List<Reviews> getMyReviews(Long id) {
+        return reviewsRepository.findReviewsByReviewerIdId(id);
+    }
+
+    @Override
+    public List<Reviews> getTeacherReviews(Long id) {
+        return reviewsRepository.findReviewsByTeacherIdId(id);
     }
 
     @Override
@@ -35,7 +44,7 @@ public class ReviewsServiceImpl implements ReviewsService {
         Reviews newReviews = new Reviews();
 
         newReviews.setText(reviewsDTO.getText());
-        newReviews.setCreatedAt(reviewsDTO.getCreatedAt());
+        newReviews.setCreatedAt(Instant.now());
         newReviews.setRate(reviewsDTO.getRate());
 
         Teachers teacher = teachersRepository.findById(reviewsDTO.getTeacherId()).orElse(null);

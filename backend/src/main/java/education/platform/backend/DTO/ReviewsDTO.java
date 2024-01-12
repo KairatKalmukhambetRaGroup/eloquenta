@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import education.platform.backend.Entity.Teachers;
 import education.platform.backend.Entity.Users;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class ReviewsDTO {
     @JsonIgnore
@@ -13,7 +13,7 @@ public class ReviewsDTO {
     private Teachers teacherId;
     private Integer rate;
     private String text;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     public Users getReviewerId() {
         return reviewerId;
@@ -47,11 +47,11 @@ public class ReviewsDTO {
         this.text = text;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 }
