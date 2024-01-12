@@ -1,5 +1,6 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from '@/utils/axiosConfig';
 
 import '@/styles/profile/lessons.scss';
 import LessonsCard from '@/components/LessonsCard';
@@ -9,44 +10,30 @@ import NoLessons from '@/assets/images/lessons-illustration.png'
 import Link from 'next/link';
 import CancelLessonModal from '@/components/user/CancelLessonModal';
 
-const lessons = [
-	{
-		id: 1,
-		teacher: {
-			name: 'John Doe',
-			avatar: '',
-			language: 'Russian'
-		},
-		date: ''
-	},
-	{
-		id: 2,
-		teacher: {
-			name: 'John Doe',
-			avatar: '',
-			language: 'Russian'
-		},
-		date: ''
-	},
-	{
-		id: 3,
-		teacher: {
-			name: 'John Doe',
-			avatar: '',
-			language: 'Russian'
-		},
-		date: ''
-	},
-]
-
 const noLessonText = {
 	current: 'На сегодня у вас нет никаких уроков. :(',
 	planed: 'У вас нет запланированных уроков на ближайшие несколько дней'
 }
 
 const MyLessons = () => {
+	const [lessons, setLessons] = useState<any[]>()
 	const [activeTab, setActiveTab] = useState('current');
 	const [cancelId, setCancelId] = useState(null);
+	const getLessons = async () => {
+		try {
+			const {data} = await axios.get(`/lessons/getMyLessons`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
+			console.log(data)
+			setLessons(data)
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	useEffect(() => {
+		if(!lessons)
+			getLessons()
+	}, [lessons])
+
 	return (
 		<div className="lessons">
 			<div className="tab-items">

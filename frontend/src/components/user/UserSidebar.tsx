@@ -15,7 +15,7 @@ const UserSidebar = ({locale}: any) => {
                 <label>МЕНЮ</label>
                 <div className="links">
                     {user && user.role != 'teacher' && (
-                        <Link href="/tutors/english" className='link'>
+                        <Link href="/tutors?lang=en" className='link'>
                             <i className='menu'></i>
                             Меню
                         </Link>

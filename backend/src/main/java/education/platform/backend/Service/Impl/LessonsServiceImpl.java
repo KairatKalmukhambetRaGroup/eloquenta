@@ -1,5 +1,6 @@
 package education.platform.backend.Service.Impl;
 
+import education.platform.backend.API.LessonResponse;
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.LessonDTO;
 import education.platform.backend.Entity.Lessons;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,7 +87,50 @@ public class LessonsServiceImpl implements LessonsService {
     }
 
     @Override
-    public List<Lessons> getLessonsByTeacherId(Long id){
-        return lessonsRepository.findAllByTeacherIdId(id);
+    public List<Lessons> getLessonsByTeacherId(Long userid){
+        Teachers teachers = teachersRepository.getByUsersId(userid);
+        return lessonsRepository.findAllByTeacherIdId(teachers.getId());
+    }
+
+    @Override
+    public List<LessonResponse> getMyLessons(Long studentId){
+        List<LessonResponse> lessonResponses = new ArrayList<>();
+        List<Lessons> lessons = lessonsRepository.findAllByStudentIdId(studentId);
+
+        for(Lessons lesson : lessons){
+
+            LessonResponse lessonResponse = new LessonResponse(
+                    lesson.getId(),
+                    lesson.getStatus().toString(),
+                    lesson.getTeacherId().getMeetingLink(),
+                    lesson.getTeacher_lang_id().getLang_id().getSlug(),
+                    lesson.getTime());
+            lessonResponse.setTeacher(lesson.getTeacherId().getUsers());
+            lessonResponses.add(lessonResponse);
+        }
+
+        return lessonResponses;
+    }
+
+    @Override
+    public List<LessonResponse> getMyLessonsTeacher(Long userId){
+        List<LessonResponse> lessonResponses = new ArrayList<>();
+
+        Teachers teachers = teachersRepository.getByUsersId(userId);
+        List<Lessons> lessons = lessonsRepository.findAllByTeacherIdId(teachers.getId());
+
+        for(Lessons lesson : lessons){
+
+            LessonResponse lessonResponse = new LessonResponse(
+                    lesson.getId(),
+                    lesson.getStatus().toString(),
+                    lesson.getTeacherId().getMeetingLink(),
+                    lesson.getTeacher_lang_id().getLang_id().getSlug(),
+                    lesson.getTime());
+            lessonResponse.setStudent(lesson.getStudentId());
+            lessonResponses.add(lessonResponse);
+        }
+
+        return lessonResponses;
     }
 }

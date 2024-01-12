@@ -72,7 +72,7 @@ public class SecurityConfig {
                         .requestMatchers("/teachers/getTeacherInfoById/{id}").permitAll()
                         .requestMatchers("/teachers/getOneTeacher/{id}").permitAll()
                         .requestMatchers("/lessons/register/{id}").permitAll()
-                        .requestMatchers("/lessons/getAllLessons").permitAll()
+                        .requestMatchers("/lessons/getMyLessons").permitAll()
                         .requestMatchers("/lessons/getLessonsByTeacherId/{id}").permitAll()
                         .requestMatchers("/lessons/getOneLesson/{id}").permitAll()
                         .requestMatchers("/lessons/create").permitAll()

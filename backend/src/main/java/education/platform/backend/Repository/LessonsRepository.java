@@ -15,4 +15,6 @@ public interface LessonsRepository extends JpaRepository<Lessons, Long> {
 
     List<Lessons> findAllByTeacherIdId(Long id);
 
+    List<Lessons> findAllByStudentIdId(Long id);
+
 }
