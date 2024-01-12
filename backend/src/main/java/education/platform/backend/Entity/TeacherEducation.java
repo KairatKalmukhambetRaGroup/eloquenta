@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+
 
 @Entity
 @Table(name = "teacher_education")
@@ -30,10 +31,10 @@ public class TeacherEducation {
     private String degree;
 
     @Column(name = "enroll_date")
-    private LocalDateTime enrollDate;
+    private Instant enrollDate;
 
     @Column(name = "graduation_date")
-    private LocalDateTime graduationDate;
+    private Instant graduationDate;
 
     @Column(name = "is_studying")
     private boolean isStudying = false;

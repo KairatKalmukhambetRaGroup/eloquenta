@@ -5,10 +5,12 @@ import education.platform.backend.DTO.ReviewsDTO;
 import education.platform.backend.Entity.Reviews;
 import education.platform.backend.Entity.Teachers;
 import education.platform.backend.Entity.Users;
+import education.platform.backend.Repository.TeachersRepository;
 import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.ReviewsService;
 import education.platform.backend.Service.TeachersService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +34,26 @@ public class ReviewsController {
     @Autowired
     private JwtUtils jwtUtils;
 
-    @GetMapping(value = "/getAllReviews")
-    public List<Reviews> getAllReviews() {
-        return reviewsService.getAllReviews();
+    @Autowired
+    private TeachersRepository teachersRepository;
+
+    @GetMapping(value = "/getReviews")
+    public List<Reviews> getAllReviews(HttpServletRequest request) {
+        try {
+            String currentUsername = jwtUtils.getUsernameFromRequest(request);
+            Users currentUser = usersRepository.findByEmail(currentUsername);
+
+            if (currentUser == null || currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
+                assert currentUser != null;
+                return reviewsService.getMyReviews(currentUser.getId());
+            } else if (currentUser == null || currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
+                Teachers teacher = teachersRepository.findByUsersEmail(currentUsername);
+                return reviewsService.getTeacherReviews(teacher.getId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
