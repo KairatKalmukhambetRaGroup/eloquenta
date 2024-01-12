@@ -1,12 +1,16 @@
-"use client"
+// "use client"
 import { PropsWithChildren } from "react";
 
 import UserProvider from '@/contexts/UserContext';
+import { NextIntlClientProvider, useMessages } from "next-intl";
 
 export const ContextProvider = ({children}: PropsWithChildren) => {
+    const messages = useMessages();
     return (
         <UserProvider>
-            {children}
+            <NextIntlClientProvider messages={messages}>
+                {children}
+            </NextIntlClientProvider>
         </UserProvider>
     )
 }

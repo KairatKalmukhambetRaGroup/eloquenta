@@ -85,3 +85,10 @@ body{
         background: #FDD9EE;
     }
 }
+
+.badges{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+}

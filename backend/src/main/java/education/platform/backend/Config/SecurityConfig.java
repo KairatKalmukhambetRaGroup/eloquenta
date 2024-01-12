@@ -69,6 +69,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/reset").permitAll()
                         .requestMatchers("/users/reset-pass").permitAll()
                         .requestMatchers("/teachers/getAllTeachers").permitAll()
+                        .requestMatchers("/teachers/getTeacherById/{id}").permitAll()
                         .requestMatchers("/teachers/getOneTeacher/{id}").permitAll()
                         .requestMatchers("/lessons/getAllLessons").permitAll()
                         .requestMatchers("/lessons/getOneLesson/{id}").permitAll()

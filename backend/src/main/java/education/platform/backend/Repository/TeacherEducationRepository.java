@@ -6,11 +6,13 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Transactional
 public interface TeacherEducationRepository extends JpaRepository<TeacherEducation, Long> {
 
-    TeacherEducation findByTeachers(Teachers teachers);
+    List<TeacherEducation> findByTeachers(Teachers teachers);
 
 
     void deleteAllByTeachersId(Long id);

@@ -383,6 +383,7 @@
                             }
                         }
                         .cards{
+                            width: 100%;
                             display: flex;
                             flex-direction: row;
                             align-items: flex-start;
@@ -390,7 +391,10 @@
                             flex-wrap: wrap;
                             gap: 20px 15px;
                             .tutor-card{
-                                width: calc((100% - 30px) / 3);
+                                height: 100%;
+                                max-width: calc((100% - 30px) / 3);
+                                // width: calc((100% - 30px) / 3);
+                                flex-grow: 1;
                                 padding: 15px 15px 25px 15px;
                                 .card-image{
                                     aspect-ratio: 250 / 170;
@@ -400,6 +404,9 @@
                                         font-size: 22px;
                                         line-height: 32px; /* 145.455% */
                                     }
+                                }
+                                .description{
+                                    flex-grow: 1;
                                 }
                                 .card-footer{
                                     .price{

@@ -48,8 +48,8 @@ public class TeachersController {
     }
 
     @GetMapping(value = "/search")
-    public List<Teachers> searchTeachers(@RequestParam(name = "lang") String lang){
-        return  teachersService.searchTeachers(lang);
+    public List<TeacherResponse> searchTeachers(@RequestParam(name = "lang") String lang){
+        return teachersService.searchTeachers(lang);
     }
 
     @PostMapping(value = "/createTeacher")
@@ -108,6 +108,14 @@ public class TeachersController {
     @GetMapping(value = "/getAllTeacherLanguage")
     public List<TeacherLanguage> getAllTeacherLanguage() {
         return teacherLanguageService.getAllTeacherLanguage();
+    }
+
+    @GetMapping(value = "/getTeacherById/{id}")
+    public ResponseEntity<?> getTeacherById(@PathVariable(name = "id") Long id) {
+        TeacherResponse teacherResponse = teachersService.getTeacherResponseById(id, null);
+        if(teacherResponse != null)
+            return new ResponseEntity<>(teacherResponse, HttpStatus.OK);
+        return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/getOneTeacherLanguage/{id}")

@@ -75,12 +75,12 @@ const Settings = () => {
                             {formData.image ? 
                             'Изменить аватар' : 'Добавить аватар'}
                         </label>
-                        {user.image != formData.image ? 
+                        {formData.image ? 
                             <div className='btn delete' onClick={deletePreview}>
                                 Сбросить
                             </div>
                             :
-                            formData.image &&
+                            formData.avatar &&
                             <div className="btn delete" onClick={deleteImage}>
                                 Удалить аватар
                             </div>

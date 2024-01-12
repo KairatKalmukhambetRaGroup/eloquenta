@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import '@/styles/profile/usersidebar.scss';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -26,15 +26,17 @@ const UserSidebar = ({locale}: any) => {
                     </Link>
                 </div>
             </div>
-            <div className="group">
-                <label>АККАУНТ</label>
-                <div className="links">
-                    <Link href="/profile" className={`link ${pathname == `/${locale}/profile` ? 'active' : ''}`}>
-                        <i className='profile'></i>
-                        Профиль
-                    </Link>
+            {user && user.role == 'ROLE_TEACHER' && 
+                <div className="group">
+                    <label>АККАУНТ</label>
+                    <div className="links">
+                        <Link href="/profile" className={`link ${pathname == `/${locale}/profile` ? 'active' : ''}`}>
+                            <i className='profile'></i>
+                            Профиль
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            }
             <div className="group">
                 <label>НАСТРОЙКИ</label>
                 <div className="links">

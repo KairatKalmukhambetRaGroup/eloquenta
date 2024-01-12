@@ -1,5 +1,8 @@
 package education.platform.backend.Service.Impl;
 
+import education.platform.backend.API.TeacherEducationResponse;
+import education.platform.backend.API.TeacherLanguageResponse;
+import education.platform.backend.API.TeacherResponse;
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.TeacherLanguageDTO;
 import education.platform.backend.DTO.TeachersDTO;
@@ -63,8 +66,13 @@ public class TeachersServiceImpl implements TeachersService {
     private NotificationRepository notificationRepository;
 
     @Override
-    public List<Teachers> searchTeachers(String lang) {
-        return teachersRepository.findTeachersByLanguage(lang);
+    public List<TeacherResponse> searchTeachers(String lang) {
+        List<Teachers> teachers = teachersRepository.findTeachersByLanguage(lang);
+        List<TeacherResponse> response = new ArrayList<>();
+        for(Teachers teacher : teachers){
+            response.add(getTeacherResponseById(teacher.getId(), lang));
+        }
+        return response;
     }
 
     @Override
@@ -79,13 +87,13 @@ public class TeachersServiceImpl implements TeachersService {
             dto.setDescription(teacher.getDescription());
             dto.setMeetingLink(teacher.getMeetingLink());
 
-            TeacherEducation teacherEducation = teacherEducationRepository.findByTeachers(teacher);
-            if (teacherEducation != null) {
-                dto.setUniversity(teacherEducation.getUniversity());
-                dto.setDegree(teacherEducation.getDegree());
-                dto.setEnrollDate(teacherEducation.getEnrollDate());
-                dto.setGraduateDate(teacherEducation.getGraduationDate());
-            }
+//            TeacherEducation teacherEducation = teacherEducationRepository.findByTeachers(teacher);
+//            if (teacherEducation != null) {
+//                dto.setUniversity(teacherEducation.getUniversity());
+//                dto.setDegree(teacherEducation.getDegree());
+//                dto.setEnrollDate(teacherEducation.getEnrollDate());
+//                dto.setGraduateDate(teacherEducation.getGraduationDate());
+//            }
 
             List<TeacherLanguage> teacherLanguages = teacherLanguageRepository.findByUserId(teacher.getUsers());
             if (!teacherLanguages.isEmpty()) {
@@ -105,6 +113,24 @@ public class TeachersServiceImpl implements TeachersService {
     @Override
     public Teachers getTeacherById(Long id) {
         return teachersRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public TeacherResponse getTeacherResponseById(Long id, String lang) {
+        Teachers teacher = getTeacherById(id);
+        List<TeacherLanguage> teacherLanguages = teacherLanguageRepository.findByUserId(teacher.getUsers());
+        List<TeacherLanguageResponse> teacherLanguageResponses = new ArrayList<>();
+        int price = 0;
+        for(TeacherLanguage tl : teacherLanguages){
+            TeacherLanguageResponse tlResponse = new TeacherLanguageResponse(tl);
+            teacherLanguageResponses.add(tlResponse);
+            if(lang != null && tlResponse.getLang().equals(lang)){
+                price = tlResponse.getPrice();
+            }else{
+                price = Math.min(price, tlResponse.getPrice());
+            }
+        }
+        return  new TeacherResponse(teacher, teacherLanguageResponses, price);
     }
 
     @Override

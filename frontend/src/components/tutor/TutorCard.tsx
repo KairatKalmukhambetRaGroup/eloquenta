@@ -2,19 +2,24 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import TutorImageInit from '@/assets/images/tutor-image-init.png';
+
+interface TeacherLanguage {
+    isTeaching: boolean,
+    lang: string,
+    level: string,
+    price: Number
+}
 
 interface TutorInfo {
     id: string,
-    image: any,
+    userId: string,
     name: string,
-    nation: string,
-    lang: string,
-    langs: string[],
+    surname: string,
+    languages: TeacherLanguage[],
     description: string,
-    rating: {
-        value: string,
-        count: string
-    },
+    rating: string,
+    ratingCount: string,
     price: string
 }
 
@@ -24,16 +29,25 @@ const TutorCard = ({tutor, locale} : {tutor: TutorInfo, locale: any}) => {
     return (
         <div className='tutor-card'>
             <div className="card-image">
-                <Image src={tutor.image} alt='Tutor image' />
+                <img src={`${process.env.NEXT_PUBLIC_API_URL}/users/avatar/${tutor.userId}`} alt='preview' />
+                {/* <Image src={TutorImageInit} alt='Tutor image' /> */}
             </div>
             <Link href={`/${locale}/tutor/${tutor.id}`} className="card-heading">
-                <div className="name">{tutor.name} <i className={`nation ${tutor.nation}`}></i></div>
-                <div className={`badge ${tutor.lang}`}>{langT(tutor.lang)}</div>
+                <div className="name">{tutor.name} {tutor.surname}
+                {/* <i className={`nation ${tutor.nation}`}></i> */}
+                </div>
+                <div className="badges">
+                    {tutor.languages.map((language, key)=> 
+                        language.isTeaching && 
+                        <div key={key} className={`badge ${language.lang}`}>{langT(language.lang)}</div>
+                    )}
+                </div>
+                
             </Link>
             <div className="langs">
                 <i></i>
                 {/* <div className="langs-content"> */}
-                    {t('languages.start')}{tutor.langs.map((lang, key)=> `${key == 0 ? '' : ','} ${langT(lang)}`)} {t('languages.end')}
+                    {t('languages.start')}{tutor.languages.map((language, key)=> `${key == 0 ? '' : ','} ${langT(language.lang)}`)} {t('languages.end')}
                 {/* </div> */}
             </div>
             <div className="description">
@@ -43,9 +57,9 @@ const TutorCard = ({tutor, locale} : {tutor: TutorInfo, locale: any}) => {
                 <div className="rating">
                     <i></i>
                     <div className="value">
-                        {tutor.rating.value}
+                        {tutor.rating}
                         <span>
-                            ({tutor.rating.count})
+                            ({tutor.ratingCount})
                         </span>
                     </div>
                 </div>
@@ -55,9 +69,9 @@ const TutorCard = ({tutor, locale} : {tutor: TutorInfo, locale: any}) => {
                 </div>
             </div>
             <div className="card-btns">
-                <div className="video-btn">
+                {/* <div className="video-btn">
                     <i></i>
-                </div>
+                </div> */}
                 <Link href={`/${locale}/tutor/${tutor.id}`} className="btn">
                     {t('book')}
                 </Link>

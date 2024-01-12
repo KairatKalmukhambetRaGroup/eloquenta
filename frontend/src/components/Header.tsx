@@ -26,9 +26,8 @@ const Header = ({locale}: any) => {
                                 <i></i>
                             </div>
                             <div className="user">
-
-                                <Link href="/profile" className="avatar">
-
+                                <Link href={user.role == 'ROLE_TEACHER' ? '/profile' : '/profile/settings'} className="avatar">
+                                    <img src={`${process.env.NEXT_PUBLIC_API_URL}/users/avatar/${user.id}`} alt='preview' />
                                 </Link>
                                 <div className="dropdown">
                                     <i></i>

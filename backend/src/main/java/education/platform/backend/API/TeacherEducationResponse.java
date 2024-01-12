@@ -1,0 +1,25 @@
+package education.platform.backend.API;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import education.platform.backend.Entity.TeacherEducation;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class TeacherEducationResponse {
+    private String university;
+    private String degree;
+    private LocalDateTime enrollDate;
+    private LocalDateTime graduationDate;
+    @JsonProperty("isStudying")
+    private boolean isStudying;
+
+    public TeacherEducationResponse(TeacherEducation teacherEducation){
+        this.university = teacherEducation.getUniversity();
+        this.degree = teacherEducation.getDegree();
+        this.enrollDate = teacherEducation.getEnrollDate();
+        this.graduationDate = teacherEducation.getGraduationDate();
+        this.isStudying = teacherEducation.isStudying();
+    }
+}
