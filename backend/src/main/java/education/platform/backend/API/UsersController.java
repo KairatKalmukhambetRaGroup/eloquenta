@@ -6,7 +6,9 @@ import education.platform.backend.DTO.ModelUserDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.UserRole;
 import education.platform.backend.Entity.Users;
+import education.platform.backend.Repository.TeachersRepository;
 import education.platform.backend.Repository.UsersRepository;
+import education.platform.backend.Service.TeachersService;
 import education.platform.backend.Service.UserRoleService;
 import education.platform.backend.Service.UsersFileUploadService;
 import education.platform.backend.Service.UsersService;
@@ -14,15 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -47,10 +44,15 @@ public class UsersController {
     @Autowired
     private UsersFileUploadService usersFileUploadService;
 
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @Autowired
+    private TeachersService teachersService;
+
+    @Autowired
+    private TeachersRepository teachersRepository;
+
     @GetMapping(value = "/getAllUsers")
-    public ResponseEntity<?> getAllUsers(Principal principal) {
-        String username = principal.getName();
+    public ResponseEntity<?> getAllUsers(HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
         Users adminUser = usersRepository.findByEmail(username);
         if (adminUser == null || adminUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
@@ -62,8 +64,8 @@ public class UsersController {
 
 
     @GetMapping(value = "/getOneUser/{id}")
-    public ResponseEntity<?> getOneUser(@PathVariable(name = "id") Long id, Principal principal) {
-        String username = principal.getName();
+    public ResponseEntity<?> getOneUser(@PathVariable(name = "id") Long id, HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
         Users adminUser = usersRepository.findByEmail(username);
         if (adminUser == null || adminUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
@@ -154,9 +156,9 @@ public class UsersController {
     }
 
     @PostMapping(value = "/update-password")
-    public ResponseEntity<Object> updatePassword(@RequestBody UsersDTO usersDTO, Principal principal){
+    public ResponseEntity<Object> updatePassword(@RequestBody UsersDTO usersDTO, HttpServletRequest request){
         try {
-            String username = principal.getName();
+            String username = jwtUtils.getUsernameFromRequest(request);
             Users user = usersRepository.findByEmail(username);
             if (user == null) {
                 return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
@@ -186,9 +188,16 @@ public class UsersController {
 
                 if(user != null){
                     usersRepository.save(user);
-                    usersService.updateUser(usersDTO, user);
-                    UserRole userRole = userRoleService.getUserRoleByUserId(user.getId());
-                    String token = jwtUtils.generateToken(user);
+
+                    if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
+                        usersService.updateUser(usersDTO, user);
+                        teachersService.updateTeacher(usersDTO, user);
+                    } else {
+                        usersService.updateUser(usersDTO, user);
+                    }
+                        UserRole userRole = userRoleService.getUserRoleByUserId(user.getId());
+                        String token = jwtUtils.generateToken(user);
+
                     return new ResponseEntity<>(new UserResponse(token, user, userRole), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<>("Unable to upload image", HttpStatus.BAD_REQUEST);

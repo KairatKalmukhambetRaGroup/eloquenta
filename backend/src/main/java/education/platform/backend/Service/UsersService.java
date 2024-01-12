@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,5 +22,5 @@ public interface UsersService extends UserDetailsService {
     ResponseEntity<String> reset(UsersDTO usersDTO);
     Users resetPass(UsersDTO usersDTO, String email, String token, String expires);
     Users uploadImage(MultipartFile multipartFile, HttpServletRequest request);
-    Users updateUser(ModelUserDTO usersDTO, Users user);
+    Users updateUser(ModelUserDTO modelUserDTO, Users user);
 }

@@ -4,13 +4,11 @@ import education.platform.backend.API.TeacherEducationResponse;
 import education.platform.backend.API.TeacherLanguageResponse;
 import education.platform.backend.API.TeacherResponse;
 import education.platform.backend.Config.JwtUtils;
-import education.platform.backend.DTO.TeacherLanguageDTO;
-import education.platform.backend.DTO.TeachersDTO;
-import education.platform.backend.DTO.TeachersInFormationDTO;
-import education.platform.backend.DTO.UsersDTO;
+import education.platform.backend.DTO.*;
 import education.platform.backend.Entity.*;
 import education.platform.backend.Repository.*;
 import education.platform.backend.Service.TeachersService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -201,16 +199,18 @@ public class TeachersServiceImpl implements TeachersService {
 
 
     @Override
-    public Teachers updateTeacher(Teachers teachers) {
-        Teachers lesson = teachersRepository.findById(teachers.getId()).orElseThrow();
+    public Teachers updateTeacher(ModelUserDTO modelUserDTO, Users user) {
+        Teachers teacher = teachersRepository.findByUsersEmail(user.getEmail());
 
-        if (lesson != null) {
-            lesson.setDescription(teachers.getDescription());
-            lesson.setRating(teachers.getRating());
-            lesson.setMeetingLink(teachers.getMeetingLink());
+        teacher.setDescription(modelUserDTO.getDescription());
+        List<TeacherEducation> teacherEducations = modelUserDTO.getTeacherEducations();
+        if(teacherEducations != null && !teacherEducations.isEmpty())
+            teacherEducationRepository.saveAll(teacherEducations);
+        List<TeacherLanguage> teacherLanguages = modelUserDTO.getTeacherLanguages();
+        if(teacherLanguages != null && !teacherLanguages.isEmpty())
+            teacherLanguageRepository.saveAll(teacherLanguages);
+        teachersRepository.save(teacher);
 
-            return teachersRepository.save(lesson);
-        }
-        return null;
+        return teacher;
     }
 }
