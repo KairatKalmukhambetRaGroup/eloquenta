@@ -3,13 +3,20 @@ package education.platform.backend.API;
 import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.LessonDTO;
 import education.platform.backend.Entity.Lessons;
+import education.platform.backend.Entity.Teachers;
+import education.platform.backend.Repository.TeachersRepository;
 import education.platform.backend.Service.LessonsService;
+import education.platform.backend.Service.TeacherLanguageService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/lessons")
@@ -17,6 +24,10 @@ public class LessonsController {
 
     @Autowired
     private LessonsService lessonsService;
+
+    @Autowired
+    private TeacherLanguageService teacherLanguageService;
+
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -37,8 +48,23 @@ public class LessonsController {
     }
 
     @PostMapping(value = "/register/{id}")
-    public Lessons registerToLesson(@PathVariable(name = "id") Long id, HttpServletRequest request){
-        return lessonsService.register(id, request);
+    public ResponseEntity<?> registerToLesson(@PathVariable(name = "id") Long id, @RequestParam(name = "lang") Long teacherLanguageId, HttpServletRequest request){
+        Lessons lesson = lessonsService.register(id, teacherLanguageId,request);
+        if(lesson != null)
+            return new ResponseEntity<>(lesson, HttpStatus.OK);
+        return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "/getLessonsByTeacherId/{id}")
+    public ResponseEntity<? extends Object> getLessonsByTeacherId(@PathVariable(name = "id") Long id){
+        List<Lessons> lessons = lessonsService.getLessonsByTeacherId(id);
+        List<TeacherLanguageResponse> teacherLanguageResponses = teacherLanguageService.getTeacherLanguagesByTeacherIdAndIsTeaching(id, true);
+        Map<String, Object> response = new HashMap<>();
+        response.put("lessons", lessons);
+        response.put("languages", teacherLanguageResponses);
+        if(lessons != null)
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
     }
 
 }

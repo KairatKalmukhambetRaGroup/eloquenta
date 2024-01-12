@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TeacherLanguageDTO {
 
-    private boolean is_teaching;
+    private boolean isTeaching;
     private int price;
     private LanguageLevel level;
     private Language language;

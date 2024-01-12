@@ -36,6 +36,6 @@ public class TeacherEducation {
     private LocalDateTime graduationDate;
 
     @Column(name = "is_studying")
-    private boolean isStudying;
+    private boolean isStudying = false;
 
 }

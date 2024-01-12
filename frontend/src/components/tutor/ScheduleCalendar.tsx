@@ -4,8 +4,7 @@ import React, { useState } from 'react'
 const today = new Date(new Date().setHours(0,0,0,0));
 const dayArrInit = [0,1,2,3,4,5,6];
 
-const ScheduleCalendar = ({weekdays}: any) => {
-    const [activeDay, setActiveDay] = useState(today.getTime());
+const ScheduleCalendar = ({weekdays, activeDay, setActiveDay}: any) => {
     const [dayArr, setDayArr] = useState(dayArrInit)
 
     const prev = (e: any) => {

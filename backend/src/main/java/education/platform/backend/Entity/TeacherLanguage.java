@@ -19,7 +19,7 @@ public class TeacherLanguage {
     private Long id;
 
     @Column(name = "is_teaching")
-    private boolean is_teaching;
+    private boolean isTeaching;
 
     @Column(name = "price")
     private int price;

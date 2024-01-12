@@ -119,16 +119,33 @@ public class TeachersServiceImpl implements TeachersService {
         List<TeacherLanguage> teacherLanguages = teacherLanguageRepository.findByUserId(teacher.getUsers());
         List<TeacherLanguageResponse> teacherLanguageResponses = new ArrayList<>();
         int price = 0;
+        if(!teacherLanguageResponses.isEmpty())
+            price = Integer.MAX_VALUE;
         for(TeacherLanguage tl : teacherLanguages){
             TeacherLanguageResponse tlResponse = new TeacherLanguageResponse(tl);
             teacherLanguageResponses.add(tlResponse);
-            if(lang != null && tlResponse.getLang().equals(lang)){
-                price = tlResponse.getPrice();
-            }else{
+            if(lang != null){
+                if(tlResponse.getLang().equals(lang)){
+                    price = tlResponse.getPrice();
+                }
+            }else if(tlResponse.isTeaching()){
                 price = Math.min(price, tlResponse.getPrice());
             }
         }
+        if(price == Integer.MAX_VALUE)
+            price = 0;
         return  new TeacherResponse(teacher, teacherLanguageResponses, price);
+    }
+
+    @Override
+    public TeacherResponse getTeacherInfoById(Long id){
+        Teachers teacher = getTeacherById(id);
+        List<TeacherEducation> teacherEducations = teacherEducationRepository.findByTeachers(teacher);
+        List<TeacherEducationResponse> teacherEducationResponses = new ArrayList<>();
+        for(TeacherEducation teacherEducation : teacherEducations){
+            teacherEducationResponses.add(new TeacherEducationResponse(teacherEducation));
+        }
+        return  new TeacherResponse(teacher.getDescription(), teacherEducationResponses);
     }
 
     @Override
@@ -176,7 +193,7 @@ public class TeachersServiceImpl implements TeachersService {
 
             TeacherLanguage newTeacherLanguage = new TeacherLanguage();
             newTeacherLanguage.setUserId(newUser);
-            newTeacherLanguage.set_teaching(true);
+            newTeacherLanguage.setTeaching(true);
             newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
             newTeacherLanguage.setLevel(languageLevel);
             newTeacherLanguage.setLang_id(language);

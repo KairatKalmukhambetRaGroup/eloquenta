@@ -106,6 +106,16 @@ public class TeachersController {
         return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping(value = "/getTeacherInfoById/{id}")
+    public ResponseEntity<?> getTeacherInfoById(@PathVariable(name = "id") Long id) {
+
+        TeacherResponse teacherResponse = teachersService.getTeacherInfoById(id);
+        if(teacherResponse != null)
+            return new ResponseEntity<>(teacherResponse, HttpStatus.OK);
+        return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
+    }
+
+
     @GetMapping(value = "/getOneTeacherLanguage/{id}")
     public TeacherLanguage getOneTeacherLanguage(@RequestParam(name = "id") Long id) {
         return teacherLanguageService.getOneTeacherLanguage(id);

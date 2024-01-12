@@ -12,6 +12,7 @@ public class TeacherResponse {
     private String name;
     private String surname;
     private List<TeacherLanguageResponse> languages;
+    private List<TeacherEducationResponse> educations;
     private String description;
     private Float rating;
     private Long ratingCount;
@@ -28,5 +29,10 @@ public class TeacherResponse {
         this.surname = teacher.getUsers().getSurname();
         this.languages = languages;
         this.price = price;
+    }
+
+    public TeacherResponse(String description, List<TeacherEducationResponse> educations){
+        this.description = description;
+        this.educations = educations;
     }
 }

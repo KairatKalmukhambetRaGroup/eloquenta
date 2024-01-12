@@ -1,5 +1,4 @@
 import axois from 'axios';
-import { error } from 'console';
 
 const instance = axois.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,

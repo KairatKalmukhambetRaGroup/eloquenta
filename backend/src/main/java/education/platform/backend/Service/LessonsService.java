@@ -13,5 +13,6 @@ public interface LessonsService {
 
     Lessons createLesson(LessonDTO lessonDTO, HttpServletRequest request);
 
-    Lessons register( Long id, HttpServletRequest request);
+    Lessons register( Long id, Long teacherLanguageId, HttpServletRequest request);
+    List<Lessons> getLessonsByTeacherId(Long id);
 }

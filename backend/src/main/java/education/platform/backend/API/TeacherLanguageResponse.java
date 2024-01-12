@@ -6,15 +6,17 @@ import lombok.Data;
 
 @Data
 public class TeacherLanguageResponse {
+    private long id;
     private int price;
     private String level;
     private String lang;
     @JsonProperty("isTeaching")
     private boolean isTeaching;
     public TeacherLanguageResponse(TeacherLanguage tl){
+        this.id = tl.getId();
         this.price = tl.getPrice();
         this.level = tl.getLevel().getCode();
         this.lang = tl.getLang_id().getSlug();
-        this.isTeaching = tl.is_teaching();
+        this.isTeaching = tl.isTeaching();
     }
 }

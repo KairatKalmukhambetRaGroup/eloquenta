@@ -25,5 +25,7 @@ public interface TeachersService {
 
     TeacherResponse getTeacherResponseById(Long id, String lang);
 
+     TeacherResponse getTeacherInfoById(Long id);
+
     Teachers updateTeacher(ModelUserDTO modelUserDTO, Users user);
 }

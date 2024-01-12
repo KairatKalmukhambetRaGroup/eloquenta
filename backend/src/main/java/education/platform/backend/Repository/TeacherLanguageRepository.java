@@ -17,6 +17,11 @@ public interface TeacherLanguageRepository extends JpaRepository<TeacherLanguage
     @Query("SELECT tl FROM TeacherLanguage tl WHERE tl.userId = :user")
     List<TeacherLanguage> findByUserId(@Param("user") Users user);
 
+    @Query("SELECT tl FROM TeacherLanguage tl WHERE tl.userId = :user AND tl.isTeaching = :isTeaching")
+    List<TeacherLanguage> findAllByUserIdAndTeaching(@Param("user") Users user, @Param("isTeaching") boolean isTeaching);
+
     void deleteAllByUserIdId(Long id);
+
+    TeacherLanguage getById(Long id);
 
 }

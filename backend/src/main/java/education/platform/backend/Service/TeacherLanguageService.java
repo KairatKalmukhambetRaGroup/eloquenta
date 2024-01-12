@@ -1,5 +1,6 @@
 package education.platform.backend.Service;
 
+import education.platform.backend.API.TeacherLanguageResponse;
 import education.platform.backend.DTO.TeacherLanguageDTO;
 import education.platform.backend.Entity.TeacherLanguage;
 
@@ -13,4 +14,5 @@ public interface TeacherLanguageService {
     TeacherLanguage updateTeacherLanguage(TeacherLanguage teacherLanguage);
     void delete(Long id);
 
+    List<TeacherLanguageResponse> getTeacherLanguagesByTeacherIdAndIsTeaching(Long id, boolean isTeaching);
 }

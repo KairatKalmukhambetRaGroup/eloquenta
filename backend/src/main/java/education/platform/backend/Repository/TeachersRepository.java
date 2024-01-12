@@ -18,6 +18,8 @@ public interface TeachersRepository extends JpaRepository<Teachers, Long> {
             "WHERE LOWER(l.slug) = LOWER(:lang)")
     List<Teachers> findTeachersByLanguage(@Param("lang") String lang);
 
+    Teachers getById(Long id);
+
     Teachers findByUsersEmail(String email);
 
     void deleteTeachersByUsersId(Long id);

@@ -1,12 +1,16 @@
 package education.platform.backend.Service.Impl;
 
+import education.platform.backend.API.TeacherLanguageResponse;
 import education.platform.backend.DTO.TeacherLanguageDTO;
 import education.platform.backend.Entity.TeacherLanguage;
+import education.platform.backend.Entity.Teachers;
 import education.platform.backend.Repository.TeacherLanguageRepository;
+import education.platform.backend.Repository.TeachersRepository;
 import education.platform.backend.Service.TeacherLanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,6 +18,9 @@ public class TeacherLanguageServiceImpl implements TeacherLanguageService {
 
     @Autowired
     private TeacherLanguageRepository teacherLanguageRepository;
+
+    @Autowired
+    private TeachersRepository teachersRepository;
 
     @Override
     public List<TeacherLanguage> getAllTeacherLanguage() {
@@ -26,12 +33,24 @@ public class TeacherLanguageServiceImpl implements TeacherLanguageService {
     }
 
     @Override
+    public List<TeacherLanguageResponse> getTeacherLanguagesByTeacherIdAndIsTeaching(Long id, boolean isTeaching) {
+        Teachers teacher = teachersRepository.getById(id);
+        List<TeacherLanguage> teacherLanguages = teacherLanguageRepository.findAllByUserIdAndTeaching(teacher.getUsers(), isTeaching);
+        List<TeacherLanguageResponse> teacherLanguageResponses = new ArrayList<>();
+        for(TeacherLanguage tl : teacherLanguages){
+            TeacherLanguageResponse tlResponse = new TeacherLanguageResponse(tl);
+            teacherLanguageResponses.add(tlResponse);
+        }
+        return teacherLanguageResponses;
+    }
+
+    @Override
     public TeacherLanguage createTeacherLanguage(TeacherLanguageDTO teacherLanguageDTO) {
         TeacherLanguage newTeacherLanguage = new TeacherLanguage();
 
         newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
         newTeacherLanguage.setLevel(teacherLanguageDTO.getLevel());
-        newTeacherLanguage.set_teaching(true);
+        newTeacherLanguage.setTeaching(true);
         newTeacherLanguage.setLang_id(teacherLanguageDTO.getLanguage());
         newTeacherLanguage.setUserId(teacherLanguageDTO.getUsers());
         
@@ -45,7 +64,7 @@ public class TeacherLanguageServiceImpl implements TeacherLanguageService {
         if (checkTeacherLanguage != null) {
             checkTeacherLanguage.setPrice(teacherLanguage.getPrice());
             checkTeacherLanguage.setLevel(teacherLanguage.getLevel());
-            checkTeacherLanguage.set_teaching(teacherLanguage.is_teaching());
+            checkTeacherLanguage.setTeaching(teacherLanguage.isTeaching());
 
             return teacherLanguageRepository.save(checkTeacherLanguage);
         }
