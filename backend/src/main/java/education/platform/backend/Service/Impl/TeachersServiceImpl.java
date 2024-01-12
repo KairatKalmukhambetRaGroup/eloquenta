@@ -173,11 +173,16 @@ public class TeachersServiceImpl implements TeachersService {
 
 
     @Override
-    public Teachers updateTeacher(ModelUserDTO modelUserDTO, Teachers teacher) {
-        Users user = usersRepository.getById(modelUserDTO.getId());
-        teacher = teachersRepository.findByUsersEmail(user.getEmail());
+    public Teachers updateTeacher(ModelUserDTO modelUserDTO, Users user) {
+        Teachers teacher = teachersRepository.findByUsersEmail(user.getEmail());
 
-        teacher.setDescription(modelUserDTO.getTeachers().getDescription());
+        teacher.setDescription(modelUserDTO.getDescription());
+        List<TeacherEducation> teacherEducations = modelUserDTO.getTeacherEducations();
+        if(teacherEducations != null && !teacherEducations.isEmpty())
+            teacherEducationRepository.saveAll(teacherEducations);
+        List<TeacherLanguage> teacherLanguages = modelUserDTO.getTeacherLanguages();
+        if(teacherLanguages != null && !teacherLanguages.isEmpty())
+            teacherLanguageRepository.saveAll(teacherLanguages);
         teachersRepository.save(teacher);
 
         return teacher;

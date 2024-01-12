@@ -50,7 +50,6 @@ public class UsersController {
     @Autowired
     private TeachersRepository teachersRepository;
 
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping(value = "/getAllUsers")
     public ResponseEntity<?> getAllUsers(HttpServletRequest request) {
         String username = jwtUtils.getUsernameFromRequest(request);
@@ -183,47 +182,33 @@ public class UsersController {
             String username = jwtUtils.getUsernameFromRequest(request);
             Users user = usersRepository.findByEmail(username);
 
-            if (user.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
-                if (user != null) {
-                    if(usersDTO.getImage() != null)
-                        user = usersFileUploadService.uploadImage(usersDTO.getImage(), user);
+            if (user != null) {
+                if(usersDTO.getImage() != null)
+                    user = usersFileUploadService.uploadImage(usersDTO.getImage(), user);
 
-                    if(user != null){
-                        usersRepository.save(user);
+                if(user != null){
+                    usersRepository.save(user);
+
+                    if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
                         usersService.updateUser(usersDTO, user);
+                        teachersService.updateTeacher(usersDTO, user);
+                    } else {
+                        usersService.updateUser(usersDTO, user);
+                    }
                         UserRole userRole = userRoleService.getUserRoleByUserId(user.getId());
                         String token = jwtUtils.generateToken(user);
-                        return new ResponseEntity<>(new UserResponse(token, user, userRole), HttpStatus.OK);
-                    } else {
-                        return new ResponseEntity<>("Unable to upload image", HttpStatus.BAD_REQUEST);
-                    }
-                } else {
-                    return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-                }
-            } else if (user.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))){
-                if (user != null) {
-                    if(usersDTO.getImage() != null)
-                        user = usersFileUploadService.uploadImage(usersDTO.getImage(), user);
 
-                    if(user != null){
-                        usersRepository.save(user);
-                        usersService.updateUser(usersDTO, user);
-
-                        UserRole userRole = userRoleService.getUserRoleByUserId(user.getId());
-                        String token = jwtUtils.generateToken(user);
-                        return new ResponseEntity<>(new UserResponse(token, user, userRole), HttpStatus.OK);
-                    } else {
-                        return new ResponseEntity<>("Unable to upload image", HttpStatus.BAD_REQUEST);
-                    }
+                    return new ResponseEntity<>(new UserResponse(token, user, userRole), HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>("Unable to upload image", HttpStatus.BAD_REQUEST);
                 }
+            } else {
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return null;
     }
 
     @GetMapping(value = "/avatar/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})

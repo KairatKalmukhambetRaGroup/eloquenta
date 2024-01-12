@@ -22,5 +22,5 @@ public interface UsersService extends UserDetailsService {
     ResponseEntity<String> reset(UsersDTO usersDTO);
     Users resetPass(UsersDTO usersDTO, String email, String token, String expires);
     Users uploadImage(MultipartFile multipartFile, HttpServletRequest request);
-    Users updateUser(ModelUserDTO usersDTO, Users user);
+    Users updateUser(ModelUserDTO modelUserDTO, Users user);
 }

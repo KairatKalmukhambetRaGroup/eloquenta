@@ -214,10 +214,13 @@ public class UserServiceImpl implements UsersService {
 
     @Override
     public Users updateUser(ModelUserDTO userDTO, Users user) {
-        user.setName(userDTO.getName());
-        user.setSurname(userDTO.getSurname());
-
-        return user;
+        Users checkUser = usersRepository.findByEmail(user.getEmail());
+        if(user == null){
+            return null;
+        }
+        checkUser.setName(userDTO.getName());
+        checkUser.setSurname(userDTO.getSurname());
+        return usersRepository.save(user);
     }
 
 

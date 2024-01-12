@@ -15,6 +15,6 @@ public interface TeachersService {
     Teachers getTeacherById(Long id);
     void delete(Long id);
     Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, List<TeacherLanguageDTO> teacherLanguageDTOs) throws GeneralSecurityException, IOException;
-    Teachers updateTeacher(ModelUserDTO modelUserDTO, Teachers teacher);
+    Teachers updateTeacher(ModelUserDTO modelUserDTO, Users user);
     List<Teachers> searchTeachers(String lang);
 }
