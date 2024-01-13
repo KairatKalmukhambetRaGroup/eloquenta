@@ -304,6 +304,10 @@
             line-height: 20px; /* 142.857% */
             border: none;
             cursor: pointer;
+            &:disabled{
+                cursor: default;
+                background: rgba($color: #07604B, $alpha: .5);
+            }
         }   
     }
 

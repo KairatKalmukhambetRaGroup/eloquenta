@@ -70,6 +70,7 @@ public class SecurityConfig {
                         .requestMatchers("/teachers/getAllTeachers").permitAll()
                         .requestMatchers("/teachers/getTeacherById/{id}").permitAll()
                         .requestMatchers("/teachers/getTeacherInfoById/{id}").permitAll()
+                        .requestMatchers("/teachers/getTeacherInfoByUserId/{id}").permitAll()
                         .requestMatchers("/teachers/getOneTeacher/{id}").permitAll()
                         .requestMatchers("/lessons/register/{id}").permitAll()
                         .requestMatchers("/lessons/getAllLessons").permitAll()

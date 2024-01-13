@@ -2,6 +2,7 @@
 @import '../adaptive';
 
 .teacher-profile{
+    position: relative;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -153,6 +154,25 @@
             content: url('../../assets/svg/info.svg');
         }
     }
+    .add-lesson{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-self: stretch;
+        color: #121117;
+        font-family: v.$font_raleway;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+
+        i{
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            content: url('../../assets/svg/plus.svg');
+        }
+    }
 
     .days{
         display: flex;
@@ -248,6 +268,94 @@
                 font-style: normal;
                 font-weight: 400;
                 line-height: 22px; /* 150% */
+            }
+        }
+    }
+    #addLessonModal{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.40);
+
+        font-family: v.$font_raleway;
+
+        padding: 30px;
+
+        form{
+            display: inline-flex;
+            padding: 30px 20px 20px 20px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+
+            border-radius: 12px;
+            background: #FFF;
+            .heading{
+                color: #1A1A1A;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 28px; /* 140% */
+            }
+            .form-group{
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                label{
+                    color: #1A1A1A;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 20px; /* 142.857% */
+                }
+                select{
+                    width: 100%;
+                    border-radius: 4px;
+                    border: 1px solid #EAECF0;
+                    background: #F6F8F9;
+                    padding: 14px;
+
+                    color: #1A1A1A;
+                    font-family: v.$font_raleway;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 20px; /* 142.857% */
+                }
+            }
+            .btns{
+                display: flex;
+                width: 100%;
+                align-items: flex-start;
+                gap: 10px;
+                .btn{
+                    cursor: pointer;
+                    flex: 1 0 0;
+                    padding: 14px 32px;
+
+                    border-radius: 8px;
+                    background: #F6F8F9;
+                    color: #1A1A1A;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 20px; /* 166.667% */
+                }
+                button.btn{
+                    background: #07604B;
+                    color: #FFF;
+                    border: none;
+                    &:focus{
+                        outline: none;
+                    }
+                }
             }
         }
     }

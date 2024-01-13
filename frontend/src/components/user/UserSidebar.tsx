@@ -7,15 +7,15 @@ import { usePathname } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
 
 const UserSidebar = ({locale}: any) => {
-    const {user} = useUserContext();
+    const {user, logout} = useUserContext();
     const pathname = usePathname();
     return (
         <div id='usersidebar'>
             <div className="group">
                 <label>МЕНЮ</label>
                 <div className="links">
-                    {user && user.role != 'teacher' && (
-                        <Link href="/tutors/english" className='link'>
+                    {user && user.role == 'student' && (
+                        <Link href="/tutors?lang=en" className='link'>
                             <i className='menu'></i>
                             Меню
                         </Link>
@@ -24,6 +24,12 @@ const UserSidebar = ({locale}: any) => {
                         <i className='lessons'></i>
                         Мои уроки
                     </Link>
+                    {user && user.role == 'ROLE_ADMIN' && (
+                        <Link href="/admin" className='link'>
+                            <i className='menu'></i>
+                            Админ панель
+                        </Link>
+                    )}
                 </div>
             </div>
             {user && user.role == 'ROLE_TEACHER' && 
@@ -44,6 +50,10 @@ const UserSidebar = ({locale}: any) => {
                         <i className='settings'></i>
                         Настройки
                     </Link>
+                    <div className={`link`} onClick={logout}>
+                        <i className='logout'></i>
+                        Выйти
+                    </div>
                 </div>
             </div>
         </div>

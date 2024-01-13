@@ -53,7 +53,8 @@ public class LessonsServiceImpl implements LessonsService {
         String teacherToken = jwtUtils.getUsernameFromRequest(request);
         Teachers teacher = teachersRepository.findByUsersEmail(teacherToken);
 
-        if (teacher == null || teacher.getUsers().getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
+        if (teacher == null || teacher.getUsers().getAuthorities().stream()
+                .noneMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
             return null;
         }
 
@@ -64,12 +65,14 @@ public class LessonsServiceImpl implements LessonsService {
 
         return lessonsRepository.save(newLesson);
     }
+
     @Override
-    public Lessons register(Long lessonId, Long teacherLanguageId,HttpServletRequest request){
+    public Lessons register(Long lessonId, Long teacherLanguageId, HttpServletRequest request) {
         String username = jwtUtils.getUsernameFromRequest(request);
         Users student = usersRepository.findByEmail(username);
 
-        if (student == null || student.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
+        if (student == null
+                || student.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
             return null;
         }
         Optional<Lessons> lessonOpt = lessonsRepository.findById(lessonId);
@@ -86,7 +89,7 @@ public class LessonsServiceImpl implements LessonsService {
     }
 
     @Override
-    public List<Lessons> getLessonsByTeacherId(Long id){
+    public List<Lessons> getLessonsByTeacherId(Long id) {
         return lessonsRepository.findAllByTeacherIdId(id);
     }
 
@@ -112,6 +115,27 @@ public class LessonsServiceImpl implements LessonsService {
                 return null;
             }
 
+    @Override
+    public List<LessonResponse> getMyLessonsTeacher(Long userId) {
+        List<LessonResponse> lessonResponses = new ArrayList<>();
+
+        Teachers teachers = teachersRepository.getByUsersId(userId);
+        List<Lessons> lessons = lessonsRepository.findAllByTeacherIdIdOrderByTime(teachers.getId());
+
+        for (Lessons lesson : lessons) {
+            String lang = "";
+            if (lesson.getTeacher_lang_id() != null)
+                lang = lesson.getTeacher_lang_id().getLang_id().getSlug();
+            LessonResponse lessonResponse = new LessonResponse(
+                    lesson.getId(),
+                    lesson.getStatus().toString(),
+                    lesson.getTeacherId().getMeetingLink(),
+                    lang,
+                    lesson.getTime());
+            lessonResponse.setStudent(lesson.getStudentId());
+            System.out.println(lessonResponse.getTime().toEpochMilli());
+
+            lessonResponses.add(lessonResponse);
         }
 
         return null;

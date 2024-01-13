@@ -5,6 +5,7 @@ import education.platform.backend.DTO.*;
 import education.platform.backend.Entity.Teachers;
 import education.platform.backend.Entity.Users;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -18,7 +19,7 @@ public interface TeachersService {
 
     void delete(Long id);
 
-    Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, List<TeacherLanguageDTO> teacherLanguageDTOs)
+    ResponseEntity<String> createTeacher(UsersDTO usersDTO)
             throws GeneralSecurityException, IOException;
 
     List<TeacherResponse> searchTeachers(String lang);

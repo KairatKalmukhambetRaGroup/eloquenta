@@ -5,6 +5,7 @@ import React from 'react'
 import '@/styles/lessoncard.scss';
 
 const LessonsCard = ({lesson, setCancelId}: any) => {
+    console.log(lesson);
     return (
         <div className={`lesson-card ${lesson.disabled ? 'disabled' : ''}`}>
             <div className="info">
@@ -24,15 +25,21 @@ const LessonsCard = ({lesson, setCancelId}: any) => {
                         </div>
                     </div>
                 </div>
-                <div className="teacher">
-                    <div className="avatar">
-                        {/* <Image /> */}
+                {/* {lesson.teacher ? (
+                    <div className="teacher">
+                        <div className="avatar">
+                            <img src={`${process.env.NEXT_PUBLIC_API_URL}/users/avatar/${lesson.teacher.id}`} alt='preview' />
+                        </div>
+                        <div className="teacher-info">
+                            <div className="name">{lesson.teacher.name} {lesson.teacher.surname}</div>
+                            <div className="language">{lesson.lang}</div>
+                        </div>
                     </div>
                     <div className="teacher-info">
                         <div className="name">{lesson.teacher.name}</div>
                         <div className="language">{lesson.teacher.language}</div>
                     </div>
-                </div>
+                )} */}
             </div>
             <div className='btns'>
                 <Link href={`/profile/lessons/${lesson.id}`} className='btn'>

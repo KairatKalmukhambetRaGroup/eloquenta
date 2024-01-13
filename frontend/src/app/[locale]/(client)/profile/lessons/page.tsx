@@ -8,36 +8,7 @@ import Image from 'next/image';
 import NoLessons from '@/assets/images/lessons-illustration.png'
 import Link from 'next/link';
 import CancelLessonModal from '@/components/user/CancelLessonModal';
-
-const lessons = [
-	{
-		id: 1,
-		teacher: {
-			name: 'John Doe',
-			avatar: '',
-			language: 'Russian'
-		},
-		date: ''
-	},
-	{
-		id: 2,
-		teacher: {
-			name: 'John Doe',
-			avatar: '',
-			language: 'Russian'
-		},
-		date: ''
-	},
-	{
-		id: 3,
-		teacher: {
-			name: 'John Doe',
-			avatar: '',
-			language: 'Russian'
-		},
-		date: ''
-	},
-]
+import { useUserContext } from '@/contexts/UserContext';
 
 const noLessonText = {
 	current: 'На сегодня у вас нет никаких уроков. :(',
@@ -47,6 +18,27 @@ const noLessonText = {
 const MyLessons = () => {
 	const [activeTab, setActiveTab] = useState('current');
 	const [cancelId, setCancelId] = useState(null);
+	const {user} = useUserContext();
+	const getLessons = async () => {
+		try {
+			const {data} = await axios.get(`/lessons/getMyLessons`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
+			
+			if(user.role == 'ROLE_TEACHER'){
+				setLessons(data.filter((l: any)=>l.student != null))
+			}else{
+				setLessons(data)
+			}
+
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	useEffect(() => {
+		if(!lessons && user)
+			getLessons()
+	}, [lessons, user])
+
 	return (
 		<div className="lessons">
 			<div className="tab-items">

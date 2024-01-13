@@ -55,7 +55,7 @@ public class TeachersController {
     }
 
     @PostMapping(value = "/createTeacher")
-    public ResponseEntity<?> createTeacher(@RequestBody CombinedUsersTeacherDTO combinedUsersTeacherDTO, HttpServletRequest request) throws GeneralSecurityException, IOException {
+    public ResponseEntity<String> createTeacher(@RequestBody UsersDTO usersDTO, HttpServletRequest request) throws GeneralSecurityException, IOException {
         String username = jwtUtils.getUsernameFromRequest(request);
         Users adminUser = usersRepository.findByEmail(username);
 
@@ -63,11 +63,10 @@ public class TeachersController {
             return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
         }
 
-        Teachers newTeachers = teachersService.createTeacher(combinedUsersTeacherDTO.getUsersDTO(), combinedUsersTeacherDTO.getTeachersDTO(), combinedUsersTeacherDTO.getTeacherLanguageDTOs());
-        if (newTeachers != null) {
-            return ResponseEntity.ok(newTeachers);
-        } else {
-            return new ResponseEntity<>("Error creating teacher", HttpStatus.BAD_REQUEST);
+        try{
+            return teachersService.createTeacher(usersDTO);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -110,6 +109,11 @@ public class TeachersController {
         if(teacherResponse != null)
             return new ResponseEntity<>(teacherResponse, HttpStatus.OK);
         return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping(value = "/getTeacherInfoByUserId/{id}")
+    public ResponseEntity<?> getTeacherInfoByUserId(@PathVariable(name = "id") Long id) {
+        Teachers teachers = teachersRepository.getByUsersId(id);
+        return getTeacherInfoById(teachers.getId());
     }
 
 

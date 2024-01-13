@@ -8,8 +8,12 @@ import education.platform.backend.DTO.*;
 import education.platform.backend.Entity.*;
 import education.platform.backend.Repository.*;
 import education.platform.backend.Service.TeachersService;
+import education.platform.backend.utils.PasswordGenerator;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +67,8 @@ public class TeachersServiceImpl implements TeachersService {
     @Autowired
     private NotificationRepository notificationRepository;
 
+    @Autowired
+    private JavaMailSender mailSender;
     @Override
     public List<TeacherResponse> searchTeachers(String lang) {
         List<Teachers> teachers = teachersRepository.findTeachersByLanguage(lang);
@@ -169,17 +175,23 @@ public class TeachersServiceImpl implements TeachersService {
     }
 
     @Override
-    public Teachers createTeacher(UsersDTO usersDTO, TeachersDTO teachersDTO, List<TeacherLanguageDTO> teacherLanguageDTOs) throws GeneralSecurityException, IOException {
+    public ResponseEntity<String> createTeacher(UsersDTO usersDTO) throws GeneralSecurityException, IOException {
         if (usersRepository.findByEmail(usersDTO.getEmail()) != null) {
             return null;
         }
 
+        PasswordGenerator passwordGenerator = new PasswordGenerator.PasswordGeneratorBuilder()
+                .useDigits(true)
+                .useLower(true)
+                .build();
+        String password = passwordGenerator.generate(10);
+
         Users newUser = new Users();
         newUser.setName(usersDTO.getName());
         newUser.setSurname(usersDTO.getSurname());
-        newUser.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
+        newUser.setPassword(passwordEncoder.encode(password));
         newUser.setEmail(usersDTO.getEmail());
-        newUser.setImage(usersDTO.getImage());
+//        newUser.setImage(usersDTO.getImage());
         newUser = usersRepository.save(newUser);
 
         Roles teacherRole = rolesRepository.findByName("ROLE_TEACHER");
@@ -187,18 +199,18 @@ public class TeachersServiceImpl implements TeachersService {
         UserRole userRole = new UserRole(userRoleId, newUser, teacherRole);
         userRoleRepository.save(userRole);
 
-        for (TeacherLanguageDTO teacherLanguageDTO : teacherLanguageDTOs) {
-            LanguageLevel languageLevel = languageLevelRepository.getById(teacherLanguageDTO.getLevel().getId());
-            Language language = languageRepository.getById(teacherLanguageDTO.getLanguage().getId());
-
-            TeacherLanguage newTeacherLanguage = new TeacherLanguage();
-            newTeacherLanguage.setUserId(newUser);
-            newTeacherLanguage.setTeaching(true);
-            newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
-            newTeacherLanguage.setLevel(languageLevel);
-            newTeacherLanguage.setLang_id(language);
-            teacherLanguageRepository.save(newTeacherLanguage);
-        }
+//        for (TeacherLanguageDTO teacherLanguageDTO : teacherLanguageDTOs) {
+//            LanguageLevel languageLevel = languageLevelRepository.getById(teacherLanguageDTO.getLevel().getId());
+//            Language language = languageRepository.getById(teacherLanguageDTO.getLanguage().getId());
+//
+//            TeacherLanguage newTeacherLanguage = new TeacherLanguage();
+//            newTeacherLanguage.setUserId(newUser);
+//            newTeacherLanguage.setTeaching(true);
+//            newTeacherLanguage.setPrice(teacherLanguageDTO.getPrice());
+//            newTeacherLanguage.setLevel(languageLevel);
+//            newTeacherLanguage.setLang_id(language);
+//            teacherLanguageRepository.save(newTeacherLanguage);
+//        }
 
         Teachers newTeacher = new Teachers();
 
@@ -211,7 +223,27 @@ public class TeachersServiceImpl implements TeachersService {
         newTeacher.setRating(0.0f);
         teachersRepository.save(newTeacher);
 
-        return newTeacher;
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("${spring.mail.username}");
+        message.setTo(newUser.getEmail());
+        message.setSubject("Eloquenta new User");
+        message.setText("Dear " + newUser.getName() + ",\n\n" +
+                "A new teacher account has been created for you on our website Eloquenta Academy. " +
+                "Here are your account details:\n\n" +
+                "Email: " + newUser.getEmail() + "\n" +
+                "Temporary Password: " + password + "\n\n" +
+                "Please use these credentials to log in to your teacher account. " +
+                "We recommend changing your password after logging in for security purposes.\n\n" +
+                "Sincerely,\n" +
+                "Website Support Team");
+        try {
+            mailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok("New Teacher created");
     }
 
 
