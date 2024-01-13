@@ -1,10 +1,7 @@
 package education.platform.backend.API;
 
 import education.platform.backend.Config.JwtUtils;
-import education.platform.backend.DTO.CombinedUsersTeacherDTO;
-import education.platform.backend.DTO.TeacherEducationDTO;
-import education.platform.backend.DTO.TeachersDTO;
-import education.platform.backend.DTO.TeachersInFormationDTO;
+import education.platform.backend.DTO.*;
 import education.platform.backend.Entity.TeacherEducation;
 import education.platform.backend.Entity.TeacherLanguage;
 import education.platform.backend.Entity.Teachers;
@@ -201,28 +198,18 @@ public class TeachersController {
         }
     }
 
-    /*{
-        "usersDTO": {
-        "name": "Bake",
-                "surname": "Bake",
-                "email": "batikkenzhaliev@gmail.com",
-                "password": "batik"
-    },
-        "teachersDTO": {
-        "rating": 0,
-                "description": "Hello everyone",
-                "meetingLink": "string"
-    },
-        "teacherLanguageDTO": {
-        "price": 20,
-                "level": "string",
-                "language": {
-            "id": 3,
-                    "slug": "string"
-        },
-        "is_teaching": true
+    @PostMapping(value = "/create-language")
+    public ResponseEntity<?> createLanguage(@RequestBody TeacherLanguageDTO teacherLanguageDTO, HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
+        Users teacher = usersRepository.findByEmail(username);
+
+        if (teacher == null || teacher.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
+            TeacherLanguage teacherLanguage = teacherLanguageService.createTeacherLanguage(teacherLanguageDTO, request);
+            return new ResponseEntity<>(teacherLanguage, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("You are not teacher", HttpStatus.BAD_REQUEST);
+        }
     }
-    }*/
 
 
 }
