@@ -28,7 +28,6 @@ public class LessonsController {
     @Autowired
     private TeacherLanguageService teacherLanguageService;
 
-
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -49,7 +48,7 @@ public class LessonsController {
 
     @PostMapping(value = "/register/{id}")
     public ResponseEntity<?> registerToLesson(@PathVariable(name = "id") Long id, @RequestParam(name = "lang") Long teacherLanguageId, HttpServletRequest request){
-        Lessons lesson = lessonsService.register(id, teacherLanguageId,request);
+        Lessons lesson = lessonsService.register(id, teacherLanguageId, request);
         if(lesson != null)
             return new ResponseEntity<>(lesson, HttpStatus.OK);
         return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
@@ -65,6 +64,15 @@ public class LessonsController {
         if(lessons != null)
             return new ResponseEntity<>(response, HttpStatus.OK);
         return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/cancellation/{id}")
+    public ResponseEntity<?> cancellationToLesson(@PathVariable(name = "id") Long id, HttpServletRequest request) {
+        Lessons lesson = lessonsService.cancellation(id, request);
+        if (lesson != null) {
+            return new ResponseEntity<>(lesson, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("You have already attended in your lesson", HttpStatus.BAD_REQUEST);
     }
 
 }

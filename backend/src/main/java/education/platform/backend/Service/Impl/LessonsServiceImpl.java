@@ -15,7 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneOffset;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,5 +88,32 @@ public class LessonsServiceImpl implements LessonsService {
     @Override
     public List<Lessons> getLessonsByTeacherId(Long id){
         return lessonsRepository.findAllByTeacherIdId(id);
+    }
+
+    @Override
+    public Lessons cancellation(Long lessonId, HttpServletRequest request) {
+        String username = jwtUtils.getUsernameFromRequest(request);
+        Users student = usersRepository.findByEmail(username);
+
+        if (student == null || student.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
+            Optional<Lessons> lessonOpt = lessonsRepository.findById(lessonId);
+            if (!lessonOpt.isPresent()) {
+                return null;
+            }
+            Lessons lesson = lessonOpt.get();
+
+            Instant lessonTime = lesson.getTime();
+
+            if (lessonTime != null && Instant.now().plus(24, ChronoUnit.HOURS).isBefore(lessonTime)) {
+                lesson.setTeacher_lang_id(null);
+                lesson.setStudentId(null);
+                return lessonsRepository.save(lesson);
+            } else {
+                return null;
+            }
+
+        }
+
+        return null;
     }
 }
