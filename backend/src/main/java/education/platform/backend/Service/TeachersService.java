@@ -4,12 +4,12 @@ import education.platform.backend.API.TeacherResponse;
 import education.platform.backend.DTO.*;
 import education.platform.backend.Entity.Teachers;
 import education.platform.backend.Entity.Users;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
+import java.util.Map;
 
 public interface TeachersService {
 
@@ -22,7 +22,7 @@ public interface TeachersService {
     ResponseEntity<String> createTeacher(UsersDTO usersDTO)
             throws GeneralSecurityException, IOException;
 
-    List<TeacherResponse> searchTeachers(String lang);
+    Map<String, Object> searchTeachers(String lang, int page, List<String> days, List<String> times, Integer gmt);
 
     TeacherResponse getTeacherResponseById(Long id, String lang);
 

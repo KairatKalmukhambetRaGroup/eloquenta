@@ -5,6 +5,7 @@ import Img from '@/assets/images/tutor-image-init.png';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import axios from 'axios';
+import axiosUser from '@/utils/axiosConfig';
 import { useEffect, useState } from 'react';
 
 const reviewCountInit = {
@@ -31,7 +32,22 @@ const page = ({params: {id}}:any) => {
             setRating(data.rating);
             setReviews(data.reviews);
             let r = {...reviewCount};
-            data.reviews.map(i => {
+            data.reviews.map((i:any) => {
+                r.all ++;
+                r[i.rate]++;
+            })
+            setReviewCount(r);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const handleReviewSubmit = async (formData: any) => {
+        try {
+            const {data} = await axiosUser.post(`/reviews/create-review/${id}`, formData, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
+            setRating(data.rating);
+            setReviews(data.reviews);
+            let r = {...reviewCount};
+            data.reviews.map((i:any) => {
                 r.all ++;
                 r[i.rate]++;
             })
@@ -125,7 +141,7 @@ const page = ({params: {id}}:any) => {
                 </div>
             </div>
             <div className="reviews">
-                {reviews.map((review, i) => ( 
+                {reviews && reviews.map((review, i) => ( 
                     <Review review={review} key={i} />
                 ))}
                 <div className="more">
@@ -136,6 +152,7 @@ const page = ({params: {id}}:any) => {
                     {t('btn')}
                 </div>
             </div>
+            <ReviewForm handleReviewSubmit={handleReviewSubmit} />
         </div>
     )
 }
@@ -175,4 +192,51 @@ export const Review = ({review}: any) => {
             <hr />
         </>
     );
+}
+
+const initReviewFormData = {
+    rate: 1,
+    text: ''
+}
+const ReviewForm = ({handleReviewSubmit}: any) => {
+    const [formData, setFormData] = useState(initReviewFormData);
+    
+    const handleChange = (e: any) => {
+        e.preventDefault();
+        const {name, value} = e.currentTarget;
+        setFormData({...formData, [name]: value})
+    }
+    const handleStarClick = (rate: number) => {
+        setFormData({...formData, rate})
+    }
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        handleReviewSubmit(formData);
+    }
+    return (
+        <form  onSubmit={handleSubmit} id='reviewForm'>
+            <h2>
+                Оставить свой отзыв
+            </h2>
+            <div className="inputs">
+                <div className="form-group">
+                    <label>Рейтинг</label>
+                    <div className="star-rating">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                        <i
+                            key={star}
+                            className={star <= formData.rate ? 'star selected' : 'star'}
+                            onClick={() => handleStarClick(star)}
+                        ></i>
+                        ))}
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label>Отзыв</label>
+                    <textarea required name="text" value={formData.text} rows={5} onChange={handleChange}></textarea>
+                </div>
+            </div>
+            <button type="submit">Оставить отзыв</button>
+        </form>
+    )
 }

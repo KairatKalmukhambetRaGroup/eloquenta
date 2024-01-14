@@ -9,7 +9,6 @@ import education.platform.backend.Entity.*;
 import education.platform.backend.Repository.*;
 import education.platform.backend.Service.TeachersService;
 import education.platform.backend.utils.PasswordGenerator;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,8 +18,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+
 
 @Service
 public class TeachersServiceImpl implements TeachersService {
@@ -70,12 +74,108 @@ public class TeachersServiceImpl implements TeachersService {
     @Autowired
     private JavaMailSender mailSender;
     @Override
-    public List<TeacherResponse> searchTeachers(String lang) {
+    public Map<String, Object> searchTeachers(String lang, int page, List<String> days, List<String> times, Integer gmt) {
         List<Teachers> teachers = teachersRepository.findTeachersByLanguage(lang);
-        List<TeacherResponse> response = new ArrayList<>();
-        for(Teachers teacher : teachers){
-            response.add(getTeacherResponseById(teacher.getId(), lang));
+        List<TeacherResponse> teacherResponses = new ArrayList<>();
+
+        String gmtString = "Z";
+        if(gmt != null && gmt != 0){
+            gmtString = gmt >= 0 ? "+"+gmt : String.valueOf(gmt);
         }
+
+        for(Teachers teacher : teachers){
+            List<TeacherLanguage> teacherLanguages = teacherLanguageRepository.findAllByUserIdAndTeaching(teacher.getUsers(), true);
+            boolean exists = false;
+            for (TeacherLanguage teacherLanguage: teacherLanguages) {
+                if(teacherLanguage.getLang_id().getSlug().equals(lang)){
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists)
+                continue;
+
+            List<Lessons> lessons = lessonRepository.findAllByTeacherIdIdAndStudentIdIsNull(teacher.getId());
+            boolean added = false;
+
+            if((days == null || days.size() == 0 || days.size() == 7) && (times == null || times.size() == 0 || times.size() == 4)){
+                teacherResponses.add(getTeacherResponseById(teacher.getId(), lang));
+                continue;
+            }
+
+            for (Lessons lesson: lessons) {
+                if(added)
+                    break;
+
+                Instant instant = lesson.getTime();
+
+                OffsetDateTime offsetDateTime = instant.atOffset(ZoneOffset.of(gmtString));
+
+                String dayOfWeek = offsetDateTime.getDayOfWeek().toString().toLowerCase().substring(0, 3);
+                if(days == null || days.isEmpty() || days.size() == 7){
+                    if(times == null || times.isEmpty() || times.size() == 4){
+                        teacherResponses.add(getTeacherResponseById(teacher.getId(), lang));
+                        added = true;
+                    }else{
+                        for (String time:times) {
+                            if(added)
+                                break;
+                            int hour = offsetDateTime.getHour();
+
+                            String[] parts = time.split("-");
+                            int startHour = Integer.parseInt(parts[0]);
+                            int endHour = Integer.parseInt(parts[1]);
+
+                            if(hour >= startHour && hour < endHour){
+                                teacherResponses.add(getTeacherResponseById(teacher.getId(), lang));
+                                added = true;
+                            }
+                        }
+                    }
+                }else{
+                    for (String day : days) {
+                        if(added)
+                            break;
+                        if(dayOfWeek.equals(day)){
+                            if(times == null || times.isEmpty() || times.size() == 4){
+                                teacherResponses.add(getTeacherResponseById(teacher.getId(), lang));
+                                added = true;
+                            }else{
+                                for (String time:times) {
+                                    if(added)
+                                        break;
+                                    int hour = offsetDateTime.getHour();
+
+                                    String[] parts = time.split("-");
+                                    int startHour = Integer.parseInt(parts[0]);
+                                    int endHour = Integer.parseInt(parts[1]);
+
+                                    if(hour >= startHour && hour < endHour){
+                                        teacherResponses.add(getTeacherResponseById(teacher.getId(), lang));
+                                        added = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        int limit = 15;
+        int pages = (int)Math.ceil(teacherResponses.size() / 15.0);
+        if(page > pages){
+            page = 1;
+        }
+
+        int startIndex = (page - 1) * limit;
+        int endIndex = Math.min(startIndex + limit, teacherResponses.size());
+        List<TeacherResponse> subList = teacherResponses.subList(startIndex, endIndex);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("teachers", subList);
+        response.put("page", page);
+        response.put("totalPages", pages);
         return response;
     }
 
@@ -124,9 +224,7 @@ public class TeachersServiceImpl implements TeachersService {
         Teachers teacher = getTeacherById(id);
         List<TeacherLanguage> teacherLanguages = teacherLanguageRepository.findByUserId(teacher.getUsers());
         List<TeacherLanguageResponse> teacherLanguageResponses = new ArrayList<>();
-        int price = 0;
-        if(!teacherLanguageResponses.isEmpty())
-            price = Integer.MAX_VALUE;
+        int price = Integer.MAX_VALUE;
         for(TeacherLanguage tl : teacherLanguages){
             TeacherLanguageResponse tlResponse = new TeacherLanguageResponse(tl);
             teacherLanguageResponses.add(tlResponse);

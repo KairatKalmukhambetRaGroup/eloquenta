@@ -77,7 +77,7 @@ public class ReviewsController {
 
 
     @PostMapping(value = "/create-review/{teacher_id}")
-    public ResponseEntity<Object> createReview(@RequestBody ReviewsDTO reviewsDTO,
+    public ResponseEntity<?> createReview(@RequestBody ReviewsDTO reviewsDTO,
                                                @PathVariable(name = "teacher_id") Long teacherId,
                                                HttpServletRequest request) {
         try {
@@ -95,8 +95,8 @@ public class ReviewsController {
 
             reviewsDTO.setTeacherId(teacher);
 
-            Reviews newReview = reviewsService.createReviews(reviewsDTO, currentUsername);
-            return new ResponseEntity<>("Review created successfully", HttpStatus.CREATED);
+            reviewsService.createReviews(reviewsDTO, currentUsername);
+            return getTeacherReviews(teacherId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

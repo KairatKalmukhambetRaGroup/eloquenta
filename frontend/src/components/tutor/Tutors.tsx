@@ -5,27 +5,14 @@ import TutorCard from '@/components/tutor/TutorCard'
 import TutorImageInit from '@/assets/images/tutor-image-init.png';
 import Pagination from '@/components/Pagination';
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
-
-const tutorInit = {
-    id: '1',
-    image: TutorImageInit,
-    name: 'Имя Фамилия',
-    nation: 'kz',
-    lang: 'tr',
-    langs: ['en','ru','kz'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisi velit, suscipit nec ligula sit amet, molestie scelerisque nisl.',
-    rating: {
-        value: '4.9',
-        count: '11'
-    },
-    price: '46',
-}
 
 const Tutors = ({locale}: any) => {
     const t = useTranslations('tutors');
     const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
     // const lang = searchParams.get('lang');
     // const days = searchParams.getAll('day');
     // const times = searchParams.getAll('time');
@@ -37,8 +24,15 @@ const Tutors = ({locale}: any) => {
         try {
 
             const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/teachers/search?${searchParams.toString()}`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
-            console.log(data);
-            setTeachers(data);
+            setTeachers(data.teachers);
+
+            const current = new URLSearchParams(Array.from(searchParams.entries()));
+            current.set("page", data.page);
+            current.set("pages", data.totalPages);
+            const search = current.toString();
+            const query = search ? `?${search}` : "";
+            router.replace(`${pathname}${query}`)
+            
         } catch (error) {
             console.log(error);
         }
@@ -75,7 +69,7 @@ const Tutors = ({locale}: any) => {
                     </div>
                 )}
             </div>
-            <Pagination currentPage='2' totalPages='16' />
+            <Pagination/>
         </div>
     )
 }
