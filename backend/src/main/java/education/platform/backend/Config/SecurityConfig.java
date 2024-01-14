@@ -78,6 +78,7 @@ public class SecurityConfig {
                         .requestMatchers("/lessons/getOneLesson/{id}").permitAll()
                         .requestMatchers("/lessons/create").permitAll()
                         .requestMatchers("/reviews/getAllReviews").permitAll()
+                        .requestMatchers("/reviews/getTeacherReviews/{id}").permitAll()
                         .requestMatchers("/teachers/getAllTeachers").permitAll()
                         .requestMatchers("/language/**").permitAll()
                         .anyRequest().authenticated())

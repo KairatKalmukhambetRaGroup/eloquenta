@@ -10,13 +10,13 @@ import NoLessons from '@/assets/images/lessons-illustration.png'
 import Link from 'next/link';
 import CancelLessonModal from '@/components/user/CancelLessonModal';
 import { useUserContext } from '@/contexts/UserContext';
+import { useTranslations } from 'next-intl';
 
-const noLessonText = {
-	current: 'На сегодня у вас нет никаких уроков. :(',
-	planed: 'У вас нет запланированных уроков на ближайшие несколько дней'
-}
+
+const now = Math.floor(new Date().getTime() / 1000);
 
 const MyLessons = () => {
+	const t = useTranslations("profile.lessons");
 	const [activeTab, setActiveTab] = useState('current');
 	const [cancelId, setCancelId] = useState(null);
     const [lessons, setLessons] = useState<any[]>();
@@ -24,7 +24,6 @@ const MyLessons = () => {
 	const getLessons = async () => {
 		try {
 			const {data} = await axios.get(`/lessons/getMyLessons`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
-			console.log(data);
 			if(user.role == 'ROLE_TEACHER'){
 				setLessons(data.filter((l: any)=>l.student != null))
 			}else{
@@ -39,27 +38,60 @@ const MyLessons = () => {
 	useEffect(() => {
 		// if(!lessons && user)
 		// console.log(lessons)
+		if(user)
 			getLessons()
+
 	}, [user])
+
+	const filterFunction = (lesson: any, activeTab: any) => {
+		const today = new Date(0);
+		today.setUTCSeconds(now);
+		const todayString = today.toDateString();
+		const lessonDay = new Date(0);
+		lessonDay.setUTCSeconds(lesson.time);
+		const lessonDayString = lessonDay.toDateString();
+
+		switch (activeTab) {
+			case 'current':
+				if(lesson.time > now && todayString == lessonDayString){
+					return true;
+				}
+				return false;
+			case 'planed':
+				if(lesson.time > now && todayString != lessonDayString){
+					return true;
+				}
+				return false;
+
+			case 'past':
+				if(lesson.time < now){
+					return true;
+				}
+				return false;
+
+			default:
+				return false;
+		}
+	}
 
 	return (
 		<div className="lessons">
 			<div className="tab-items">
-				<div className={`tab-item ${activeTab == 'current' ? 'active' : ''}`} onClick={(e)=>{e.preventDefault(); setActiveTab('current')}}>Текущие</div>
-				<div className={`tab-item ${activeTab == 'planed' ? 'active' : ''}`} onClick={(e)=>{e.preventDefault(); setActiveTab('planed')}}>Запланированные</div>
-				<div className={`tab-item ${activeTab == 'past' ? 'active' : ''}`} onClick={(e)=>{e.preventDefault(); setActiveTab('past')}}>Прошедшие</div>
+				<div className={`tab-item ${activeTab == 'current' ? 'active' : ''}`} onClick={(e)=>{e.preventDefault(); setActiveTab('current')}}>{t('tabs.current')}</div>
+				<div className={`tab-item ${activeTab == 'planed' ? 'active' : ''}`} onClick={(e)=>{e.preventDefault(); setActiveTab('planed')}}>{t('tabs.planed')}</div>
+				<div className={`tab-item ${activeTab == 'past' ? 'active' : ''}`} onClick={(e)=>{e.preventDefault(); setActiveTab('past')}}>{t('tabs.past')}</div>
 			</div>
 			<div className="content">
 				<CancelLessonModal setCancelId={setCancelId} cancelId={cancelId} />
-				{lessons && lessons.length > 0 ? 
-					lessons.map((lesson, key) => (
-						<LessonsCard lesson={lesson} key={key} setCancelId={setCancelId} />
+				{lessons && lessons.filter((l) => filterFunction(l, activeTab)).length > 0 ? 
+					lessons.filter((l) => filterFunction(l, activeTab)).map((lesson, key) => (
+						<LessonsCard lesson={lesson} key={key} setCancelId={setCancelId} activeTab={activeTab} />
 					))
 					: 
 					<div className="no-lesson">
 						<Image src={NoLessons} alt='no lessons' />
-						<p>{noLessonText[activeTab]}</p>
-						<Link href="/tutors/english">Забронировать занятие</Link>
+						<p>{t(`noLesson.${activeTab}`)}</p>
+						<Link href="/tutors?lang=en">{t(`book`)}</Link>
 					</div>
 				}
 			</div>
@@ -67,4 +99,4 @@ const MyLessons = () => {
 	)
 }
 
-export default MyLessons
+export default MyLessons;

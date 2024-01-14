@@ -136,6 +136,25 @@
             "btn": "Show more"
         }
     },
+    "profile": {
+        "lessons": {
+            "noLesson": {
+                "current": "You have no lessons for today :(",
+                "planned": "You have no planned lessons",
+                "past": "You have not booked any lessons before"
+            },
+            "book": "Book a lesson",
+            "tabs": {
+                "current": "Current",
+                "planed": "Planned",
+                "past": "Past"
+            },
+            "card": {
+                "cancel": "Cancel lesson",
+                "join": "Join"
+            }
+        }
+    },
     "languages": {
         "en": "English",
         "tr": "Turkish",
@@ -178,6 +197,56 @@
         "sun": {
             "long": "Sunday",
             "short": "Sun"
+        }
+    },
+    "months": {
+        "jan": {
+            "long": "January",
+            "short": "Jan"
+        }, 
+        "feb": {
+            "long": "February",
+            "short": "Feb"
+        },
+        "mar": {
+            "long": "March",
+            "short": "Mar"
+        },
+        "apr": {
+            "long": "April",
+            "short": "Apr"
+        },
+        "may": {
+            "long": "May",
+            "short": "May"
+        },
+        "jun": {
+            "long": "June",
+            "short": "Jun"
+        },
+        "jul": {
+            "long": "July",
+            "short": "Jul"
+        },
+        "aug": {
+            "long": "August",
+            "short": "Aug"
+        },
+        "sep": {
+            "long": "September",
+            "short": "SepSep"
+        },
+        "oct": {
+            "long": "October",
+            "short": "Oct"
+        },
+        "nov": {
+            "long": "November",
+            "short": "Nov"
+        },
+        "dec": {
+            "long": "December",
+            "short": "Dec"
         }
     }
 }

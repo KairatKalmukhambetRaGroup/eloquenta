@@ -16,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/reviews")
@@ -36,6 +38,23 @@ public class ReviewsController {
 
     @Autowired
     private TeachersRepository teachersRepository;
+
+    @GetMapping(value = "/getTeacherReviews/{id}")
+    public ResponseEntity<? extends Object> getTeacherReviews(@PathVariable(name = "id") Long teacherId){
+        try{
+            Teachers teacher = teachersService.getTeacherById(teacherId);
+            List<Reviews> reviews = reviewsService.getTeacherReviews(teacherId);
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("reviews", reviews);
+            result.put("rating", teacher.getRating());
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping(value = "/getReviews")
     public List<Reviews> getAllReviews(HttpServletRequest request) {

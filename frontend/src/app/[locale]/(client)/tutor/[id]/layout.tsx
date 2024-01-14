@@ -88,9 +88,9 @@ const Layout = ({children, params: {id, locale}}: {children: React.ReactNode, pa
                                     </div>
                                 </div>
                             </div>
-                            <div className="btn">
+                            <Link href={`/tutor/${id}/reviews`} className="btn">
                                 {t('book')}
-                            </div>
+                            </Link>
                         </div>
                     </div>
                     <div className="tab">
@@ -99,7 +99,7 @@ const Layout = ({children, params: {id, locale}}: {children: React.ReactNode, pa
                             <Link href={`/${locale}/tutor/${id}/schedule`} className={`tab-item ${pathname.includes('schedule') ? 'active' : ''}`}>{t('tabs.schedule')}</Link>
                             <Link href={`/${locale}/tutor/${id}/reviews`} className={`tab-item ${pathname.includes('reviews') ? 'active' : ''}`}>
                                 {t('tabs.reviews')}                            
-                                <span className="reviews">157</span>
+                                <span className="reviews">{teacher.ratingCount}</span>
                             </Link>
                         </div>
                         <div className="tab-content">
