@@ -33,8 +33,9 @@ const page = ({params: {id}}:any) => {
             const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/lessons/getLessonsByTeacherId/${id}`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
             setLanguages(data.languages);
             setLessons(data.lessons.map((i: any)=>{  
-                const dateTime = new Date(convertLocalDateTimeArrayToTimestamp(i.time)); 
-                return {...i, time: dateTime};
+                const time = new Date(0);
+                time.setUTCSeconds(i.time);
+                return {...i, time};
             }));
         } catch (error) {
             console.log(error);

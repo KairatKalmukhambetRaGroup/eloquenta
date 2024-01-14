@@ -190,6 +190,19 @@
                     }
                 }
             }
+            .check{
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                color: #1A1A1A;
+                font-family: v.$font_raleway;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 22px; /* 157.143% */
+            }
             .form-group{
                 display: flex;
                 width: 100%;
@@ -204,7 +217,7 @@
                     font-weight: 500;
                     line-height: 22px; /* 157.143% */
                 }
-                input, textarea{
+                input, textarea, select{
                     width: 100%;
                     border-radius: 4px;
                     border: 1px solid #EAECF0;
@@ -285,6 +298,45 @@
                 font-style: normal;
                 font-weight: 400;
                 line-height: 18px; /* 150% */
+            }
+
+            .heading2{
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                align-self: stretch;
+                color: #1A1A1A;
+                font-family: v.$font_raleway;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 28px; /* 157.143% */
+
+                i{
+                    cursor: pointer;
+                    width: 16px;
+                    height: 16px;
+                    content: url('../../assets/svg/plus.svg');
+                }
+            }
+            .education-inputs, .lang-inputs{
+                margin-bottom: 30px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                .delete{
+                    cursor: pointer;
+                    margin-left: auto;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 16px;
+                    font-family: v.$font_raleway;
+                    i{
+                        content: url('../../assets/svg/profile/user-delete.svg');
+                    }
+                }
             }
         }
         input[type="submit"]{

@@ -1,11 +1,13 @@
 package education.platform.backend.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Date;
 
 
 @Entity
@@ -31,10 +33,12 @@ public class TeacherEducation {
     private String degree;
 
     @Column(name = "enroll_date")
-    private Instant enrollDate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    private Date enrollDate;
 
     @Column(name = "graduation_date")
-    private Instant graduationDate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    private Date graduationDate;
 
     @Column(name = "is_studying")
     private boolean isStudying = false;

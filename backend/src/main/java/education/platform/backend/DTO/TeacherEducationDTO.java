@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import java.time.Instant;
 public class TeacherEducationDTO {
     private String university;
     private String degree;
-    private Instant enrollDate;
-    private Instant graduateDate;
+    private Date enrollDate;
+    private Date graduateDate;
     private boolean isStudying;
 }

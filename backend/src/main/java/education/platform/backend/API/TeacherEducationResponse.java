@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import education.platform.backend.Entity.TeacherEducation;
 import lombok.Data;
 
+import java.util.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -12,8 +13,8 @@ import java.time.Instant;
 public class TeacherEducationResponse {
     private String university;
     private String degree;
-    private Instant enrollDate;
-    private Instant  graduationDate;
+    private Date enrollDate;
+    private Date  graduationDate;
     @JsonProperty("isStudying")
     private boolean isStudying;
 

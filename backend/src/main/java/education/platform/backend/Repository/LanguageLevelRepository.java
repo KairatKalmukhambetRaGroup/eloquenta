@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface LanguageLevelRepository extends JpaRepository<LanguageLevel, Long> {
     LanguageLevel getById(Long id);
+    LanguageLevel getByCode(String code);
 }

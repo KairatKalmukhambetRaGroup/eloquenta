@@ -84,7 +84,7 @@ const Landing = ({locale}: any) => {
                                     {t('hero.subtitle')}
                                 </div>
                             </div>
-                            <Link href={`/${locale}/tutors/english`} className='btn'>
+                            <Link href={`/tutors?lang=en`} className='btn'>
                                 {t('hero.btn')}
                                 
                                 <i></i>
@@ -105,7 +105,7 @@ const Landing = ({locale}: any) => {
                         <div className="cards-wrapper">
                             <div className="cards">
                                 {lessons.map((card, key)=> (
-                                    <Link href={`/${locale}/tutors/${card.slug}`} key={key} className='card'>
+                                    <Link href={`/${locale}/tutors?lang=${card.slug}`} key={key} className='card'>
                                         <div className="card-body">
                                             <div className="card-img">
                                                 <Image loading='lazy' src={card.icon} alt={card.slug} />

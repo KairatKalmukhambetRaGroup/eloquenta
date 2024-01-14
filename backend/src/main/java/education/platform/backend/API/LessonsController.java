@@ -4,7 +4,9 @@ import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.DTO.LessonDTO;
 import education.platform.backend.Entity.Lessons;
 import education.platform.backend.Entity.Teachers;
+import education.platform.backend.Entity.Users;
 import education.platform.backend.Repository.TeachersRepository;
+import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.LessonsService;
 import education.platform.backend.Service.TeacherLanguageService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +32,9 @@ public class LessonsController {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private UsersRepository usersRepository;
 
     @GetMapping(value = "/getAllLessons")
     public List<Lessons> getAllLessons() {
@@ -74,5 +79,24 @@ public class LessonsController {
         }
         return new ResponseEntity<>("You have already attended in your lesson", HttpStatus.BAD_REQUEST);
     }
+
+    @GetMapping(value = "/getMyLessons")
+    public ResponseEntity<?> getMyLessons(HttpServletRequest request){
+        String username = jwtUtils.getUsernameFromRequest(request);
+        Users user = usersRepository.findByEmail(username);
+
+        if(user != null){
+            if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
+                List<LessonResponse> lessonResponses = lessonsService.getMyLessonsTeacher(user.getId());
+                return new ResponseEntity<>(lessonResponses, HttpStatus.OK);
+            }
+            if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
+                List<LessonResponse> lessonResponses = lessonsService.getMyLessons(user.getId());
+                return new ResponseEntity<>(lessonResponses, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
+    }
+
 
 }

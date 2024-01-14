@@ -1,5 +1,6 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from '@/utils/axiosConfig';
 
 import '@/styles/profile/lessons.scss';
 import LessonsCard from '@/components/LessonsCard';
@@ -18,11 +19,12 @@ const noLessonText = {
 const MyLessons = () => {
 	const [activeTab, setActiveTab] = useState('current');
 	const [cancelId, setCancelId] = useState(null);
+    const [lessons, setLessons] = useState<any[]>();
 	const {user} = useUserContext();
 	const getLessons = async () => {
 		try {
 			const {data} = await axios.get(`/lessons/getMyLessons`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
-			
+			console.log(data);
 			if(user.role == 'ROLE_TEACHER'){
 				setLessons(data.filter((l: any)=>l.student != null))
 			}else{
@@ -35,9 +37,10 @@ const MyLessons = () => {
 	}
 
 	useEffect(() => {
-		if(!lessons && user)
+		// if(!lessons && user)
+		// console.log(lessons)
 			getLessons()
-	}, [lessons, user])
+	}, [user])
 
 	return (
 		<div className="lessons">

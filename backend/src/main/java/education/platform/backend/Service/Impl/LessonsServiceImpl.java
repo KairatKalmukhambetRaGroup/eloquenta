@@ -126,12 +126,12 @@ public class LessonsServiceImpl implements LessonsService {
         List<LessonResponse> lessonResponses = new ArrayList<>();
 
         Teachers teachers = teachersRepository.getByUsersId(userId);
-            List<Lessons> lessons = lessonsRepository.findAllByTeacherIdIdOrderByTime(teachers.getId());
+        List<Lessons> lessons = lessonsRepository.findAllByTeacherIdIdOrderByTime(teachers.getId());
 
-            for (Lessons lesson : lessons) {
-                String lang = "";
-                if (lesson.getTeacher_lang_id() != null)
-                    lang = lesson.getTeacher_lang_id().getLang_id().getSlug();
+        for (Lessons lesson : lessons) {
+            String lang = "";
+            if (lesson.getTeacher_lang_id() != null)
+                lang = lesson.getTeacher_lang_id().getLang_id().getSlug();
                 LessonResponse lessonResponse = new LessonResponse(
                         lesson.getId(),
                         lesson.getStatus().toString(),
@@ -139,12 +139,31 @@ public class LessonsServiceImpl implements LessonsService {
                         lang,
                         lesson.getTime());
                 lessonResponse.setStudent(lesson.getStudentId());
-                System.out.println(lessonResponse.getTime().toEpochMilli());
 
-                lessonResponses.add(lessonResponse);
-            }
-
-            return null;
+            lessonResponses.add(lessonResponse);
         }
 
+        return lessonResponses;
     }
+
+    @Override
+    public List<LessonResponse> getMyLessons(Long userId){
+        List<LessonResponse> lessonResponses = new ArrayList<>();
+
+        List<Lessons> lessons = lessonsRepository.findAllByStudentIdId(userId);
+
+        for (Lessons lesson : lessons) {
+            LessonResponse lessonResponse = new LessonResponse(
+                    lesson.getId(),
+                    lesson.getStatus().toString(),
+                    lesson.getTeacherId().getMeetingLink(),
+                    lesson.getTeacher_lang_id().getLang_id().getSlug(),
+                    lesson.getTime());
+            lessonResponse.setTeacher(lesson.getTeacherId().getUsers());
+            lessonResponses.add(lessonResponse);
+        }
+
+        return lessonResponses;
+    }
+
+}

@@ -253,11 +253,30 @@ public class TeachersServiceImpl implements TeachersService {
 
         teacher.setDescription(modelUserDTO.getDescription());
         List<TeacherEducation> teacherEducations = modelUserDTO.getTeacherEducations();
-        if(teacherEducations != null && !teacherEducations.isEmpty())
-            teacherEducationRepository.saveAll(teacherEducations);
-        List<TeacherLanguage> teacherLanguages = modelUserDTO.getTeacherLanguages();
-        if(teacherLanguages != null && !teacherLanguages.isEmpty())
-            teacherLanguageRepository.saveAll(teacherLanguages);
+        if(teacherEducations != null && !teacherEducations.isEmpty()){
+            for (TeacherEducation teacherEducation : teacherEducations) {
+                teacherEducation.setTeachers(teacher);
+                teacherEducationRepository.save(teacherEducation);
+            }
+        }
+        List<ModelTeacherLanguageDTO> teacherLanguages = modelUserDTO.getTeacherLanguages();
+        if(teacherLanguages != null && !teacherLanguages.isEmpty()){
+            for (ModelTeacherLanguageDTO modelTeacherLanguageDTO : teacherLanguages) {
+                TeacherLanguage teacherLanguage = new TeacherLanguage();
+
+                teacherLanguage.setUserId(teacher.getUsers());
+                teacherLanguage.setTeaching(modelTeacherLanguageDTO.isTeaching());
+                teacherLanguage.setPrice(modelTeacherLanguageDTO.getPrice());
+
+                LanguageLevel lelel = languageLevelRepository.getByCode(modelTeacherLanguageDTO.getLevel());
+                teacherLanguage.setLevel(lelel);
+
+                Language lang = languageRepository.getBySlug(modelTeacherLanguageDTO.getLang());
+                teacherLanguage.setLang_id(lang);
+
+                teacherLanguageRepository.save(teacherLanguage);
+            }
+        }
         teachersRepository.save(teacher);
 
         return teacher;

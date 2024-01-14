@@ -25,24 +25,26 @@ const LessonsCard = ({lesson, setCancelId}: any) => {
                         </div>
                     </div>
                 </div>
-                {/* {lesson.teacher ? (
-                    <div className="teacher">
-                        <div className="avatar">
+                <div className="teacher">
+                    <div className="avatar">
+                        {lesson.teacher ? 
                             <img src={`${process.env.NEXT_PUBLIC_API_URL}/users/avatar/${lesson.teacher.id}`} alt='preview' />
-                        </div>
-                        <div className="teacher-info">
-                            <div className="name">{lesson.teacher.name} {lesson.teacher.surname}</div>
-                            <div className="language">{lesson.lang}</div>
-                        </div>
+                            :
+                            <img src={`${process.env.NEXT_PUBLIC_API_URL}/users/avatar/${lesson.student.id}`} alt='preview' />
+                        }
                     </div>
                     <div className="teacher-info">
-                        <div className="name">{lesson.teacher.name}</div>
-                        <div className="language">{lesson.teacher.language}</div>
+                        {lesson.teacher ? 
+                            <div className="name">{lesson.teacher.name} {lesson.teacher.surname}</div>
+                            :
+                            <div className="name">{lesson.student.name} {lesson.student.surname}</div>
+                        }
+                        <div className="language">{lesson.lang}</div>
                     </div>
-                )} */}
+                </div>
             </div>
             <div className='btns'>
-                <Link href={`/profile/lessons/${lesson.id}`} className='btn'>
+                <Link href={lesson.meetingLink} className='btn'>
                     Присоединиться
                 </Link>
                 <div className="cancel" onClick={(e)=>{e.preventDefault(); setCancelId(lesson.id)}}>
