@@ -147,4 +147,11 @@ public class LessonsServiceImpl implements LessonsService {
             return null;
         }
 
+    @Override
+    public List<Lessons> getLessonsStartingSoon() {
+        Instant now = Instant.now();
+        Instant oneHourLater = now.plus(1, ChronoUnit.HOURS);
+        return lessonsRepository.findByTimeBetween(now, oneHourLater);
     }
+
+}

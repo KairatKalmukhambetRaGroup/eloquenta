@@ -16,4 +16,5 @@ public interface LessonsService {
     List<Lessons> getLessonsByTeacherId(Long id);
     Lessons cancellation(Long id, HttpServletRequest request);
     List<LessonResponse> getMyLessonsTeacher(Long userId);
+    List<Lessons> getLessonsStartingSoon();
 }
