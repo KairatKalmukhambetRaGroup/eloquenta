@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "notification")
+@Table(name = "notification-settings")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Notification {
+public class NotificationSettings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

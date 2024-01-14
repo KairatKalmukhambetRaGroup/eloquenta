@@ -1,6 +1,7 @@
 package education.platform.backend.API;
 
 import education.platform.backend.Config.JwtUtils;
+import education.platform.backend.Config.NotificationJob;
 import education.platform.backend.DTO.LessonDTO;
 import education.platform.backend.Entity.Lessons;
 import education.platform.backend.Entity.Teachers;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +35,7 @@ public class LessonsController {
 
     @Autowired
     private UsersRepository usersRepository;
+    private NotificationJob notificationJob;
 
     @GetMapping(value = "/getAllLessons")
     public List<Lessons> getAllLessons() {
@@ -52,21 +53,23 @@ public class LessonsController {
     }
 
     @PostMapping(value = "/register/{id}")
-    public ResponseEntity<?> registerToLesson(@PathVariable(name = "id") Long id, @RequestParam(name = "lang") Long teacherLanguageId, HttpServletRequest request){
+    public ResponseEntity<?> registerToLesson(@PathVariable(name = "id") Long id,
+            @RequestParam(name = "lang") Long teacherLanguageId, HttpServletRequest request) {
         Lessons lesson = lessonsService.register(id, teacherLanguageId, request);
-        if(lesson != null)
+        if (lesson != null)
             return new ResponseEntity<>(lesson, HttpStatus.OK);
         return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/getLessonsByTeacherId/{id}")
-    public ResponseEntity<? extends Object> getLessonsByTeacherId(@PathVariable(name = "id") Long id){
+    public ResponseEntity<? extends Object> getLessonsByTeacherId(@PathVariable(name = "id") Long id) {
         List<Lessons> lessons = lessonsService.getLessonsByTeacherId(id);
-        List<TeacherLanguageResponse> teacherLanguageResponses = teacherLanguageService.getTeacherLanguagesByTeacherIdAndIsTeaching(id, true);
+        List<TeacherLanguageResponse> teacherLanguageResponses = teacherLanguageService
+                .getTeacherLanguagesByTeacherIdAndIsTeaching(id, true);
         Map<String, Object> response = new HashMap<>();
         response.put("lessons", lessons);
         response.put("languages", teacherLanguageResponses);
-        if(lessons != null)
+        if (lessons != null)
             return new ResponseEntity<>(response, HttpStatus.OK);
         return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
     }
@@ -81,11 +84,11 @@ public class LessonsController {
     }
 
     @GetMapping(value = "/getMyLessons")
-    public ResponseEntity<?> getMyLessons(HttpServletRequest request){
+    public ResponseEntity<?> getMyLessons(HttpServletRequest request) {
         String username = jwtUtils.getUsernameFromRequest(request);
         Users user = usersRepository.findByEmail(username);
 
-        if(user != null){
+        if (user != null) {
             if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
                 List<LessonResponse> lessonResponses = lessonsService.getMyLessonsTeacher(user.getId());
                 return new ResponseEntity<>(lessonResponses, HttpStatus.OK);
@@ -98,5 +101,15 @@ public class LessonsController {
         return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
     }
 
+    @PostMapping(value = "/sendNotifications")
+    public ResponseEntity<?> sendNotificationsBeforeLessons() {
+        try {
+            notificationJob.execute(null);
+            return new ResponseEntity<>("Notifications sent successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error sending notifications: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

@@ -10,11 +10,20 @@ import java.util.List;
 public interface LessonsService {
 
     List<Lessons> getAllLessons();
+
     Lessons getOneLessons(Long id);
+
     Lessons createLesson(LessonDTO lessonDTO, HttpServletRequest request);
+
     Lessons register(Long id, Long teacherLanguageId, HttpServletRequest request);
+
     List<Lessons> getLessonsByTeacherId(Long id);
+
     Lessons cancellation(Long id, HttpServletRequest request);
+
     List<LessonResponse> getMyLessonsTeacher(Long userId);
+
     List<LessonResponse> getMyLessons(Long userId);
+
+    List<Lessons> getLessonsStartingSoon();
 }

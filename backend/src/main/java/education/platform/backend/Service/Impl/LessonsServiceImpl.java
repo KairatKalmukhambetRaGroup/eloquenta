@@ -100,7 +100,8 @@ public class LessonsServiceImpl implements LessonsService {
         String username = jwtUtils.getUsernameFromRequest(request);
         Users student = usersRepository.findByEmail(username);
 
-        if (student == null || student.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
+        if (student == null
+                || student.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
             Optional<Lessons> lessonOpt = lessonsRepository.findById(lessonId);
             if (!lessonOpt.isPresent()) {
                 return null;
@@ -122,7 +123,7 @@ public class LessonsServiceImpl implements LessonsService {
     }
 
     @Override
-    public List<LessonResponse> getMyLessonsTeacher(Long userId){
+    public List<LessonResponse> getMyLessonsTeacher(Long userId) {
         List<LessonResponse> lessonResponses = new ArrayList<>();
 
         Teachers teachers = teachersRepository.getByUsersId(userId);
@@ -132,13 +133,13 @@ public class LessonsServiceImpl implements LessonsService {
             String lang = "";
             if (lesson.getTeacher_lang_id() != null)
                 lang = lesson.getTeacher_lang_id().getLang_id().getSlug();
-                LessonResponse lessonResponse = new LessonResponse(
-                        lesson.getId(),
-                        lesson.getStatus().toString(),
-                        lesson.getTeacherId().getMeetingLink(),
-                        lang,
-                        lesson.getTime());
-                lessonResponse.setStudent(lesson.getStudentId());
+            LessonResponse lessonResponse = new LessonResponse(
+                    lesson.getId(),
+                    lesson.getStatus().toString(),
+                    lesson.getTeacherId().getMeetingLink(),
+                    lang,
+                    lesson.getTime());
+            lessonResponse.setStudent(lesson.getStudentId());
 
             lessonResponses.add(lessonResponse);
         }
@@ -147,7 +148,7 @@ public class LessonsServiceImpl implements LessonsService {
     }
 
     @Override
-    public List<LessonResponse> getMyLessons(Long userId){
+    public List<LessonResponse> getMyLessons(Long userId) {
         List<LessonResponse> lessonResponses = new ArrayList<>();
 
         List<Lessons> lessons = lessonsRepository.findAllByStudentIdId(userId);
@@ -164,6 +165,13 @@ public class LessonsServiceImpl implements LessonsService {
         }
 
         return lessonResponses;
+    }
+
+    @Override
+    public List<Lessons> getLessonsStartingSoon() {
+        Instant now = Instant.now();
+        Instant oneHourLater = now.plus(1, ChronoUnit.HOURS);
+        return lessonsRepository.findByTimeBetween(now, oneHourLater);
     }
 
 }
