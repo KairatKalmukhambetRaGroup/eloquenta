@@ -8,5 +8,6 @@ module.exports = withNextIntl({
         // your project has type errors.
         // !! WARN !!
         ignoreBuildErrors: true,
-    }
+    },
+    output: "standalone"
 })
