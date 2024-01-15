@@ -51,6 +51,12 @@ dependencies {
 	implementation 'org.quartz-scheduler:quartz:2.3.2'
 }
 
+bootJar {
+	archiveFileName = 'eloquenta.jar'
+	destinationDirectory = file('/app/output')
+	destinationDirectory = file("$buildDir/libs/")
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
