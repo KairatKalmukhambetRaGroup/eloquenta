@@ -19,19 +19,19 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./backend:/webapp
+      - ./backend/build/libs:/webapp
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/eloquenta
       SPRING_DATASOURCE_USERNAME: mariadbuser
       SPRING_DATASOURCE_PASSWORD: mariadbpwd
     working_dir: /webapp
-    command: ["java","-jar","build/libs/backend-0.0.1-SNAPSHOT.jar"]
+    command: ["java","-jar","eloquenta.jar"]
 
   gradle:
     image: gradle:jdk17-alpine
     volumes:
       - ./backend:/app
-      - webapp:/app/output
+      - ./backend/build/libs:/app/output
     working_dir: /app
     command: ["gradle","build"]
 
