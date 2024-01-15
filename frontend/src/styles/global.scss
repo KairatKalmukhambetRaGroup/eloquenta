@@ -92,3 +92,46 @@ body{
     flex-wrap: wrap;
     gap: 4px;
 }
+
+
+i.flag{
+    width: 24px;
+    height: 24px;
+
+    &.tr{
+        content: url('../assets/flags/tr.svg');
+    }
+    &.en{
+        content: url('../assets/flags/usa.png');
+    }
+    &.kz{
+        content: url('../assets/flags/kz.png');
+    }
+    &.ar{
+        content: url('../assets/flags/ae.png');
+    }
+    // &.de{
+    //     content: url('../assets/flags/de.png');
+    // }
+    // &.ja{
+    //     content: url('../assets/flags/ja.png');
+    // }
+    &.ru{
+        content: url('../assets/flags/ru.png');
+    }
+    // &.ko{
+    //     content: url('../assets/flags/ko.png');
+    // }
+    &.fr{
+        content: url('../assets/flags/fr.png');
+    }
+    // &.zh{
+    //     content: url('../assets/flags/zh.png');
+    // }
+    // &.es{
+    //     content: url('../assets/flags/es.png');
+    // }
+    // &.it{
+    //     content: url('../assets/flags/it.png');
+    // }
+}

@@ -1,4 +1,5 @@
 "use client"
+import { useTranslations } from 'next-intl'
 import React, { useState } from 'react'
 
 const formDataInit = {
@@ -7,6 +8,7 @@ const formDataInit = {
     time: ''
 }
 const CancelLessonModal = ({setCancelId, cancelId}: any) => {
+    const t = useTranslations('profile.lessons.cancelModal');
     const [formData, setFormData] = useState(formDataInit);
 
     const cancel = (e: any) => {
@@ -32,13 +34,13 @@ const CancelLessonModal = ({setCancelId, cancelId}: any) => {
             <form className="modal" onSubmit={handleSubmit}>
                 <div className="modal-body">
                     <div className="title">
-                        Вы уверены насчет отмены урока?
+                        {t('title')}
                     </div>
                     <div className="form-group">
-                        <label>Укажите причину отмены</label>
+                        <label>{t('description')}</label>
                         <textarea name="description" rows={3} value={formData.description} onChange={handleChange}></textarea>
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label>День</label>
                         <select name="day" value={formData.day} onChange={handleChange}>
                             <option value="">Выберите день</option>
@@ -51,11 +53,11 @@ const CancelLessonModal = ({setCancelId, cancelId}: any) => {
                             <option value="">Выберите время</option>
                             <option value="13:00 - 15:00">13:00 - 15:00</option>
                         </select>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="modal-footer">
-                    <div className="btn" onClick={cancel}>Отменить</div>
-                    <input type="submit" className='btn confirm' value="Подтвердить" />
+                    <div className="btn" onClick={cancel}>{t('cancel')}</div>
+                    <input type="submit" className='btn confirm' value={t('submit')} />
                 </div>
             </form>
         </div>

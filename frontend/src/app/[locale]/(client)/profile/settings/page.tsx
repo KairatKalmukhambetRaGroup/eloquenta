@@ -14,6 +14,9 @@ const initFormData = {
     description: ''
 }
 const Settings = () => {
+
+    const t = useTranslations("settings.profile");
+
     const [formData, setFormData] = useState(initFormData);
     const [educations, setEducations] = useState([]);
     const [langs, setLangs] = useState([]);
@@ -84,7 +87,10 @@ const Settings = () => {
          return
     return (
         <div className="profile-settings">
-            <h2>Настройки профиля</h2>
+            <h2>
+                {t("title")}
+            </h2>
+
             <form onSubmit={handleSubmit}>
                 <div className="avatar-edit">
                     <div className="avatar">
@@ -98,16 +104,16 @@ const Settings = () => {
                         <label className='btn'>
                             <input type="file" name="avatar" onChange={handleImageUpload}/>
                             {formData.image ? 
-                            'Изменить аватар' : 'Добавить аватар'}
+                                t('avatar.edit') : t('avatar.add')}
                         </label>
                         {formData.image ? 
                             <div className='btn delete' onClick={deletePreview}>
-                                Сбросить
+                                {t('avatar.reset')}
                             </div>
                             :
                             formData.avatar &&
                             <div className="btn delete" onClick={deleteImage}>
-                                Удалить аватар
+                                {t('avatar.delete')}
                             </div>
                         }
                     </div>
@@ -116,11 +122,11 @@ const Settings = () => {
                     <div className="row">
                         <div className="form-group">
                             <input type="text" name='name' required value={formData.name} onChange={handleChange}/>
-                            <label>Имя</label>
+                            <label>{t("inputs.name")}</label>
                         </div>
                         <div className="form-group">
                             <input type="text" name='surname' required value={formData.surname} onChange={handleChange}/>
-                            <label>Фамилия</label>
+                            <label>{t("inputs.surname")}</label>
                         </div>
                     </div>
                     {user.role == 'ROLE_TEACHER' && (
@@ -129,7 +135,7 @@ const Settings = () => {
                                 <textarea name="description" 
                                     value={formData.description} onChange={handleChange}
                                     rows={5}></textarea>
-                                <label>Обо мне</label>
+                                <label>{t("inputs.description")}</label>
                             </div>
                         
 
@@ -139,7 +145,7 @@ const Settings = () => {
                         </>
                     )}
                 </div>
-                <input type="submit" value="Сохранить изменения" />
+                <input type="submit" value={t("submit")} />
             </form>
         </div>
     )
@@ -169,6 +175,7 @@ const ImagePreview = ({file}: any) => {
 }
 
 const EducationForm = ({educations, setEducations}: any) => {
+    const t = useTranslations('settings.profile.inputs');
     const eduInit = {
         id: '',
         university: '',
@@ -185,7 +192,7 @@ const EducationForm = ({educations, setEducations}: any) => {
         let obj = {...educations[index]};
         obj[n] = value;
 
-        const updatedEdu = educations.map((ed, i) =>
+        const updatedEdu = educations.map((ed:any, i: number) =>
             i == index ? obj : ed
         );
         setEducations(updatedEdu);
@@ -196,13 +203,13 @@ const EducationForm = ({educations, setEducations}: any) => {
     }
     const deleteEdu = (key: number) => {
         setEducations((prev: any) => {
-            return prev.filter((_, i) => i !== key);
+            return prev.filter((_: any, i:number) => i !== key);
         });
     }
     return (
         <>
             <div className="heading2">
-                Образование
+                {t("education")}
                 <i onClick={addEducation}></i>
             </div>
 
@@ -211,26 +218,26 @@ const EducationForm = ({educations, setEducations}: any) => {
                     <div className="row">
                         <div className="form-group">
                             <input type="text" name={`university_${key}`} required value={edu.university} onChange={handleChange}/>
-                            <label>Уч. заведение</label>
+                            <label>{t('university')}</label>
                         </div>
                         <div className="form-group">
                             <input type="text" name={`degree_${key}`} required value={edu.degree} onChange={handleChange}/>
-                            <label>Степень</label>
+                            <label>{t('degree')}</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="form-group">
                             <input type="date" name={`enrollDate_${key}`} required value={edu.enrollDate} onChange={handleChange}/>
-                            <label>Дата начала</label>
+                            <label>{t('enroll')}</label>
                         </div>
                         <div className="form-group">
                             <input type="date" name={`graduationDate_${key}`} required value={edu.graduationDate} onChange={handleChange}/>
-                            <label>Дата окончания (или ожидаемая)</label>
+                            <label>{t('graduation')}</label>
                         </div>
                     </div>
                     <div className="delete" onClick={(e)=>{e.preventDefault(); deleteEdu(key)}}>
                         <i></i>
-                        Delete
+                        {t('delete')}
                     </div>
                 </div>
             ))}     
@@ -239,6 +246,7 @@ const EducationForm = ({educations, setEducations}: any) => {
 }
 
 const LanguageForm = ({languages, setLanguages}: any) => {
+    const t = useTranslations('settings.profile.inputs');
     const [langs, setLangs] = useState<any[]>([]);
     const langT = useTranslations('languages');
 
@@ -272,9 +280,8 @@ const LanguageForm = ({languages, setLanguages}: any) => {
         }else{
             obj[n] = value;
         }
-        console.log(obj)
 
-        const updatedEdu = languages.map((ed, i) =>
+        const updatedEdu = languages.map((ed:any, i:number) =>
             i == index ? obj : ed
         );
         setLanguages(updatedEdu);
@@ -285,13 +292,13 @@ const LanguageForm = ({languages, setLanguages}: any) => {
     }
     const deleteEdu = (key: number) => {
         setLanguages((prev: any) => {
-            return prev.filter((_, i) => i !== key);
+            return prev.filter((_:any, i:number) => i !== key);
         });
     }
     return (
         <>
             <div className="heading2">
-                Языки
+                {t('languages')}
                 <i onClick={addEducation}></i>
             </div>
 
@@ -307,7 +314,7 @@ const LanguageForm = ({languages, setLanguages}: any) => {
                                     </option>
                                 ))}
                             </select>
-                            <label>Язык</label>
+                            <label>{t('language')}</label>
                         </div>
                         <div className="form-group">
                             <select name={`level_${key}`} required value={item.level} onChange={handleChange}>
@@ -320,24 +327,24 @@ const LanguageForm = ({languages, setLanguages}: any) => {
                                 <option value="C2">C2</option>
                                 <option value="NATIVE">NATIVE</option>
                             </select>
-                            <label>Уровень владения</label>
+                            <label>{t('level')}</label>
                         </div>
                     </div>
-                    <div className="row">
+                    {/* <div className="row"> */}
                         <label className='check'>
                             <input type="checkbox" name={`teaching_${key}`} checked={item.teaching} onChange={handleChange}/>
-                            Преподаваемый
+                            {t('teaching')}
                         </label>
                         {item.teaching && (
                             <div className="form-group">
                                 <input type="number" name={`price_${key}`} required value={item.price} onChange={handleChange}/>
-                                <label>Цена</label>
+                                <label>{t('price')}</label>
                             </div>
                         )}
-                    </div>
+                    {/* </div> */}
                     <div className="delete" onClick={(e)=>{e.preventDefault(); deleteEdu(key)}}>
                         <i></i>
-                        Delete
+                        {t('delete')}
                     </div>
                 </div>
             ))}     

@@ -9,6 +9,7 @@ const months = ['jan', 'feb','mar','apr','may','jun','jul','aug','sep','oct','no
 
 const LessonsCard = ({lesson, setCancelId, activeTab}: any) => {
 	const t = useTranslations("profile.lessons.card");
+    const langT = useTranslations("languages")
     const monthT = useTranslations('months');
     const date = new Date(0);
     date.setUTCSeconds(lesson.time)
@@ -28,9 +29,9 @@ const LessonsCard = ({lesson, setCancelId, activeTab}: any) => {
                             {h}:00 - {Number(h)+1}:00
                             <span>/GMT {gmt>=0 && '+'}{gmt}</span>
                         </div>
-                        <div className="week-day">
+                        {/* <div className="week-day">
                             Сегодня
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="teacher">
@@ -47,7 +48,7 @@ const LessonsCard = ({lesson, setCancelId, activeTab}: any) => {
                             :
                             <div className="name">{lesson.student.name} {lesson.student.surname}</div>
                         }
-                        <div className="language">{lesson.lang}</div>
+                        <div className="language">{langT(lesson.lang)} <i className={`flag ${lesson.lang}`}></i></div>
                     </div>
                 </div>
             </div>

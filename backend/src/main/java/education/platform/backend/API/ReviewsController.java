@@ -57,17 +57,24 @@ public class ReviewsController {
     }
 
     @GetMapping(value = "/getReviews")
-    public List<Reviews> getAllReviews(HttpServletRequest request) {
+    public ResponseEntity<? extends Object> getAllReviews(HttpServletRequest request) {
         try {
             String currentUsername = jwtUtils.getUsernameFromRequest(request);
             Users currentUser = usersRepository.findByEmail(currentUsername);
 
             if (currentUser == null || currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
                 assert currentUser != null;
-                return reviewsService.getMyReviews(currentUser.getId());
+                List<Reviews> reviews = reviewsService.getMyReviews(currentUser.getId());
+                return new ResponseEntity<>(reviews, HttpStatus.OK);
             } else if (currentUser == null || currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
-                Teachers teacher = teachersRepository.findByUsersEmail(currentUsername);
-                return reviewsService.getTeacherReviews(teacher.getId());
+                Teachers teacher = teachersRepository.getByUsersId(currentUser.getId());
+                List<Reviews> reviews = reviewsService.getTeacherReviews(teacher.getId());
+
+                Map<String, Object> result = new HashMap<>();
+                result.put("reviews", reviews);
+                result.put("rating", teacher.getRating());
+
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();

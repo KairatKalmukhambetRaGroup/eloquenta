@@ -1,10 +1,16 @@
+"use client"
 import React from 'react';
 
 import '@/styles/profile/teacherSidebar.scss';
 import TeacherInt from '@/assets/images/tutor-image-init.png';
 import Image from 'next/image';
+import { useUserContext } from '@/contexts/UserContext';
 
 const TeacherProfileSidebar = () => {
+    const {user} = useUserContext();
+
+    if(!user)
+        return ;
     return (
         <div id="teacherProfileSidebar">
             <div className="sidebar-body">
@@ -14,7 +20,7 @@ const TeacherProfileSidebar = () => {
                 <div className="text">
                     <div className="heading">
                         <div className="name">
-                            Имя Фамилия
+                            {user.name} {user.surname}
                             <i></i>
                         </div>
                         <div className="badge">

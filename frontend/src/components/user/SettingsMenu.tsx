@@ -4,27 +4,29 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 
 import '@/styles/profile/settingsmenu.scss';
+import { useTranslations } from 'next-intl';
 
 const SettingsMenu = () => {
+    const t = useTranslations('settings.menu')
     const pathname = usePathname();
     return (
         <div id='settingsMenu'>
             <Link href="/profile/settings" className={`link ${pathname == '/profile/settings' ? 'active' : ''}`}>
                 <i className='profile'></i>
-                Профиль
+                {t("profile")}
             </Link>
             <Link href="/profile/settings/password" className={`link ${pathname == '/profile/settings/password' ? 'active' : ''}`}>
                 <i className='password'></i>
-                Пароль
+                {t("password")}
             </Link>
-            <Link href="/profile/settings/notifications" className={`link ${pathname == '/profile/settings/notifications' ? 'active' : ''}`}>
+            {/* <Link href="/profile/settings/notifications" className={`link ${pathname == '/profile/settings/notifications' ? 'active' : ''}`}>
                 <i className='notifications'></i>
-                Уведомление
+                {t("notifications")}
             </Link>
             <Link href="/profile/settings/delete" className={`link delete ${pathname == '/profile/settings/delete' ? 'active' : ''}`}>
                 <i className='delete'></i>
-                Удалить аккаунт
-            </Link>
+                {t("delete")}
+            </Link> */}
         </div>
     )
 }

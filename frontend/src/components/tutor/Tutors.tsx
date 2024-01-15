@@ -50,7 +50,7 @@ const Tutors = ({locale}: any) => {
                 <div className="title">
                     {t('cards.title')}
                 </div>
-                <div className="sort">
+                {/* <div className="sort">
                     <div className="current">
                         {t('cards.sort.by')}
                         <span className="value">
@@ -58,7 +58,7 @@ const Tutors = ({locale}: any) => {
                         </span>
                         <i></i>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="cards">
                 {teachers ? teachers.map((teacher, key)=>(
