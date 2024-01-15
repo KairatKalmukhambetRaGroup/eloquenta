@@ -45,10 +45,13 @@ services:
       - spring
 
   frontend:
+    container_name: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    restart: always
     ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+      - 3000:3000
+    env_file:
+      - ./frontend/.env
+    
