@@ -65,7 +65,7 @@ const Schedule = () => {
             </p>
             <ScheduleCalendar weekdays={weekdays} activeDay={activeDay} setActiveDay={setActiveDay}/>
             <div className="add-lesson">
-                Добавить временный слот
+                {t('add-lesson-btn')}
                 <i
                     onClick={(e)=>{e.preventDefault(); setAddLessonModal(true)}}
                 ></i>
@@ -85,6 +85,7 @@ const initLessonFormData = {
     time: ''
 }
 const AddLessonModal = ({active, setActive, date, lessons} : any) => {
+    const t = useTranslations('tutor.schedule.addModal');
     const [formData, setFormData] = useState(initLessonFormData);
     let day = new Date(date);
     const router = useRouter();
@@ -113,11 +114,11 @@ const AddLessonModal = ({active, setActive, date, lessons} : any) => {
     return (
         <div id="addLessonModal">
             <form onSubmit={handleSubmit}>
-                <div className="heading">Добавление нового времени {day.toLocaleDateString()}</div>
+                <div className="heading">{t('heading')} {day.toLocaleDateString()}</div>
                 <div className="form-group">
-                    <label>Выберите свободного временного слота</label>
+                    <label>{t('heading')}</label>
                         <select name="time" value={formData.time} onChange={handleChange} required>
-                            <option value="">Выберите время</option>
+                            <option value="">{t('placeholder')}</option>
                         {[...Array(24)].map((e, i) => {
                             let time = new Date(day.setHours(i));
                             if(!lessons.includes(time.toISOString()))
@@ -126,8 +127,8 @@ const AddLessonModal = ({active, setActive, date, lessons} : any) => {
                     </select>
                 </div>
                 <div className="btns">
-                    <div className="btn" onClick={(e)=>{e.preventDefault(); cancel()}}>Отменить</div>
-                    <button className="btn" type='submit'>Добавить</button>
+                    <div className="btn" onClick={(e)=>{e.preventDefault(); cancel()}}>{t('cancel')}</div>
+                    <button className="btn" type='submit'>{t('submit')}</button>
                 </div>
             </form>           
         </div>

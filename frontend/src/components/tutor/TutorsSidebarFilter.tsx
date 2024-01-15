@@ -16,8 +16,11 @@ const TutorsSidebarFilter = () => {
     const [langs, setLangs] = useState<any[]>([]);
 
     const lang = searchParams.get('lang');
+    const minPrice = searchParams.get('minPrice') ? searchParams.get('minPrice') : '';
+    const maxPrice = searchParams.get('maxPrice') ? searchParams.get('maxPrice') : '';
     const days = searchParams.getAll('day');
     const times = searchParams.getAll('time');
+
 
     const getLangs = async () => {
         try {
@@ -47,7 +50,27 @@ const TutorsSidebarFilter = () => {
                 }else{
                     current.append(name, value);
                 }
+                let gmt = new Date().getTimezoneOffset() / -60.0;
+                current.set('gmt', gmt.toString());
+
                 break;
+            case 'minPrice':
+            case 'maxPrice':
+                if(value.length == 0 || !isNaN(value)){
+                    if(!value){
+                        current.delete(name);
+                        break;
+                    }
+
+                    if(Number(value) < 0)
+                        current.delete(name);
+                    else if(Number(value) > 50)
+                        current.set(name, '50');
+                    else
+                        current.set(name, value);
+
+                    break;
+                }
             default:
                 break;
         }
@@ -73,10 +96,10 @@ const TutorsSidebarFilter = () => {
             </div>
             <div className="inputs">
                 <div className="input input-range">
-                    <label>{t('lesson-price')}</label>
+                    <label>{t('lesson-price')} $</label>
                     <div className="input-row">
-                        <input type="text" name='mincost' placeholder='Min'/>
-                        <input type="text" name='mincost' placeholder='Max'/>
+                        <input type="text" name='minPrice' placeholder='Min' value={minPrice} onChange={handleChange} />
+                        <input type="text" name='maxPrice' placeholder='Max' value={maxPrice} onChange={handleChange} />
                     </div>
                 </div>
                 <div className="input input-radio">

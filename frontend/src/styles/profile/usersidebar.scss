@@ -27,6 +27,7 @@
                 font-weight: 600;
                 line-height: 20px; /* 142.857% */
                 letter-spacing: 0.7px;
+                text-transform: uppercase;
             }
             .links{
                 display: flex;
@@ -63,6 +64,9 @@
                         }
                         &.settings{
                             content: url('../../assets/svg/profile/user-settings.svg');
+                        }
+                        &.logout{
+                            content: url('../../assets/svg/profile/logout.svg');
                         }
                     }
                     &.active {

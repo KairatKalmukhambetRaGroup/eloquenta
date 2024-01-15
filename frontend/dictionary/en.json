@@ -127,7 +127,21 @@
         "schedule": {
             "title": "Schedule",
             "info": "Choose a time for your first lesson. The time is displayed in your local time zone.",
-            "btn": "Choose"
+            "btn": "Choose",
+            "add-lesson-btn": "Add Time Slot",
+            "addModal": {
+                "heading": "Adding New Time Slot",
+                "label": "Select an available time slot",
+                "placeholder": "Select time",
+                "cancel": "Cancel",
+                "submit": "Add"
+            },
+            "confirmModal": {
+                "heading": "Lesson on {time}",
+                "label": "Choose language",
+                "cancel": "Cancel",
+                "submit": "Confirm"
+            }
         },
         "reviews": {
             "title": "What students say",
@@ -135,6 +149,82 @@
             "more": "Load more reviews",
             "btn": "Show more"
         }
+    },
+    "profile": {
+        "sidebar": {
+            "menu": "Menu",
+            "lessons": "My Lessons",
+            "admin": "Admin Panel",
+            "account": "Account",
+            "profile": "Profile",
+            "settings": "Settings"
+        },
+        "lessons": {
+            "noLesson": {
+                "current": "You have no lessons for today :(",
+                "planed": "You have no planned lessons",
+                "past": "You have not booked any lessons before"
+            },
+            "book": "Book a lesson",
+            "tabs": {
+                "current": "Current",
+                "planed": "Planned",
+                "past": "Past"
+            },
+            "card": {
+                "cancel": "Cancel lesson",
+                "join": "Join"
+            },
+            "cancelModal": {
+                "title": "Are you sure about canceling the lesson?",
+                "description": "Specify the reason for cancellation",
+                "cancel": "Cancel",
+                "submit": "Confirm"
+            }
+        }
+    },
+    "settings": {
+        "title": "Настройки",
+        "menu": {
+            "profile": "Profile",
+            "password": "Password",
+            "notifications": "Notifications",
+            "delete": "Delete account"
+        },
+        "profile": {
+            "title": "Profile settings",
+            "avatar": {
+                "edit": "Edit avatar",
+                "add": "Add avatar",
+                "reset": "Reset",
+                "delete": "Delete"
+            },
+            "inputs": {
+                "name": "Name",
+                "surname": "Surname",
+                "description": "About me",
+                "education": "Education",
+                "university": "University",
+                "degree": "Degree",
+                "enroll": "Enrollment Date",
+                "graduation": "Graduation Date (or expected)",
+                "languages": "Languages",
+                "language": "Language",
+                "level": "Proficiency Level",
+                "teaching": "Teaching",
+                "price": "Price",
+                "delete": "Delete"
+            },
+            "submit": "Save"
+        },
+        "password": {
+            "title": "Password Settings",
+            "old": "Current password",
+            "new": "New password",
+            "re": "Confirm new password",
+            "submit": "Change password"
+        }
+        
     },
     "languages": {
         "en": "English",
@@ -178,6 +268,56 @@
         "sun": {
             "long": "Sunday",
             "short": "Sun"
+        }
+    },
+    "months": {
+        "jan": {
+            "long": "January",
+            "short": "Jan"
+        }, 
+        "feb": {
+            "long": "February",
+            "short": "Feb"
+        },
+        "mar": {
+            "long": "March",
+            "short": "Mar"
+        },
+        "apr": {
+            "long": "April",
+            "short": "Apr"
+        },
+        "may": {
+            "long": "May",
+            "short": "May"
+        },
+        "jun": {
+            "long": "June",
+            "short": "Jun"
+        },
+        "jul": {
+            "long": "July",
+            "short": "Jul"
+        },
+        "aug": {
+            "long": "August",
+            "short": "Aug"
+        },
+        "sep": {
+            "long": "September",
+            "short": "SepSep"
+        },
+        "oct": {
+            "long": "October",
+            "short": "Oct"
+        },
+        "nov": {
+            "long": "November",
+            "short": "Nov"
+        },
+        "dec": {
+            "long": "December",
+            "short": "Dec"
         }
     }
 }

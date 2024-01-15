@@ -57,7 +57,7 @@ const TutorCard = ({tutor, locale} : {tutor: TutorInfo, locale: any}) => {
                 <div className="rating">
                     <i></i>
                     <div className="value">
-                        {tutor.rating}
+                        {Math.round(Number(tutor.rating))}
                         <span>
                             ({tutor.ratingCount})
                         </span>

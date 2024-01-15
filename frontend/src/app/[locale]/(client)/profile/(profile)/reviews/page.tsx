@@ -1,23 +1,50 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
+import axios from '@/utils/axiosConfig';
 
 import Img from '@/assets/images/tutor-image-init.png';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Review } from '../../../tutor/[id]/reviews/page';
+import { useUserContext } from '@/contexts/UserContext';
 
-const reviews = {
-    all: 39,
-    "5": 38,
-    "4": 1,
-    "3": 0,
-    "2": 0,
-    "1": 0
+const reviewCountInit = {
+    all: 0,
+    5: 0,
+    4: 0,
+    3: 0,
+    2: 0,
+    1: 0
 }
-
-const rating = 4;
 
 const Reviews = () => {
     const t = useTranslations('tutor.reviews');
+    const {user} = useUserContext();
+    const [rating, setRating] = useState(0);
+    const [reviews, setReviews] = useState<any[]>([]);
+    const [reviewCount, setReviewCount] = useState(reviewCountInit);
+
+    const getReviews = async () => {
+        try {
+            const {data} = await axios.get(`/reviews/getReviews`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
+            setRating(data.rating);
+            setReviews(data.reviews);
+            let r = {...reviewCount};
+            data.reviews.map((i:any) => {
+                r.all ++;
+                r[i.rate]++;
+            })
+            setReviewCount(r);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(()=>{
+        if(user) 
+            getReviews();
+    }, [user])
+    if(!user)
+        return ;
     return (
         <div className="profile-content reviews">
             <h2>
@@ -26,7 +53,7 @@ const Reviews = () => {
             <div className="rating">
                 <div className="value">
                     <div className="val">
-                        5
+                        {Math.round(rating)}
                     </div>
                     <div className="rest">
                         <div className="stars">
@@ -36,68 +63,70 @@ const Reviews = () => {
                             <i></i>
                             <i></i>
                         </div>
-                        <span className='count'>{t('count', {count: reviews.all})}</span>
+                        <span className='count'>{t('count', {count: reviewCount.all})}</span>
                     </div>
                 </div>
                 <div className="counts">
                     <div className="count">
                         5
                         <div className="line">
-                            <span style={{width: `${(reviews[5] / reviews.all) * 100}%`}}></span>
+                            {reviewCount[5] > 0 && 
+                                <span style={{width: `${(reviewCount[5] / reviewCount.all) * 100}%`}}></span>
+                            }
                         </div>
                         <span>
-                            ({reviews[5]})
+                            ({reviewCount[5]})
                         </span>
                     </div>
                     <div className="count">
                         4
                         <div className="line">
-                            {reviews[4] > 0 && 
-                                <span style={{width: `${(reviews[4] / reviews.all) * 100}%`}}></span>
+                            {reviewCount[4] > 0 && 
+                                <span style={{width: `${(reviewCount[4] / reviewCount.all) * 100}%`}}></span>
                             }
                         </div>
                         <span>
-                            ({reviews[4]})
+                            ({reviewCount[4]})
                         </span>
                     </div>
                     <div className="count">
                         3
                         <div className="line">
-                            {reviews[3] > 0 && 
-                                <span style={{width: `${(reviews[3] / reviews.all) * 100}%`}}></span>
+                            {reviewCount[3] > 0 && 
+                                <span style={{width: `${(reviewCount[3] / reviewCount.all) * 100}%`}}></span>
                             }
                         </div>
                         <span>
-                            ({reviews[3]})
+                            ({reviewCount[3]})
                         </span>
                     </div>
                     <div className="count">
                         2
                         <div className="line">
-                            {reviews[2] > 0 && 
-                                <span style={{width: `${(reviews[2] / reviews.all) * 100}%`}}></span>
+                            {reviewCount[2] > 0 && 
+                                <span style={{width: `${(reviewCount[2] / reviewCount.all) * 100}%`}}></span>
                             }
                         </div>
                         <span>
-                            ({reviews[2]})
+                            ({reviewCount[2]})
                         </span>
                     </div>
                     <div className="count">
                         1
                         <div className="line">
-                            {reviews[1] > 0 && 
-                                <span style={{width: `${(reviews[1] / reviews.all) * 100}%`}}></span>
+                            {reviewCount[1] > 0 && 
+                                <span style={{width: `${(reviewCount[1] / reviewCount.all) * 100}%`}}></span>
                             }
                         </div>
                         <span>
-                            ({reviews[1]})
+                            ({reviewCount[1]})
                         </span>
                     </div>
                 </div>
             </div>
             <div className="reviews">
-                {[...Array(5)].map((i) => ( 
-                    <Review key={i} />
+                {reviews && reviews.map((review, i) => ( 
+                    <Review review={review} key={i} />
                 ))}
                 <div className="more">
                     <i></i>

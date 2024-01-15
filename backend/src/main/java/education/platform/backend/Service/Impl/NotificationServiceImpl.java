@@ -20,6 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
         String message = "Ваш урок " + lesson.getId() + " начнется через час.";
 
         LessonNotification lessonNotification = new LessonNotification();
+        lessonNotification.setLesson(lesson);
 //        lessonNotification.setMessage(message);
         lessonNotification.setUser(student);
         lessonNotification.setStatus(false);

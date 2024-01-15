@@ -36,7 +36,7 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     @Override
     public List<Reviews> getTeacherReviews(Long id) {
-        return reviewsRepository.findReviewsByTeacherIdId(id);
+        return reviewsRepository.findReviewsByTeacherIdIdOrderByCreatedAtDesc(id);
     }
 
     @Override

@@ -50,8 +50,18 @@ public class TeachersController {
     }
 
     @GetMapping(value = "/search")
-    public List<TeacherResponse> searchTeachers(@RequestParam(name = "lang") String lang){
-        return teachersService.searchTeachers(lang);
+    public ResponseEntity<? extends Object> searchTeachers(
+            @RequestParam(name = "lang", defaultValue = "en") String lang,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "day", required = false) List<String> day,
+            @RequestParam(name = "time", required = false) List<String> time,
+            @RequestParam(name = "gmt", defaultValue = "0") int gmt){
+        try{
+            return new ResponseEntity<>(teachersService.searchTeachers(lang, page, day, time, gmt), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping(value = "/createTeacher")

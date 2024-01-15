@@ -16,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/reviews")
@@ -37,18 +39,42 @@ public class ReviewsController {
     @Autowired
     private TeachersRepository teachersRepository;
 
+    @GetMapping(value = "/getTeacherReviews/{id}")
+    public ResponseEntity<? extends Object> getTeacherReviews(@PathVariable(name = "id") Long teacherId){
+        try{
+            Teachers teacher = teachersService.getTeacherById(teacherId);
+            List<Reviews> reviews = reviewsService.getTeacherReviews(teacherId);
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("reviews", reviews);
+            result.put("rating", teacher.getRating());
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(value = "/getReviews")
-    public List<Reviews> getAllReviews(HttpServletRequest request) {
+    public ResponseEntity<? extends Object> getAllReviews(HttpServletRequest request) {
         try {
             String currentUsername = jwtUtils.getUsernameFromRequest(request);
             Users currentUser = usersRepository.findByEmail(currentUsername);
 
             if (currentUser == null || currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
                 assert currentUser != null;
-                return reviewsService.getMyReviews(currentUser.getId());
+                List<Reviews> reviews = reviewsService.getMyReviews(currentUser.getId());
+                return new ResponseEntity<>(reviews, HttpStatus.OK);
             } else if (currentUser == null || currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
-                Teachers teacher = teachersRepository.findByUsersEmail(currentUsername);
-                return reviewsService.getTeacherReviews(teacher.getId());
+                Teachers teacher = teachersRepository.getByUsersId(currentUser.getId());
+                List<Reviews> reviews = reviewsService.getTeacherReviews(teacher.getId());
+
+                Map<String, Object> result = new HashMap<>();
+                result.put("reviews", reviews);
+                result.put("rating", teacher.getRating());
+
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +84,7 @@ public class ReviewsController {
 
 
     @PostMapping(value = "/create-review/{teacher_id}")
-    public ResponseEntity<Object> createReview(@RequestBody ReviewsDTO reviewsDTO,
+    public ResponseEntity<?> createReview(@RequestBody ReviewsDTO reviewsDTO,
                                                @PathVariable(name = "teacher_id") Long teacherId,
                                                HttpServletRequest request) {
         try {
@@ -76,8 +102,8 @@ public class ReviewsController {
 
             reviewsDTO.setTeacherId(teacher);
 
-            Reviews newReview = reviewsService.createReviews(reviewsDTO, currentUsername);
-            return new ResponseEntity<>("Review created successfully", HttpStatus.CREATED);
+            reviewsService.createReviews(reviewsDTO, currentUsername);
+            return getTeacherReviews(teacherId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

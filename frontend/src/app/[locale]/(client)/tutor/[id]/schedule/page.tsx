@@ -86,6 +86,7 @@ export const ScheduleTime = ({lesson, btnText, setModalLesson}: any) => {
 };
 
 export const LessonConfirmModal = ({lesson, setLesson, languages}: {lesson:any, setLesson:any, languages: TeacherLanguage[]}) => {
+    const t = useTranslations('tutor.schedule.confirmModal');
     const langT = useTranslations('languages');
     const [lang, setLang] = useState('');
     const router = useRouter();
@@ -115,10 +116,10 @@ export const LessonConfirmModal = ({lesson, setLesson, languages}: {lesson:any, 
             <form onSubmit={handleSubmit}>
                 <div className="inputs">
                     <div className="modal-heading">
-                        Lesson on {lesson.time.toLocaleString()}
+                        {t('heading', {time: lesson.time.toLocaleString()})}
                     </div>
                     <div className="form-group">
-                        <label>Choose language</label>
+                        <label>{t('label')}</label>
                         <select name="lang" defaultValue={lang} onChange={(e)=>{e.preventDefault(); setLang(e.target.value)}}>
                             <option key="-1" value=""></option>
                             {languages.map((lang, key)=>(
@@ -128,8 +129,8 @@ export const LessonConfirmModal = ({lesson, setLesson, languages}: {lesson:any, 
                     </div>
                 </div>
                 <div className="btns">
-                    <div className="btn" onClick={clear}>Cancel</div>
-                    <button type="submit" className='btn' disabled={!lang}>Confirm</button>
+                    <div className="btn" onClick={clear}>{t('cancel')}</div>
+                    <button type="submit" className='btn' disabled={!lang}>{t('submit')}</button>
                 </div>
             </form>
         </div>

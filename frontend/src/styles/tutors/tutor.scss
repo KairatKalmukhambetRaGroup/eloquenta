@@ -234,6 +234,7 @@
                 position: relative;
                 background: none;
                 margin: 0;
+                min-height: 900px;
                 &::before{
                     content: '';
                     display: block;
@@ -984,5 +985,83 @@
                 }
             }
         }
+    }
+}
+
+#reviewForm{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    align-self: stretch;
+    width: 100%;
+    font-family: v.$font_raleway;
+    font-style: normal;
+
+    .inputs{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        align-self: stretch;
+        .form-group{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+            align-self: stretch;
+            label{
+                color: #1A1A1A;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 24px; /* 150% */
+            }
+            .star-rating{
+                display: flex;
+                align-items: flex-start;
+                gap: 3px;
+                i.star{
+                    cursor: pointer;
+                    width: 42px;
+                    height: 42px;
+                    content: url('../../assets/svg/star-grey.svg');
+                    &.selected{
+                        content: url('../../assets/svg/star.svg');
+                    }
+                }
+            }
+            textarea{
+                width: 100%;
+                border-radius: 8px;
+                border: 1px solid #EAECF0;
+                background: #F6F8F9;
+
+                padding: 14px;
+
+                color: #1A1A1A;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 24px; /* 150% */
+            }
+        }
+    }    
+    button{
+        cursor: pointer;
+        display: flex;
+        padding: 16px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        border: none;
+        border-radius: 8px;
+        background: #07604B;
+
+        color: #FFF;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 28px; /* 175% */
     }
 }

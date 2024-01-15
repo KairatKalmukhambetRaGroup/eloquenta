@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import axios from '@/utils/axiosConfig';
 import { useUserContext } from '@/contexts/UserContext';
+import { useTranslations } from 'next-intl';
 
 const initFormData = {
     oldPassword: '',
@@ -9,6 +10,7 @@ const initFormData = {
     rePassword: ''
 }
 const Password = () => {
+    const t = useTranslations('settings.password');
     const [formData, setFormData] = useState(initFormData);
     const {rewriteProfile} = useUserContext();
     
@@ -41,27 +43,27 @@ const Password = () => {
 
     return (
         <div className="password-settings">
-            <h2>Настройки пароля</h2>
+            <h2>{t('title')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className="inputs">
                     <div className="row">
                         <div className="form-group">
                             <input type="password" name='oldPassword' required value={formData.oldPassword} onChange={handleChange} />
-                            <label>Текущий пароль</label>
+                            <label>{t('old')}</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="form-group">
-                            <input type="password" name='newPassword' required value={formData.newPassword} onChange={handleChange} />
-                            <label>Новый пароль</label>
+                            <input type="new" name='newPassword' required value={formData.newPassword} onChange={handleChange} />
+                            <label>{t('title')}</label>
                         </div>
                         <div className="form-group">
                             <input type="password" name='rePassword' required value={formData.rePassword} onChange={handleChange} />
-                            <label>Подтвердить новый пароль</label>
+                            <label>{t('re')}</label>
                         </div>
                     </div>
                 </div>
-                <input type="submit" value="Поменять пароль" disabled={checkFormData()} />
+                <input type="submit" value={t('submit')} disabled={checkFormData()} />
             </form>
         </div>
     )
