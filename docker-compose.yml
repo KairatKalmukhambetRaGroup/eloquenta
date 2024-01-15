@@ -25,7 +25,7 @@ services:
       SPRING_DATASOURCE_USERNAME: mariadbuser
       SPRING_DATASOURCE_PASSWORD: mariadbpwd
     working_dir: /webapp
-    command: ["java","-jar","visa-back.jar"]
+    command: ["java","-jar","build/libs/backend-0.0.1-SNAPSHOT.jar"]
 
   gradle:
     image: gradle:jdk17-alpine
@@ -44,11 +44,11 @@ services:
     depends_on:
       - spring
 
-  nodejs:
-    image: node:latest
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend/node-app:/app
-    working_dir: /app
-    command: ["npm", "start"]
+    depends_on:
+      - backend
