@@ -32,7 +32,7 @@ const page = ({params: {id}}:any) => {
             setRating(data.rating);
             setReviews(data.reviews);
             let r = {...reviewCount};
-            data.reviews.map((i:any) => {
+            data.reviews.map((i) => {
                 r.all ++;
                 r[i.rate]++;
             })
