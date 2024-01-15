@@ -53,10 +53,10 @@ dependencies {
 
 bootJar {
 	archiveFileName = 'eloquenta.jar'
-	destinationDirectory = file('/app/output')
+//	destinationDirectory = file('/app/output')
 	destinationDirectory = file("$buildDir/libs/")
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
