@@ -12,7 +12,7 @@ services:
       MYSQL_PASSWORD: mariadbpwd
       MYSQL_ROOT_PASSWORD: mariadbrootpwd
     ports:
-      - "127.0.0.1:3306:3306"
+      - "3306:3306"
 
   spring:
     image: openjdk:17-alpine
@@ -21,9 +21,13 @@ services:
     volumes:
       - ./backend/build/libs:/webapp
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/eloquenta
+      SPRING_DATASOURCE_URL: jdbc:mariadb://eloquenta_mariadb_1:3306/eloquenta
       SPRING_DATASOURCE_USERNAME: mariadbuser
       SPRING_DATASOURCE_PASSWORD: mariadbpwd
+      SPRING_LIQUIBASE_URL: jdbc:mariadb://eloquenta_mariadb_1:3306/eloquenta
+      SPRING_LIQUIBASE_USER: mariadbuser
+      SPRING_LIQUIBASE_PASSWORD: mariadbpwd
+      SPRING_LIQUIBASE_CHANGE-LOG: classpath:db/changelog/db-changelog-master.xml
     working_dir: /webapp
     command: ["java","-jar","eloquenta.jar"]
 
@@ -37,21 +41,21 @@ services:
 
   nginx:
     image: nginx:latest
+    volumes:
+      - /etc/nginx/conf.d:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
     ports:
       - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - "443:443"
     depends_on:
       - spring
 
   frontend:
-    container_name: frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    restart: always
+    image: fontend-docker
     ports:
       - 3000:3000
-    env_file:
-      - ./frontend/.env
-    
+    depends_on:
+      - spring
+    environment:
+      NEXT_PUBLIC_API_URL: https://server.eloquenta.academy/
+      OPEN_API_KEY: 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

@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // Replace with the origin of your client application
+                .allowedOrigins("http://eloquenta_frontend_1:3000") // Replace with the origin of your client application
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
