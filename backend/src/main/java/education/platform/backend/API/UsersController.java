@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = {"https://eloquenta.academy"}, methods = {RequestMethod.GET, RequestMethod.POST}, maxAge = 3600)
 @RestController
 @RequestMapping(value = "users")
 public class UsersController {
