@@ -30,7 +30,11 @@ public class BackendApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/users/signup").allowedOrigins("*");
+				registry.addMapping("/users/signup")
+						.allowedOrigins("https://eloquenta.academy")
+						.allowedMethods("GET", "POST", "PUT", "DELETE")
+						.allowedHeaders("Content-Type", "Authorization", "X-Requested-With", "Accept")
+						.allowCredentials(true);
 			}
 		};
 	}
