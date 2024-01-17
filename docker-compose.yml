@@ -59,3 +59,4 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: https://server.eloquenta.academy/
       OPEN_API_KEY: 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
+

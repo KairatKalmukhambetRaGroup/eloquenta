@@ -13,7 +13,7 @@ COPY package.json  package-lock.json* ./
 
 RUN npm cache clean --force
 RUN npm install -g npm
-RUN npm install --legacy-peer-deps --ignore-scripts 
+RUN npm install --legacy-peer-deps --ignore-scripts
 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
