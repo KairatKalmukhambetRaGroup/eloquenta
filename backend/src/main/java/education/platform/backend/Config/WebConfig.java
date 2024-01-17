@@ -15,6 +15,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("https://eloquenta.academy")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("Content-Type", "Authorization", "X-Requested-With")
-                .allowCredentials(true);
+                .allowCredentials(false);
     }
 }
