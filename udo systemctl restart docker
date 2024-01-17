@@ -1,0 +1,23 @@
+[0;1;32m●[0m docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+     Active: [0;1;32mactive (running)[0m since Wed 2024-01-17 20:01:44 UTC; 55s ago
+TriggeredBy: [0;1;32m●[0m docker.socket
+       Docs: https://docs.docker.com
+    Process: 16037 ExecStartPost=/bin/chmod 666 /var/run/docker.sock (code=exited, status=0/SUCCESS)
+   Main PID: 15904 (dockerd)
+      Tasks: 9
+     Memory: 60.3M
+        CPU: 507ms
+     CGroup: /system.slice/docker.service
+             └─15904 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+Jan 17 20:01:43 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:43.415076502Z" level=info msg="Starting up"
+Jan 17 20:01:43 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:43.418621357Z" level=info msg="detected 127.0.0.53 nameserver, assuming systemd-resolved, so using resolv.conf: /run/systemd/resolve/resolv.conf"
+Jan 17 20:01:43 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:43.505611794Z" level=info msg="[graphdriver] using prior storage driver: overlay2"
+Jan 17 20:01:43 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:43.511988574Z" level=info msg="Loading containers: start."
+Jan 17 20:01:43 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:43.978666283Z" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+Jan 17 20:01:44 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:44.115940378Z" level=info msg="Loading containers: done."
+Jan 17 20:01:44 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:44.195098105Z" level=info msg="Docker daemon" commit=311b9ff graphdriver=overlay2 version=24.0.7
+Jan 17 20:01:44 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:44.196163001Z" level=info msg="Daemon has completed initialization"
+Jan 17 20:01:44 eloquenta-host dockerd[15904]: time="2024-01-17T20:01:44.257359921Z" level=info msg="API listen on /run/docker.sock"
+Jan 17 20:01:44 eloquenta-host systemd[1]: Started Docker Application Container Engine.
