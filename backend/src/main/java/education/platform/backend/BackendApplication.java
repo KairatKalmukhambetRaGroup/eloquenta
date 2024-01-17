@@ -25,7 +25,7 @@ public class BackendApplication {
 		return registrationBean;
 	}
 
-	@Bean
+	/*@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
@@ -37,5 +37,5 @@ public class BackendApplication {
 						.allowCredentials(true);
 			}
 		};
-	}
+	}*/
 }
