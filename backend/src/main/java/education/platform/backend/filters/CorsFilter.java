@@ -1,17 +1,17 @@
 package education.platform.backend.filters;
 
 import io.swagger.v3.oas.models.PathItem;
+import jakarta.servlet.*;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 //public class CorsFilter extends OncePerRequestFilter {
-
-    /*@Override
+public class CorsFilter implements Filter {
+/*  @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request instanceof HttpServletRequest) {
             System.out.println("URL: " + request.getRequestURL());
@@ -29,4 +29,23 @@ import java.io.IOException;
             }
         }
     }*/
-//}
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        Filter.super.init(filterConfig);
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
+        javax.servlet.http.HttpServletResponse response = (HttpServletResponse) res;
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        filterChain.doFilter(req, res);
+    }
+
+    @Override
+    public void destroy() {
+        Filter.super.destroy();
+    }
+}

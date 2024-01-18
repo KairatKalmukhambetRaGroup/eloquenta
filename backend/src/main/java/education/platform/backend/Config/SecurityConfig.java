@@ -2,7 +2,7 @@ package education.platform.backend.Config;
 
 import education.platform.backend.Service.Impl.UserServiceImpl;
 import education.platform.backend.Service.UsersService;
-//import education.platform.backend.filters.CorsFilter;
+import education.platform.backend.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -85,7 +85,7 @@ public class SecurityConfig {
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
-//                http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
+                http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
 
         return http.build();
     }
@@ -93,7 +93,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://eloquenta.academy"));
+        configuration.setAllowedOrigins(Arrays.asList("https://eloquenta.academy", "https://server.eloquenta.academy"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList(
