@@ -1,5 +1,6 @@
 package education.platform.backend.filters;
 
+import io.swagger.v3.oas.models.PathItem;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -12,11 +13,22 @@ public class CorsFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        response.setHeader("Access-Control-Allow-Origins", "*");
-        response.setHeader("Access-Control-Allow-Credentials", "false");
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept");
-        filterChain.doFilter(request, response);
+        if (request instanceof HttpServletRequest) {
+            System.out.println("URL: " + request.getRequestURL());
+            response.setHeader("Access-Control-Allow-Origins", "*");
+            response.setHeader("Access-Control-Allow-Expose-Headers", "*");
+            response.setHeader("Access-Control-Allow-Methods", "*");
+            response.setHeader("Access-Control-Allow-Headers", "*");
+            response.setHeader("Access-Control-Max-Age", "*");
+
+            String method = request.getMethod();
+            if (PathItem.HttpMethod.OPTIONS.name().equalsIgnoreCase(method)) {
+                System.out.printf("%s %s\r\n", method, request.getRequestURI());
+                String path = request.getServletPath() + request.getPathInfo();
+                request.getRequestDispatcher(path).forward(request, response);
+            } else {
+                filterChain.doFilter(request, response);
+            }
+        }
     }
 }
