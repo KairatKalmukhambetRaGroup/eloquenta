@@ -5,8 +5,7 @@ import jakarta.servlet.*;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 //public class CorsFilter extends OncePerRequestFilter {
@@ -37,8 +36,7 @@ public class CorsFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
-        if (res instanceof HttpServletResponse) {
-            HttpServletResponse response = (HttpServletResponse) res;
+        if (res instanceof HttpServletResponse response) {
             response.setHeader("Access-Control-Allow-Origin", "https://eloquenta.academy");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
