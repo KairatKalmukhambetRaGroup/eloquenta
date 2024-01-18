@@ -25,7 +25,7 @@ public class BackendApplication {
 		return registrationBean;
 	}
 
-	/*@Bean
+	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
@@ -33,9 +33,9 @@ public class BackendApplication {
 				registry.addMapping("/users/signup")
 						.allowedOrigins("https://eloquenta.academy")
 						.allowedMethods("GET", "POST", "PUT", "DELETE")
-						.allowedHeaders("Content-Type", "Authorization", "X-Requested-With", "Accept")
+						.allowedHeaders("Content-Type", "X-Requested-With")
 						.allowCredentials(true);
 			}
 		};
-	}*/
+	}
 }
