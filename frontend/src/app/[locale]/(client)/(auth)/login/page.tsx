@@ -17,7 +17,7 @@ const page = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            const {data, status} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/signin`, formData, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
+            const {data, status} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/signin`, formData, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "https://server.eloquenta.academy", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
             login(data);
         } catch (error) {
             console.log(error)
