@@ -2,7 +2,7 @@ package education.platform.backend.Config;
 
 import education.platform.backend.Service.Impl.UserServiceImpl;
 import education.platform.backend.Service.UsersService;
-import education.platform.backend.filters.CorsFilter;
+//import education.platform.backend.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -85,7 +85,7 @@ public class SecurityConfig {
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
-                http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
+//                http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
 
         return http.build();
     }
@@ -95,8 +95,18 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("https://eloquenta.academy"));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Content-Type"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList(
+                "Content-Type",
+                "Authorization",
+                "X-Requested-With",
+                "Access-Control-Allow-Origin",
+                "Cache-Control",
+                "Pragma",
+                "Expires",
+                "Accept",
+                "X-Auth-Token",
+                "X-CSRF-Token"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

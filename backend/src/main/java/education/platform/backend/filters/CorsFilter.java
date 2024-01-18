@@ -9,9 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class CorsFilter extends OncePerRequestFilter {
+//public class CorsFilter extends OncePerRequestFilter {
 
-    @Override
+    /*@Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request instanceof HttpServletRequest) {
             System.out.println("URL: " + request.getRequestURL());
@@ -28,5 +28,5 @@ public class CorsFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
         }
-    }
-}
+    }*/
+//}
