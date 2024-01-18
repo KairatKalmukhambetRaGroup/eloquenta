@@ -100,7 +100,6 @@ public class SecurityConfig {
                 "Content-Type",
                 "Authorization",
                 "X-Requested-With",
-                "Access-Control-Allow-Origin",
                 "Cache-Control",
                 "Pragma",
                 "Expires",

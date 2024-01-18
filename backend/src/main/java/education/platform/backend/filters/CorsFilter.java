@@ -39,7 +39,7 @@ public class CorsFilter implements Filter {
         if (res instanceof HttpServletResponse response) {
             response.setHeader("Access-Control-Allow-Origin", "https://eloquenta.academy");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
         }
         filterChain.doFilter(req, res);
     }
