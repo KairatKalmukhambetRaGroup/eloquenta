@@ -17,13 +17,14 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	@Bean
+/*	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilterRegistration() {
 		FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new CorsFilter());
 		registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return registrationBean;
 	}
+*/
 
 	/*@Bean
 	public WebMvcConfigurer corsConfigurer() {
