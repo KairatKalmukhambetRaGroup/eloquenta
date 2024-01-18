@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 
-import education.platform.backend.filters.CorsFilter;
+//import education.platform.backend.filters.CorsFilter;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,13 +19,13 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilterRegistration() {
 		FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new CorsFilter());
 		registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return registrationBean;
-	}
+	}*/
 
 	/*@Bean
 	public WebMvcConfigurer corsConfigurer() {
