@@ -26,7 +26,7 @@ public class UsersFileUploadServiceImpl implements UsersFileUploadService {
     @Value("${uploadImageURL}")
     private String imageURL;
 
-    @Value("${loadURL}")
+    @Value("${loadImageURL}")
     private String myLoadURL;
 
     @Override

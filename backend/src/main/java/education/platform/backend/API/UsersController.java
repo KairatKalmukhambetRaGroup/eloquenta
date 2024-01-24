@@ -103,7 +103,7 @@ public class UsersController {
                 return new ResponseEntity<>(new UserResponse(token, newUser, userRole), HttpStatus.OK);
             }
 
-            return new ResponseEntity<>("User already exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User already exist", HttpStatus.CONFLICT);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
