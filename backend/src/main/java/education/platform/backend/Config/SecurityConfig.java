@@ -27,7 +27,7 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true, securedEnabled = true)
-public class SecurityConfig {
+public class SecurityConfig extends WebSecurityConfigurationAdapter{
 
     @Autowired
     private JwtUtils jwtUtils;
