@@ -20,6 +20,7 @@ services:
       - "8080:8080"
     volumes:
       - ./backend/build/libs:/webapp
+      - ./uploads:/webapp/static/images
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://eloquenta_mariadb_1:3306/eloquenta
       SPRING_DATASOURCE_USERNAME: mariadbuser
