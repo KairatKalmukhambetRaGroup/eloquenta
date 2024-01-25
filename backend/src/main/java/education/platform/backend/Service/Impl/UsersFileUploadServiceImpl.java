@@ -8,9 +8,12 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -35,8 +38,14 @@ public class UsersFileUploadServiceImpl implements UsersFileUploadService {
             if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
                 String fileName = DigestUtils.sha1Hex(user.getId() + " images") + ".png";
                 byte bytes[] = file.getBytes();
-                Path path = Paths.get(imageURL + fileName);
-                Files.write(path, bytes);
+                File directory = new File(myLoadURL);
+                if(!directory.exists()) {
+                    directory.mkdirs();
+                }
+//                Path path = Paths.get(imageURL + fileName);
+//                Files.write(path, bytes);
+                File destFile = new File(directory, fileName);
+                file.transferTo(destFile);
 
                 user.setImage(fileName);
                 // userService.saveUserData(user);
@@ -63,8 +72,16 @@ public class UsersFileUploadServiceImpl implements UsersFileUploadService {
         InputStream in;
 
         try {
-            ClassPathResource resource = new ClassPathResource(picURL);
-            in = resource.getInputStream();
+            Path filePath = Paths.get(picURL);
+            Resource file = new UrlResource(filePath.toUri());
+            if(file.exists() && file.isReadable())
+                in = file.getInputStream();
+            else {
+                picURL = myLoadURL + "noimage.png";
+                ClassPathResource resource = new ClassPathResource(picURL);
+                in = resource.getInputStream();
+            }
+
         } catch (Exception e) {
             picURL = myLoadURL + "noimage.png";
             ClassPathResource resource = new ClassPathResource(picURL);
