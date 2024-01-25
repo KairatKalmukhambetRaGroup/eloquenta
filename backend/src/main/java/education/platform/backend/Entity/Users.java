@@ -41,7 +41,7 @@ public class Users implements UserDetails {
 
     @JsonIgnore
     @Column(name = "image")
-    private String image;
+    private byte[] image;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

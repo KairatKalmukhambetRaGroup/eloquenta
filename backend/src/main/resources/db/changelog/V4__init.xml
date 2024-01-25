@@ -4,9 +4,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <include file="db/changelog/V1__init.xml"/>
-    <include file="db/changelog/V2__init.xml"/>
-    <include file="db/changelog/V3__init.xml"/>
-    <include file="db/changelog/V4__init.xml"/>
-
+    <!--  INSERT LANGUAGES  -->
+    <changeSet id="insert_language_levels" author="dev">
+        <sql>
+            ALTER TABLE users MODIFY COLUMN image BLOB;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
