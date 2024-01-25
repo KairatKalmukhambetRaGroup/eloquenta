@@ -51,7 +51,7 @@ public class TeachersController {
 
     @GetMapping(value = "/search")
     public ResponseEntity<? extends Object> searchTeachers(
-            @RequestParam(name = "lang", defaultValue = "en") String lang,
+            @RequestParam(name = "lang", required = false) String lang,
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "day", required = false) List<String> day,
             @RequestParam(name = "time", required = false) List<String> time,

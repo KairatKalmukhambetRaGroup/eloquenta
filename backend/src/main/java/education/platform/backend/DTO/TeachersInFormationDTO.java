@@ -14,6 +14,8 @@ import java.time.Instant;
 @NoArgsConstructor
 public class TeachersInFormationDTO {
 
+
+    private long id;
     private Users users;
     private Float rating;
     private String description;
