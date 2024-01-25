@@ -29,7 +29,7 @@ public class GoogleCalendarService {
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
-    private static final String CREDENTIALS_FILE_PATH = "/client_secret_1086036196949-ifka23malm3ifkgsg5c6vkj1vc4hlf7m.apps.googleusercontent.com.json";
+    private static final String CREDENTIALS_FILE_PATH = "/client_secret_130791195831-hd8336bqc9n6p7k8e3hhjioh8pt5546o.apps.googleusercontent.com.json";
 
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = GoogleCalendarService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
