@@ -1,6 +1,7 @@
 package education.platform.backend.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import education.platform.backend.enums.UserProvider;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,7 +42,10 @@ public class Users implements UserDetails {
 
     @JsonIgnore
     @Column(name = "image")
-    private String image;
+    private byte[] image;
+
+    @Enumerated(EnumType.STRING)
+    private UserProvider provider;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

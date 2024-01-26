@@ -103,7 +103,7 @@ public class UsersController {
                 return new ResponseEntity<>(new UserResponse(token, newUser, userRole), HttpStatus.OK);
             }
 
-            return new ResponseEntity<>("User already exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User already exist", HttpStatus.CONFLICT);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -116,7 +116,7 @@ public class UsersController {
             if (users != null) {
                 UserRole userRole = userRoleService.getUserRoleByUserId(users.getId());
                 String token = jwtUtils.generateToken(users);
-                System.out.println("Token " + token);
+//                System.out.println("Token " + token);
                 return new ResponseEntity<Object>(new UserResponse(token, users, userRole), HttpStatus.OK);
             }
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);

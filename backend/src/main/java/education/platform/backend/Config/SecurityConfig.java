@@ -1,5 +1,6 @@
 package education.platform.backend.Config;
 
+import education.platform.backend.OAuth.CustomAuthenticationSuccessHandler;
 import education.platform.backend.Service.Impl.UserServiceImpl;
 import education.platform.backend.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -84,10 +86,17 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(customOAuthenticationSuccessHandler()));
                 http.addFilterBefore(corsFilter(), CorsFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customOAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
     }
 
     @Bean

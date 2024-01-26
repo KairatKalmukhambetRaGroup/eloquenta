@@ -75,7 +75,12 @@ public class TeachersServiceImpl implements TeachersService {
     private JavaMailSender mailSender;
     @Override
     public Map<String, Object> searchTeachers(String lang, int page, List<String> days, List<String> times, Integer gmt) {
-        List<Teachers> teachers = teachersRepository.findTeachersByLanguage(lang);
+        List<Teachers> teachers;
+        if(lang != null){
+            teachers = teachersRepository.findTeachersByLanguage(lang);
+        }else{
+            teachers = teachersRepository.findAll();
+        }
         List<TeacherResponse> teacherResponses = new ArrayList<>();
 
         String gmtString = "Z";
@@ -187,6 +192,7 @@ public class TeachersServiceImpl implements TeachersService {
         for (Teachers teacher : teachersList) {
             TeachersInFormationDTO dto = new TeachersInFormationDTO();
             dto.setUsers(teacher.getUsers());
+            dto.setId(teacher.getId());
             dto.setRating(teacher.getRating());
             dto.setDescription(teacher.getDescription());
             dto.setMeetingLink(teacher.getMeetingLink());
