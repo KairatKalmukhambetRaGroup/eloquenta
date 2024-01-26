@@ -1,13 +1,17 @@
 import axios from 'axios';
-import { signIn } from 'next-auth/react';
 
 const GoogleButton = ({text}: any) => {
     const handleGoogleLogin = async (e: any) => {
         e.preventDefault();
         // const data = await signIn('google');
         // console.log(data)
-        const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
-        console.log(data);
+        try {
+            const data = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/oauth2/login/google`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
+            console.log(data);
+            
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     return (
