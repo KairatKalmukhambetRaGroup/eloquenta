@@ -40,6 +40,13 @@
                     line-height: 22px; /* 150% */
                 }
             }
+            .error{
+                font-family: v.$font_raleway;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 22px; /* 150% */
+                color: #E31111;
+            }
             .form{
                 width: 100%;
                 display: flex;
@@ -227,6 +234,10 @@
                         font-size: 16px;
                         line-height: 24px; /* 150% */
                     }
+                }
+                .error{
+                    font-size: 16px;
+                    line-height: 24px; /* 150% */
                 }
                 .form{
                     gap: 30px;

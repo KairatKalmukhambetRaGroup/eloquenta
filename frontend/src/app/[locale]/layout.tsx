@@ -6,6 +6,7 @@ import { PlayfairDisplayFont, RalewayFont } from '@/utils/customFonts';
 
 
 import '@/styles/global.scss';
+import { IntlProvider } from 'next-intl';
 
 export const metadata: Metadata = {
   title: 'Eloquenta',

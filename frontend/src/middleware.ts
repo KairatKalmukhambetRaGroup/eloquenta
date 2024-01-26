@@ -5,10 +5,23 @@ export default createMiddleware({
   locales: ['en', 'ru'],
  
   // Used when no locale matches
-  defaultLocale: 'ru'
+  defaultLocale: 'ru',
+  localeDetection: false,
+  localePrefix: 'always'
 });
  
 export const config = {
   // Match only internationalized pathnames
-  matcher: ['/((?!api|_next|.*\\..*).*)']
+  matcher: [
+    // Enable a redirect to a matching locale at the root
+    '/',
+
+    // Set a cookie to remember the previous locale for
+    // all requests that have a locale prefix
+    '/(ru|en)/:path*',
+
+    // Enable redirects that add missing locales
+    // (e.g. `/pathnames` -> `/en/pathnames`)
+    '/((?!_next|_vercel|.*\\..*).*)'
+  ]
 };

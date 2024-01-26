@@ -1,13 +1,14 @@
-import { PropsWithChildren } from "react"
-
 import Sidebar from "@/components/admin/Sidebar";
 
 import '@/styles/admin/admin.scss';
 
-const Layout = ({children}: PropsWithChildren) => {
+const Layout = ({children, params: {locale}}: any) => {
+
+    
+
     return (
         <div id="admin">
-            <Sidebar />
+            <Sidebar locale={locale} />
             <main>
                 {children}
             </main>

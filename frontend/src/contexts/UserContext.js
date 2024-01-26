@@ -20,7 +20,7 @@ const UserProvider = ({children}) => {
         return null;
     }
 
-    const [user, setUser] = useState(null, getUserFromLocalStorage);
+    const [user, setUser] = useState(getUserFromLocalStorage);
     const router = useRouter();
     useEffect(()=>{
         if(!user){

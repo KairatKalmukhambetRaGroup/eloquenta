@@ -27,7 +27,6 @@ header#header{
             content: url('../assets/svg/hamburger.svg');
         }
         nav.user{
-            display: flex;
             flex-direction: row;
             align-items: center;
             gap: 20px;
@@ -173,6 +172,181 @@ header#header{
             }
 
             
+        }
+    }
+
+    .header-menu{
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+
+        background: #07604B;
+        .content{
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            .top{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .close{
+                    cursor: pointer;
+                    width: 20px;
+                    height: 20px;
+                    content: url('../assets/svg/close-white.svg');
+                }
+            }
+            nav{
+                width: 100%;
+                flex-grow: 1;
+                justify-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+                .auth-btn{
+                    width: 100%;
+                    display: flex;
+                    padding: 14px 30px;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+                    align-self: stretch;
+                    
+                    border-radius: 8px;
+                    border: 1px solid #EAECF0;
+                    
+                    color: #FFF;
+                    font-family: v.$font_raleway;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 20px; /* 142.857% */
+                    &.sign-up{
+                        color: #07604B;
+                        border: none;
+                        background: #FFF;
+                    }
+                }
+                .langs{
+                    display: flex;
+                    flex-direction: row;
+                    gap: 10px;
+                    width: 100%;
+                    .option{
+                        cursor: pointer;
+                    padding: 14px 30px;
+
+                        flex: 1 0 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        border-radius: 8px;
+                        border: 1px solid #EAECF0;
+                        
+                        color: #FFF;
+                        font-family: v.$font_raleway;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 20px; /* 142.857% */
+                        &.active{
+                            color: #07604B;
+                            border: none;
+                            background: #FFF;
+                        }
+                    }
+                }
+                &.user{
+                    padding-top: 60px;
+                    padding-bottom: 30px;
+                    font-family: v.$font_raleway;
+                    font-style: normal;
+
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    .usermenu{
+                        display: flex;
+                        width: 100%;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 20px;
+                        .group{
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 15px;
+                            align-self: stretch;
+                            label{
+                                color: #D4D4D8;
+                                font-size: 14px;
+                                font-weight: 600;
+                                line-height: 20px; /* 142.857% */
+                                letter-spacing: 0.7px;
+                            }
+                            .links{
+                                display: flex;
+                                flex-direction: column;
+                                align-items: flex-start;
+                                gap: 10px;
+                                .link{
+                                    display: flex;
+                                    width: 100%;
+                                    padding: 10px 15px;
+                                    align-items: center;
+                                    gap: 10px;
+
+                                    color: #FFF;
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 600;
+                                    line-height: 20px; /* 142.857% */
+                                    i{
+                                        width: 28px;
+                                        max-width: 28px;
+                                        height: 28px;
+                                        flex-shrink: 0;
+                                        &.menu{
+                                            content: url('../assets/svg/profile/user-menu-white.svg');
+                                        }
+                                        &.lessons{
+                                            content: url('../assets/svg/profile/user-lessons-white.svg');
+                                        }
+                                        &.profile{
+                                            content: url('../assets/svg/profile/user-profile-white.svg');
+                                        }
+                                        &.settings{
+                                            content: url('../assets/svg/profile/user-settings-white.svg');
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .logout{
+                        cursor: pointer;
+                        display: flex;
+                        width: 220px;
+                        padding: 14px 30px;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 10px;
+
+                        border-radius: 8px;
+                        border: 1px solid #EAECF0;
+
+                        color: #FFF;
+                        font-family: v.$font_raleway;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 20px; /* 142.857% */
+                    }
+                }
+            }
         }
     }
 }

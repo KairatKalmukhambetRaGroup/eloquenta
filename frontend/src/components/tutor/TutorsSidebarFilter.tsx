@@ -98,8 +98,8 @@ const TutorsSidebarFilter = () => {
                 <div className="input input-range">
                     <label>{t('lesson-price')} $</label>
                     <div className="input-row">
-                        <input type="text" name='minPrice' placeholder='Min' value={minPrice} onChange={handleChange} />
-                        <input type="text" name='maxPrice' placeholder='Max' value={maxPrice} onChange={handleChange} />
+                        <input type="text" name='minPrice' placeholder='Min' value={Number(minPrice)} onChange={handleChange} />
+                        <input type="text" name='maxPrice' placeholder='Max' value={Number(maxPrice)} onChange={handleChange} />
                     </div>
                 </div>
                 <div className="input input-radio">

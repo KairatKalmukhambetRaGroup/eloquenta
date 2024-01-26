@@ -10,17 +10,25 @@ const page = () => {
     const t = useTranslations('auth')
     const {login} = useUserContext();
     const [formData, setFormData] = useState(initFormData);
+    const [error, setError] = useState(0);
     const handleChange = (e: any) => {
         const {name, value} = e.currentTarget;
         setFormData({...formData, [name]: value});
     }
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        setError(0);
         try {
             const {data, status} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, formData, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
-            login(data);
+            if(status == 200)
+                login(data);
+            else if(status == 404 || status == 409){
+                setError(status);
+            }else{
+                setError(500);
+            }
         } catch (error) {
-            console.log(error)
+            setError(500);
         }
     }
     return (
@@ -33,6 +41,13 @@ const page = () => {
                     {t('signup.subtitle')}
                 </div>
             </div>
+            {error ? 
+                <div className="error">
+                    {t(`error.${error}`)}
+                </div>
+                :
+                ''
+            }
             <div className="form">
                 <div className="inputs">
                     <div className="form-group">

@@ -22,7 +22,7 @@ const Pagination = () => {
     }
     
     
-    if(totalPages < 2)
+    if(!totalPages || Number(totalPages) < 2)
         return ;
     return (
         <div className='pagination'>

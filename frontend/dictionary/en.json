@@ -27,6 +27,11 @@
             "password": "Password",
             "name": "First Name",
             "surname": "Last Name"
+        },
+        "error": {
+            "500": "Something went wrong on our end. We're working to fix it. Please try again later.",
+            "404": "We couldn't find an account with the provided email or password.",
+            "409": "Sorry, an account with this email already exists. "
         }
     },
     "landing": {
