@@ -83,11 +83,13 @@ public class SecurityConfig {
                         .requestMatchers("/reviews/getTeacherReviews/{id}").permitAll()
                         .requestMatchers("/teachers/getAllTeachers").permitAll()
                         .requestMatchers("/language/**").permitAll()
+                        .requestMatchers("/oauth2/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(oauth2 -> oauth2
+                        .permitAll()
                         .successHandler(customOAuthenticationSuccessHandler()));
                 http.addFilterBefore(corsFilter(), CorsFilter.class);
 
