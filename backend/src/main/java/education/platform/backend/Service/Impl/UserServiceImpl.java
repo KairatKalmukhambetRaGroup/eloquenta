@@ -12,6 +12,7 @@ import education.platform.backend.Repository.UserRoleRepository;
 import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.UsersFileUploadService;
 import education.platform.backend.Service.UsersService;
+import education.platform.backend.enums.UserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -221,6 +222,19 @@ public class UserServiceImpl implements UsersService {
         checkUser.setName(userDTO.getName());
         checkUser.setSurname(userDTO.getSurname());
         return usersRepository.save(user);
+    }
+
+    @Override
+    public void processOAuthPostLogin(String email) {
+        Users existUser = usersRepository.findByEmail(email);
+
+        if (existUser == null) {
+            Users newUser = new Users();
+            newUser.setEmail(email);
+            newUser.setProvider(UserProvider.GOOGLE);
+
+            usersRepository.save(newUser);
+        }
     }
 
 

@@ -116,7 +116,7 @@ public class UsersController {
             if (users != null) {
                 UserRole userRole = userRoleService.getUserRoleByUserId(users.getId());
                 String token = jwtUtils.generateToken(users);
-                System.out.println("Token " + token);
+//                System.out.println("Token " + token);
                 return new ResponseEntity<Object>(new UserResponse(token, users, userRole), HttpStatus.OK);
             }
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
