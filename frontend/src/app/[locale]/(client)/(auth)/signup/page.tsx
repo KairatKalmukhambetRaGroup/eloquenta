@@ -1,4 +1,5 @@
 'use client'
+import GoogleButton from '@/components/auth/GoogleButton';
 import { useUserContext } from '@/contexts/UserContext';
 import axios from 'axios';
 import { useTranslations } from 'next-intl'
@@ -70,7 +71,7 @@ const page = () => {
                 <div className="bottom">
                     <div className="btns">
                         <input type="submit" value={t('signup.btn')} />
-                        <button><i></i> {t('signup.google')}</button>
+                        <GoogleButton text={t('signup.google')} />
                     </div>
                     <p>
                         {t('signup.account.start')} <Link href="/login">{t('signup.account.end')}</Link>
