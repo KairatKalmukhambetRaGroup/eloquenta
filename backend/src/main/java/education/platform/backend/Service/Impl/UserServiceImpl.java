@@ -6,6 +6,7 @@ import education.platform.backend.DTO.LoginDTO;
 import education.platform.backend.DTO.ModelUserDTO;
 import education.platform.backend.DTO.UsersDTO;
 import education.platform.backend.Entity.*;
+import education.platform.backend.OAuth.CustomOAuth2User;
 import education.platform.backend.Repository.PasswordResetRequestRepository;
 import education.platform.backend.Repository.RolesRepository;
 import education.platform.backend.Repository.UserRoleRepository;
@@ -13,6 +14,7 @@ import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.UsersFileUploadService;
 import education.platform.backend.Service.UsersService;
 import education.platform.backend.enums.UserProvider;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -21,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -225,15 +228,39 @@ public class UserServiceImpl implements UsersService {
     }
 
     @Override
-    public void processOAuthPostLogin(String email) {
-        Users existUser = usersRepository.findByEmail(email);
+    @Transactional
+    public Users processOAuthPostLogin(CustomOAuth2User oAuth2User, String accessToken) {
+        try {
+            Users existUser = usersRepository.findByEmail(oAuth2User.getEmail());
 
-        if (existUser == null) {
-            Users newUser = new Users();
-            newUser.setEmail(email);
-            newUser.setProvider(UserProvider.GOOGLE);
+            if (existUser == null) {
 
-            usersRepository.save(newUser);
+
+                Users newUser = new Users();
+                newUser.setName(oAuth2User.getAttribute("given_name"));
+                newUser.setSurname(oAuth2User.getAttribute("family_name"));
+                newUser.setEmail(oAuth2User.getEmail());
+                newUser.setProvider(UserProvider.GOOGLE);
+                newUser.setGooglePicture(oAuth2User.getAttribute("picture"));
+
+
+                newUser = usersRepository.save(newUser);
+
+                Roles studentRole = rolesRepository.findByName("ROLE_STUDENT");
+                UserRoleId userRoleId = new UserRoleId(newUser.getId(), studentRole.getId());
+                UserRole userRole = new UserRole(userRoleId, newUser, studentRole);
+                userRoleRepository.save(userRole);
+
+                return newUser;
+            } else {
+                existUser.setGoogleAccessToken(accessToken);
+
+                Hibernate.initialize(existUser.getRoles()); // Инициализация ролей
+                return usersRepository.save(existUser);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

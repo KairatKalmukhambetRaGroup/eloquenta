@@ -60,11 +60,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         // .requestMatchers("/users/signup").permitAll() // Разрешаем доступ к
                         // /users/signup
+                        .requestMatchers("/oauth2/**", "/login/**", "/error/**").permitAll()
                         .requestMatchers("/api-docs/**", "/swagger-ui-custom.html", "/swagger-ui/**",
                                 "/swagger-resources/**", "/v3/api-docs/**")
                         .permitAll()
                         .requestMatchers("/users/signin").permitAll()
                         .requestMatchers("/users/signup").permitAll()
+                        .requestMatchers("/users/google-token").permitAll()
                         .requestMatchers("/users/avatar/**").permitAll()
                         .requestMatchers("/teachers/search").permitAll()
                         .requestMatchers("/users/reset").permitAll()
@@ -85,12 +87,11 @@ public class SecurityConfig {
                         .requestMatchers("/language/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
                         .anyRequest().authenticated())
+                .oauth2Login(oauth2 -> oauth2
+                     .successHandler(customOAuthenticationSuccessHandler()))
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
-                .oauth2Login(oauth2 -> oauth2
-                        .permitAll()
-                        .successHandler(customOAuthenticationSuccessHandler()));
+                     .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class);
                 http.addFilterBefore(corsFilter(), CorsFilter.class);
 
         return http.build();

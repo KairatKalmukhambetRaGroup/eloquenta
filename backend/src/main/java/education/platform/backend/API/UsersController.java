@@ -109,6 +109,26 @@ public class UsersController {
         }
     }
 
+    @GetMapping(value = "/google-token")
+    public ResponseEntity<Object> getUserByGoogleToken(@RequestParam(name = "token", required = true) String reqToken){
+        try{
+            String username = jwtUtils.getUsernameFromToken(reqToken);
+            Users users = usersRepository.findByEmail(username);
+
+            if (users != null) {
+                UserRole userRole = userRoleService.getUserRoleByUserId(users.getId());
+                String token = jwtUtils.generateToken(users);
+//                System.out.println("Token " + token);
+                return new ResponseEntity<Object>(new UserResponse(token, users, userRole), HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping(value = "/signin")
     public ResponseEntity<Object> authenticateUser(@RequestBody LoginDTO loginDTO) {
         try {

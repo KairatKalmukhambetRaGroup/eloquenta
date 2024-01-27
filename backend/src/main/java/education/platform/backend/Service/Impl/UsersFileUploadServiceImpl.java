@@ -40,7 +40,7 @@ public class UsersFileUploadServiceImpl implements UsersFileUploadService {
 //            String base64Image = encodeImageToBase64(resizedImage);
 //            user.setImage(base64Image);
             user.setImage(imageBytes);
-
+            user.setGooglePicture(null);
             return usersRepository.save(user);
         } catch (Exception e) {
             return null;

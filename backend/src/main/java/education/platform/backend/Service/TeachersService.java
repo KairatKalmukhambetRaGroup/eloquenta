@@ -19,7 +19,7 @@ public interface TeachersService {
 
     void delete(Long id);
 
-    ResponseEntity<String> createTeacher(UsersDTO usersDTO)
+    ResponseEntity<String> createTeacher(UsersDTO usersDTO, String accessToken)
             throws GeneralSecurityException, IOException;
 
     Map<String, Object> searchTeachers(String lang, int page, List<String> days, List<String> times, Integer gmt);

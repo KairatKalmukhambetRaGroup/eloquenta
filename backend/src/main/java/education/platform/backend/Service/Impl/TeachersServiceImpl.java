@@ -279,7 +279,7 @@ public class TeachersServiceImpl implements TeachersService {
     }
 
     @Override
-    public ResponseEntity<String> createTeacher(UsersDTO usersDTO) throws GeneralSecurityException, IOException {
+    public ResponseEntity<String> createTeacher(UsersDTO usersDTO, String accessToken) throws GeneralSecurityException, IOException {
         if (usersRepository.findByEmail(usersDTO.getEmail()) != null) {
             return null;
         }
@@ -321,7 +321,8 @@ public class TeachersServiceImpl implements TeachersService {
         /*String meetingLink = googleMeetService.createPermanentRoom();
         newTeacher.setMeetingLink(meetingLink);*/
         GoogleCalendarService googleCalendarService = new GoogleCalendarService();
-        String meetingLink = googleCalendarService.createGoogleMeetLink();
+
+        String meetingLink = googleCalendarService.createGoogleMeetLink(accessToken);
         newTeacher.setMeetingLink(meetingLink);
         newTeacher.setUsers(newUser);
         newTeacher.setRating(0.0f);

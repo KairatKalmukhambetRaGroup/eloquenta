@@ -48,8 +48,15 @@ public class Users implements UserDetails {
     private UserProvider provider;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserRole> roles = new HashSet<>();
+
+    @JsonIgnore
+    @Column(name = "google_access_token")
+    private String googleAccessToken;
+
+    @Column(name = "google_picture")
+    private String googlePicture;
 
     @JsonIgnore
     @Override
