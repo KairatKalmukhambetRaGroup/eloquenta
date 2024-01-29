@@ -12,6 +12,19 @@
                 "end": "Create a new account"
             }
         },
+        "restore": {
+            "title": "Forgot your password?",
+            "btn": "Restore access",
+            "success": {
+                "title": "We have sent you an email with reset instructions.",
+                "message": "If you do not receive instructions soon, please check your email's \"spam\" folder. If this doesn't work, try resending your request.",
+                "link": "Resending the request"
+            }
+        },
+        "reset": {
+            "title": "Reset password",
+            "btn": "Confirm"
+        },
         "signup": {
             "title": "Join Eloquenta",
             "subtitle": "Unleash your potential with the best foreign language teachers.",
@@ -25,6 +38,8 @@
         "inputs": {
             "email": "Email",
             "password": "Password",
+            "newpass": "New password",
+            "repass": "Repeat password",
             "name": "First Name",
             "surname": "Last Name"
         },
@@ -323,6 +338,17 @@
         "dec": {
             "long": "December",
             "short": "Dec"
+        }
+    },
+
+    "about": {
+        "title": "About Us",
+        "us": "We believe that every student deserves a unique approach. Our talented teachers carefully curate your educational journey. Advanced AI algorithms create personalized learning plans that evolve with you.\nDiscover a world of unique experience that will change your perception of learning forever. Every step of your language journey is filled with discoveries. Our specialty is that artificial intelligence is not just an assistant here — it's your personalized mentor. Our AI algorithms analyze your progress, preferences, and even nuances of learning, offering materials and exercises that are perfectly tailored to you. They work around the clock, providing you with support and unique insights at every step of your educational journey.",
+        "nurzhan": {
+          "name": "Nurzhan",
+          "position": "CEO of Eloquenta",
+          "title": "I'm Nurzhan, a businessman, owner of an international holding company, Arabic translator, founder of the international language academy 'Eloquenta'",
+          "description": "Over the past few years, I have individually taught and graduated about 120 students, many of whom are now doing business in Arabic-speaking countries, have entered higher education institutions, and some are teaching in language centers.\nIn recent years, the topic of artificial intelligence has become very relevant, and as a translator and AI expert, I decided to open a language academy where you will learn personally from language experts and, in addition, receive assistance in learning from language AI, which will accompany you on your journey and be your mentor."
         }
     }
 }

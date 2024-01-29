@@ -166,7 +166,7 @@ public class UsersController {
             if (users != null) {
                 UserRole userRole = userRoleService.getUserRoleByUserId(users.getId());
                 token = jwtUtils.generateToken(users);
-                return new ResponseEntity<Object>(new UserResponse(token, users, userRole), HttpStatus.OK);
+                return new ResponseEntity<>(new UserResponse(token, users, userRole), HttpStatus.OK);
             }
             return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {

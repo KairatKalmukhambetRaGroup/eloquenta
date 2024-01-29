@@ -8,6 +8,8 @@ import { useTimeZone, useTranslations } from 'next-intl';
 import { useEffect, useState, useTransition } from 'react';
 import {useFormatter} from 'next-intl';
 import { useRouter } from 'next/navigation';
+import Loading from '@/components/Loading';
+
 
 const weekdaysArray = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 const today = new Date(new Date().setHours(0,0,0,0));
@@ -28,28 +30,36 @@ const page = ({params: {id}}:any) => {
     const [languages, setLanguages] = useState<TeacherLanguage[]>([]);
     const [modalLesson, setModalLesson] = useState(null);
     const [activeDay, setActiveDay] = useState(today.getTime());
+    const [loading, setLoading] = useState(false);
     const getLessons = async () => {
         try {
+            setLoading(true);
+            setLessons([])
             const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/lessons/getLessonsByTeacherId/${id}`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
             setLanguages(data.languages);
             setLessons(data.lessons.map((i: any)=>{  
-                const time = new Date(0);
-                time.setUTCSeconds(i.time);
+                const time = new Date(i.time);
                 return {...i, time};
             }));
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
     }
 
     useEffect(()=>{
-        if((!lessons || lessons.length == 0) && id)
+        // if((!lessons || lessons.length == 0) && id)
             getLessons();
-    }, [lessons, id])
+            console.log('fetch lessons')
+    }, [])
+
+    const filterLessons = (lessons: any) => {
+        return lessons.filter((lesson: any)=>(!lesson.studentId && new Date(activeDay).getDate()) == lesson.time.getDate());
+    }
 
     return (
         <div className="schedule-teacher">
-            <LessonConfirmModal lesson={modalLesson} setLesson={setModalLesson} languages={languages} />
+            <LessonConfirmModal lesson={modalLesson} setLesson={setModalLesson} languages={languages} getLessons={getLessons} />
             <h2>{t('title')}</h2>
             <p>
                 <i></i>
@@ -57,9 +67,21 @@ const page = ({params: {id}}:any) => {
             </p>
             <ScheduleCalendar weekdays={weekdays} activeDay={activeDay} setActiveDay={setActiveDay}/>
             <div className="schedule-times">
-                {lessons.filter((lesson)=>(!lesson.studentId && new Date(activeDay).getDate()) == lesson.time.getDate()).map((lesson)=>{
-                    return <ScheduleTime key={lesson.id} lesson={lesson} setModalLesson={setModalLesson} btnText={t('btn')} /> 
-                })}
+                {loading ? 
+                    <Loading/>
+                 : 
+                    filterLessons(lessons).length > 0 ? 
+                        filterLessons(lessons).map((lesson: any)=> (
+                            <ScheduleTime key={lesson.id} lesson={lesson} setModalLesson={setModalLesson} btnText={t('btn')} /> 
+                        )
+                    )
+                     : (
+                        <div className="none">
+                            NONE
+                        </div>
+                    )
+                    // )
+                    }
             </div>
         </div>
     )
@@ -85,7 +107,7 @@ export const ScheduleTime = ({lesson, btnText, setModalLesson}: any) => {
     )
 };
 
-export const LessonConfirmModal = ({lesson, setLesson, languages}: {lesson:any, setLesson:any, languages: TeacherLanguage[]}) => {
+export const LessonConfirmModal = ({lesson, setLesson, languages,getLessons}: {lesson:any, setLesson:any, languages: TeacherLanguage[], getLessons: any}) => {
     const t = useTranslations('tutor.schedule.confirmModal');
     const langT = useTranslations('languages');
     const [lang, setLang] = useState('');
@@ -93,14 +115,16 @@ export const LessonConfirmModal = ({lesson, setLesson, languages}: {lesson:any, 
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        try {
+        // try {
             const {data, status} = await axios.post(`/lessons/register/${lesson.id}?lang=${lang}`,{},{validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
-            if(data){
-                router.refresh();
-            }
-        } catch (error) {
-            console.log(error)
-        }
+            // console.log(data, status);
+            // if(data){
+                clear(e);
+                getLessons();
+            // }
+        // } catch (error) {
+        //     console.log(error)
+        // }
     }
     const clear = (e:any) => {
         e.preventDefault();

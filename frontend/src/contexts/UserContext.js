@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const UserContext = createContext();
@@ -20,26 +20,27 @@ const UserProvider = ({children}) => {
         return null;
     }
 
-    const [user, setUser] = useState(getUserFromLocalStorage);
     const router = useRouter();
+
+    const [user, setUser] = useState(getUserFromLocalStorage);
     useEffect(()=>{
         if(!user){
             let tmpUser = getUserFromLocalStorage();
             if(tmpUser)
                 setUser(tmpUser);
-            else    
-                router.replace('/');
+            // else    
+            //     router.replace('/');
         }
     }, [user])
 
     const login = (profile) => {
         rewriteProfile(profile)
-        router.replace('/');
+        router.push('/')
     }
     const logout = () =>{
         setUser(null);
         localStorage.removeItem("profile");
-        router.replace('/');
+        router.push('/')
     }
     const rewriteProfile = (profile) => {
         const tmpUser = profile.user;

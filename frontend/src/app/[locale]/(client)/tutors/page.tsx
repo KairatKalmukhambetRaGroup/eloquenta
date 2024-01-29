@@ -1,11 +1,12 @@
 import TutorsSidebarFilter from '@/components/tutor/TutorsSidebarFilter'
-import React, { Suspense } from 'react'
+import React from 'react'
 
 import '@/styles/tutors/tutors.scss'
 
 import TutorHero from '@/components/tutor/TutorHero';
 import { useTranslations } from 'next-intl';
 import Tutors from '@/components/tutor/Tutors';
+import Loading from '@/components/Loading';
 
 
 
@@ -22,9 +23,7 @@ const Page = ({params: {locale}}: any) => {
                             {t('title.start')} <span>{t('title.mid')}</span> {t('title.end')} 
                         </div>
                         <div className="tutors">
-                            {/* <Suspense fallback={<p>Loading</p>}> */}
-                                <TutorsSidebarFilter />
-                            {/* </Suspense> */}
+                            <TutorsSidebarFilter />
                             <Tutors locale={locale} />
                         </div>
                     </div>

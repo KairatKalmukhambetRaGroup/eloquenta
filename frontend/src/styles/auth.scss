@@ -14,8 +14,43 @@
             max-width: 230px;
             height: 100%;
         }
+        .reset-success{
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 25px;
+            h2{
+                color: #1A1A1A;
+                font-family: v.$font_playfair_display;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 30px; /* 125% */
+
+            }
+            p{
+                color: #1A1A1A;
+                font-family: v.$font_raleway;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 22px; /* 157.143% */
+            }
+            span{
+                cursor: pointer;
+                color: #1A1A1A;
+                font-family: v.$font_raleway;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 22px; /* 157.143% */
+                text-decoration-line: underline;
+            }
+        }
 
         form{
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: flex-start;

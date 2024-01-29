@@ -1,0 +1,81 @@
+[
+    {
+      "category": "Registration and Accounts",
+      "cards": [
+        {
+          "question": "How can I register on your website?",
+          "answer": "To register, simply click on the \"Register\" button at the top right corner of the homepage and fill in the required information. After confirming your registration via email, you'll be able to log in to your account and start learning languages."
+        },
+        {
+          "question": "Forgot password. How can I reset it?",
+          "answer": "If you forgot your password, use the \"Forgot password?\" link on the login page. You'll receive instructions to reset your password via email."
+        }
+      ]
+    },
+    {
+      "category": "Courses and Programs",
+      "cards": [
+        {
+          "question": "How can I choose a suitable language course?",
+          "answer": "You can browse our course catalog and use filters to find a course by language, difficulty level, or instructor."
+        },
+        {
+          "question": "Can I change the course after starting it?",
+          "answer": "Yes, if you feel that the course doesn't meet your needs, you can change it. Please contact our support team, and we'll help you choose a more suitable course."
+        }
+      ]
+    },
+    {
+      "category": "Payment and Finances",
+      "cards": [
+        {
+          "question": "What payment methods do you accept?",
+          "answer": "We accept various payment methods, including credit and debit cards, electronic wallets, bank transfers, and some mobile payment systems."
+        }
+      ]
+    },
+    {
+      "category": "Technical Support",
+      "cards": [
+        {
+          "question": "What should I do if I encounter a technical issue on the website?",
+          "answer": "If you encounter technical issues, please contact our support team via the feedback form on the website or by email. We'll try to resolve your issue as quickly as possible."
+        }
+      ]
+    },
+    {
+      "category": "Access to Courses",
+      "cards": [
+        {
+          "question": "Do you provide certificates upon course completion?",
+          "answer": "Yes, we provide certificates of successful course completion, which confirm your language proficiency level and can be used in your professional and educational portfolio."
+        },
+        {
+          "question": "Can I get a trial lesson before purchasing a course?",
+          "answer": "Certainly, we offer a free trial lesson so you can familiarize yourself with the teaching methodology and approach of the instructors before deciding to purchase the course."
+        }
+      ]
+    },
+    {
+      "category": "Compatibility and Technical Issues",
+      "cards": [
+        {
+          "question": "From which devices can I access the courses?",
+          "answer": "Our courses are accessible on any device with an internet connection, including smartphones, tablets, laptops, and desktop computers."
+        }
+      ]
+    },
+    {
+      "category": "Support Service",
+      "cards": [
+        {
+          "question": "How can I contact the support service if I have questions?",
+          "answer": "You can contact the support service via the feedback form on our website, by email, or by phone. We're ready to assist you with any questions or issues."
+        },
+        {
+          "question": "Where can I find answers to other questions not listed here?",
+          "answer": "We recommend visiting the FAQ section on our website, where you'll find answers to many common questions. If your question isn't listed, feel free to contact our support service."
+        }
+      ]
+    }
+  ]

@@ -143,7 +143,7 @@ const Landing = ({locale}: any) => {
                                 [1,2,3].map((key)=>(
                                 <div className="card" key={key}>
                                     <div className="card-number">
-                                        <i className={`num${key+1}`}></i>
+                                        <i className={`num${key}`}></i>
                                     </div>
                                     <div className="card-body">
                                         <div className="text">

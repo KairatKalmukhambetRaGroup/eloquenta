@@ -13,12 +13,13 @@ const Pagination = () => {
     const totalPages = searchParams.get('pages') ? searchParams.get('pages') : 1;
     
     const handlePageChange = (e: any) => {
+        e.preventDefault();
         const {value} = e.currentTarget.dataset;
         const current = new URLSearchParams(Array.from(searchParams.entries()));
         current.set("page", value);
         const search = current.toString();
         const query = search ? `?${search}` : "";
-        router.push(`${pathname}${query}`)
+        router.replace(`${pathname}${query}`)
     }
     
     

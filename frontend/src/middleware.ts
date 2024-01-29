@@ -6,7 +6,7 @@ export default createMiddleware({
  
   // Used when no locale matches
   defaultLocale: 'ru',
-  localeDetection: false,
+  localeDetection: true,
   localePrefix: 'always'
 });
  
