@@ -4,9 +4,7 @@ import education.platform.backend.Config.JwtUtils;
 import education.platform.backend.Config.NotificationJob;
 import education.platform.backend.DTO.LessonDTO;
 import education.platform.backend.Entity.Lessons;
-import education.platform.backend.Entity.Teachers;
 import education.platform.backend.Entity.Users;
-import education.platform.backend.Repository.TeachersRepository;
 import education.platform.backend.Repository.UsersRepository;
 import education.platform.backend.Service.LessonsService;
 import education.platform.backend.Service.TeacherLanguageService;
@@ -55,14 +53,28 @@ public class LessonsController {
     @PostMapping(value = "/register/{id}")
     public ResponseEntity<?> registerToLesson(@PathVariable(name = "id") Long id,
             @RequestParam(name = "lang") Long teacherLanguageId, HttpServletRequest request) {
-        Lessons lesson = lessonsService.register(id, teacherLanguageId, request);
-        if (lesson != null)
-            return new ResponseEntity<>(lesson, HttpStatus.OK);
+        try{
+            String username = jwtUtils.getUsernameFromRequest(request);
+            Users student = usersRepository.findByEmail(username);
+
+            if(student == null || student.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))){
+                return new ResponseEntity<>("Not a student", HttpStatus.FORBIDDEN);
+            }
+
+            Lessons lesson = lessonsService.register(id, teacherLanguageId, student);
+            if (lesson != null){
+//            return new ResponseEntity<>(lesson, HttpStatus.OK);
+                Long teacherId = lesson.getTeacherId().getId();
+                return getLessonsByTeacherId(teacherId);
+            }
+        }catch (Exception e) {
+            return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>("Error fetching teacher", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/getLessonsByTeacherId/{id}")
-    public ResponseEntity<? extends Object> getLessonsByTeacherId(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<?> getLessonsByTeacherId(@PathVariable(name = "id") Long id) {
         List<Lessons> lessons = lessonsService.getLessonsByTeacherId(id);
         List<TeacherLanguageResponse> teacherLanguageResponses = teacherLanguageService
                 .getTeacherLanguagesByTeacherIdAndIsTeaching(id, true);

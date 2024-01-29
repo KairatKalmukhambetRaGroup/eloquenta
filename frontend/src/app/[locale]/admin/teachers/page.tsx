@@ -24,6 +24,7 @@ const Teachers = () => {
         try {
             const {data} = await axios.get(`/teachers/getAllTeachers?${searchParams.toString()}`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
             setTeachers(data);
+            console.log(data)
             // setTeachers(data.teachers);
 
             // const current = new URLSearchParams(Array.from(searchParams.entries()));
@@ -34,7 +35,7 @@ const Teachers = () => {
             // router.replace(`${pathname}${query}`)
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -47,6 +48,7 @@ const Teachers = () => {
         try {
             const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/language/getAllLanguages`, {validateStatus: function (status) { return true }, headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}});
             setLangs(data);
+            console.log(data)
         } catch (error) {
             console.log(error);
         }

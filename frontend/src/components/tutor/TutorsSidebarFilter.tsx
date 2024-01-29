@@ -16,8 +16,8 @@ const TutorsSidebarFilter = () => {
     const [langs, setLangs] = useState<any[]>([]);
 
     const lang = searchParams.get('lang');
-    const minPrice = searchParams.get('minPrice') ? searchParams.get('minPrice') : '';
-    const maxPrice = searchParams.get('maxPrice') ? searchParams.get('maxPrice') : '';
+    const minPrice = searchParams.get('minPrice') || '';
+    const maxPrice = searchParams.get('maxPrice') || '';
     const days = searchParams.getAll('day');
     const times = searchParams.getAll('time');
 
@@ -77,7 +77,7 @@ const TutorsSidebarFilter = () => {
         const search = current.toString();
         // or const query = `${'?'.repeat(search.length && 1)}${search}`;
         const query = search ? `?${search}` : "";
-        router.push(`${pathname}${query}`)
+        router.replace(`${pathname}${query}`, {scroll: false})
     }
 
 
@@ -95,13 +95,13 @@ const TutorsSidebarFilter = () => {
                 {t('title')}
             </div>
             <div className="inputs">
-                <div className="input input-range">
+                {/* <div className="input input-range">
                     <label>{t('lesson-price')} $</label>
                     <div className="input-row">
                         <input type="text" name='minPrice' placeholder='Min' value={Number(minPrice)} onChange={handleChange} />
                         <input type="text" name='maxPrice' placeholder='Max' value={Number(maxPrice)} onChange={handleChange} />
                     </div>
-                </div>
+                </div> */}
                 <div className="input input-radio">
                     <label>{t('language')}</label>
                     <div className="input-options">

@@ -11,8 +11,8 @@ const LessonsCard = ({lesson, setCancelId, activeTab}: any) => {
 	const t = useTranslations("profile.lessons.card");
     const langT = useTranslations("languages")
     const monthT = useTranslations('months');
-    const date = new Date(0);
-    date.setUTCSeconds(lesson.time)
+    const date = new Date(lesson.time);
+    // date.setUTCSeconds(lesson.time)
     const h = date.getHours();
     const gmt = (date.getTimezoneOffset() / -60.0);
     return (
@@ -58,11 +58,11 @@ const LessonsCard = ({lesson, setCancelId, activeTab}: any) => {
                         {t('join')}
                     </Link>
                 }
-                {activeTab == 'planed' && 
+                {/* {activeTab == 'planed' && 
                     <div className="cancel" onClick={(e)=>{e.preventDefault(); setCancelId(lesson.id)}}>
                         {t('cancel')}
                     </div>
-                }
+                } */}
             </div>
         </div>
     )

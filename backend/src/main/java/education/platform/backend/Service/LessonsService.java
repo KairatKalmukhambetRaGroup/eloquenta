@@ -3,6 +3,7 @@ package education.platform.backend.Service;
 import education.platform.backend.API.LessonResponse;
 import education.platform.backend.DTO.LessonDTO;
 import education.platform.backend.Entity.Lessons;
+import education.platform.backend.Entity.Users;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface LessonsService {
 
     Lessons createLesson(LessonDTO lessonDTO, HttpServletRequest request);
 
-    Lessons register(Long id, Long teacherLanguageId, HttpServletRequest request);
+    Lessons register(Long id, Long teacherLanguageId, Users student);
 
     List<Lessons> getLessonsByTeacherId(Long id);
 

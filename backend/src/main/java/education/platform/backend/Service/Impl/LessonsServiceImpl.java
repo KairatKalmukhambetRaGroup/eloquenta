@@ -69,14 +69,7 @@ public class LessonsServiceImpl implements LessonsService {
     }
 
     @Override
-    public Lessons register(Long lessonId, Long teacherLanguageId, HttpServletRequest request) {
-        String username = jwtUtils.getUsernameFromRequest(request);
-        Users student = usersRepository.findByEmail(username);
-
-        if (student == null
-                || student.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
-            return null;
-        }
+    public Lessons register(Long lessonId, Long teacherLanguageId, Users student) {
         Optional<Lessons> lessonOpt = lessonsRepository.findById(lessonId);
         if (!lessonOpt.isPresent()) {
             return null;

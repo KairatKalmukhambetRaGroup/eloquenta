@@ -47,24 +47,24 @@ const MyLessons = () => {
 		const today = new Date(0);
 		today.setUTCSeconds(now);
 		const todayString = today.toDateString();
-		const lessonDay = new Date(0);
-		lessonDay.setUTCSeconds(lesson.time);
+		const lessonDay = new Date(lesson.time);
+		// lessonDay.setUTCSeconds(lesson.time);
 		const lessonDayString = lessonDay.toDateString();
-
+		// console.log()
 		switch (activeTab) {
 			case 'current':
-				if(lesson.time > now && todayString == lessonDayString){
+				if(lessonDay > today && todayString == lessonDayString){
 					return true;
 				}
 				return false;
 			case 'planed':
-				if(lesson.time > now && todayString != lessonDayString){
+				if(lessonDay > today && todayString != lessonDayString){
 					return true;
 				}
 				return false;
 
 			case 'past':
-				if(lesson.time < now){
+				if(lessonDay < today){
 					return true;
 				}
 				return false;
