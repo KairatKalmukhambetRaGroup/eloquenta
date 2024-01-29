@@ -52,6 +52,6 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 //        response.addCookie(cookie);
 
         // Перенаправление пользователя на страницу успешного входа
-        response.sendRedirect("http://localhost:3000/google?token=" + token); // Или любой другой URL вашего frontend
+        response.sendRedirect("https://eloquenta.academy/google?token=" + token); // Или любой другой URL вашего frontend
     }
 }
